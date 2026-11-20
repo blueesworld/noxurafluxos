@@ -5,18 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#050811">
 <title>NoxuraFluxOS 9.0</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
-:root{
-  --accent:#2f8cff;--accent-2:#5ad8ff;--accent-soft:#8fc4ff;
-  --danger:#ff4d42;--ok:#46e39b;
-  --text:#eef3ff;--muted:#93a6c8;
-  --line:rgba(160,195,255,.10);
-  --panel:rgba(16,24,44,.72);
-  --card:rgba(20,28,48,.85);
-  --ui:1;--frame:0px;--hints-h:2.6rem;
-  --shadow:0 10px 40px rgba(0,0,0,.55);
-  --shadow-sm:0 4px 16px rgba(0,0,0,.35);
-}
+:root{--accent:#2f8cff;--accent-2:#5ad8ff;--accent-soft:#8fc4ff;--danger:#ff4d42;--ok:#46e39b;--text:#eef3ff;--muted:#93a6c8;--line:rgba(160,195,255,.10);--panel:rgba(16,24,44,.72);--card:rgba(20,28,48,.85);--ui:1;--frame:0px;--hints-h:2.6rem;--shadow:0 10px 40px rgba(0,0,0,.55);--shadow-sm:0 4px 16px rgba(0,0,0,.35)}
 html.hc{--muted:#c9d6ee;--line:rgba(200,225,255,.42)}
 html{font-size:calc(clamp(10px,1.1vh + .36vw,18px) * var(--ui));height:100%;background:#050811}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -27,7 +18,6 @@ svg{display:block}
 #app{position:fixed;inset:var(--frame);overflow:hidden;background:#050811}
 #bg{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.4}
 #shade{position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(5,8,17,.5),rgba(5,8,17,.97))}
-
 .view{position:absolute;left:0;right:0;top:0;bottom:var(--hints-h);display:none;flex-direction:column;min-width:0;z-index:5;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
 .view.active{display:flex;animation:viewIn .25s cubic-bezier(.22,.7,.2,1) both}
 @keyframes viewIn{from{opacity:0;transform:translateY(.3rem)}to{opacity:1;transform:none}}
@@ -37,10 +27,9 @@ svg{display:block}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes markIn{from{opacity:0;letter-spacing:.7em}to{opacity:1;letter-spacing:.42em}}
 @keyframes shine{0%{left:-60%}60%,100%{left:120%}}
-
 [data-f]{position:relative;outline:none;border-radius:.5rem}
 [data-f].is-focus{box-shadow:0 0 0 2px #fff,0 8px 28px rgba(47,140,255,.45);z-index:3}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.62rem 1.35rem;border-radius:.5rem;font-size:.84rem;font-weight:600;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text);transition:transform .15s,background .15s,box-shadow .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.62rem 1.35rem;border-radius:.5rem;font-size:.84rem;font-weight:600;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text);transition:transform .15s,background .15s}
 .btn.primary{background:var(--accent);border-color:transparent;color:#fff}
 .btn.danger{background:rgba(255,77,66,.14);border-color:rgba(255,77,66,.4);color:#ffb2ac}
 .btn.ghost{background:transparent}
@@ -72,8 +61,32 @@ svg{display:block}
 .skeleton{background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.1) 37%,rgba(255,255,255,.04) 63%);background-size:200% 100%;animation:shimmer 1.4s linear infinite;border-radius:.6rem}
 .loading{display:flex;align-items:center;gap:.9rem;color:var(--muted);font-size:.8rem;padding:1rem 0}
 .spin{width:1.4rem;height:1.4rem;border-radius:50%;border:.18rem solid rgba(255,255,255,.14);border-top-color:var(--accent);animation:spin .8s linear infinite}
-
-/* ===== PS4 TOP BAR ===== */
+.setrow{display:flex;justify-content:space-between;align-items:center;gap:1.2rem;padding:.75rem .2rem;border-bottom:1px solid var(--line)}
+.setrow .tl{font-size:.82rem;font-weight:600}
+.setrow .ts{font-size:.7rem;color:var(--muted);margin-top:.2rem;line-height:1.45}
+.setrow .sc{display:flex;align-items:center;justify-content:flex-end;flex:none;gap:.6rem}
+.toggle{width:2.6rem;height:1.45rem;border-radius:99rem;background:rgba(255,255,255,.14);position:relative;transition:background .2s;flex:none}
+.toggle i{position:absolute;top:.14rem;left:.14rem;width:1.17rem;height:1.17rem;border-radius:50%;background:#fff;transition:transform .2s}
+.toggle.on{background:var(--accent)}
+.toggle.on i{transform:translateX(1.15rem)}
+.seg{display:inline-flex;background:rgba(255,255,255,.05);border-radius:99rem;padding:.15rem;gap:.1rem;flex-wrap:wrap}
+.seg button{padding:.32rem .75rem;border-radius:99rem;font-size:.7rem;font-weight:600;color:var(--muted)}
+.seg button.on{background:rgba(255,255,255,.16);color:#fff}
+.seg button.is-focus{background:#fff;color:#0a1220}
+.range{display:flex;align-items:center;gap:.8rem;width:min(20rem,46vw)}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:.3rem;border-radius:99rem;background:linear-gradient(90deg,var(--accent) var(--p,50%),rgba(255,255,255,.12) var(--p,50%));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:1rem;height:1rem;border-radius:50%;background:#fff}
+input[type=range]::-moz-range-thumb{width:1rem;height:1rem;border:0;border-radius:50%;background:#fff}
+.rlbl{min-width:3.4rem;text-align:right;font-size:.74rem;font-weight:600;font-variant-numeric:tabular-nums}
+.swatches{display:flex;gap:.55rem;flex-wrap:wrap}
+.sw{width:1.8rem;height:1.8rem;border-radius:50%;border:2px solid transparent;transition:transform .14s}
+.sw.sel{border-color:#fff}
+.avatars{display:flex;flex-wrap:wrap;gap:.6rem}
+.av{width:3.2rem;height:3.2rem;border-radius:50%;overflow:hidden;border:2px solid transparent}
+.av svg{width:100%;height:100%}
+.av.sel{border-color:var(--accent)}
+.pad-state{font-family:ui-monospace,Consolas,monospace;font-size:.72rem;color:var(--accent-soft);margin-top:.4rem;min-height:1.1rem}
+.controller-vis{display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;border-radius:.6rem;background:var(--panel);border:1px solid var(--line);margin-bottom:.8rem}
 .topbar{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 2.4rem .6rem}
 .top-left{display:flex;align-items:center;gap:1.8rem;min-width:0}
 .top-right{display:flex;align-items:center;gap:.5rem}
@@ -92,13 +105,10 @@ svg{display:block}
 .status{display:flex;align-items:center;gap:.7rem;margin-left:.4rem;color:#d8e4fa;font-size:.74rem;padding:.35rem .8rem;border-radius:99rem;background:rgba(20,28,48,.55);border:1px solid rgba(255,255,255,.08)}
 .status svg{width:.95rem;height:.95rem}
 #clock{font-variant-numeric:tabular-nums;font-weight:600;letter-spacing:.02em}
-
 #hints{position:absolute;left:0;right:0;bottom:0;height:var(--hints-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.6rem;font-size:.7rem;color:var(--muted);pointer-events:none;z-index:60;background:linear-gradient(0deg,rgba(3,5,12,.92),rgba(3,5,12,0))}
 #hints .hgroup{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .hitem{display:inline-flex;align-items:center;white-space:nowrap}
 .key{display:inline-flex;align-items:center;justify-content:center;min-width:1.4rem;height:1.4rem;padding:0 .3rem;margin-right:.4rem;border-radius:.35rem;background:rgba(255,255,255,.1);font-size:.66rem;font-weight:800;color:#fff}
-.key.on{background:var(--ok);color:#03241a}
-
 #view-boot{align-items:center;justify-content:center}
 .boot-logo{display:flex;flex-direction:column;align-items:center;gap:1rem}
 .boot-mark{position:relative;font-size:clamp(2.4rem,6.5vw,5rem);font-weight:700;letter-spacing:.42em;padding-left:.42em;overflow:hidden;color:#f2f7ff;animation:markIn 1.3s cubic-bezier(.16,1,.3,1) both}
@@ -108,8 +118,6 @@ svg{display:block}
 .boot-bar{width:min(18rem,46vw);height:.16rem;border-radius:99rem;overflow:hidden;background:rgba(255,255,255,.1);margin-top:.8rem;opacity:0;animation:fadeIn .5s 1s both}
 .boot-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width 2.6s cubic-bezier(.4,0,.2,1)}
 .boot-hint{margin-top:1.4rem;font-size:.72rem;color:var(--muted);opacity:0;animation:fadeIn .6s 1.6s both;padding:.3rem .6rem;border-radius:.4rem}
-.boot-hint.is-focus{color:#fff}
-
 #view-setup{padding:2rem 3.2rem}
 .setup-shell{display:flex;flex-direction:column;height:100%;gap:1rem}
 .setup-step{font-size:.68rem;letter-spacing:.2em;color:var(--accent-soft);font-weight:700}
@@ -117,51 +125,44 @@ svg{display:block}
 .setup-sub{margin:.4rem 0 0;color:var(--muted);font-size:.84rem;max-width:60ch;line-height:1.5}
 .setup-body{flex:1;min-height:0;overflow-y:auto;padding:.6rem .2rem;display:flex;flex-direction:column;gap:.6rem;align-items:flex-start;scrollbar-width:none;max-width:44rem}
 .setup-foot{display:flex;justify-content:space-between;align-items:center;gap:1rem}
-.opt{display:flex;flex-direction:column;gap:.25rem;padding:.9rem 1.2rem;border-radius:.6rem;min-width:16rem;background:var(--panel);border:1px solid var(--line);transition:transform .14s,background .15s;text-align:left}
+.opt{display:flex;flex-direction:column;gap:.25rem;padding:.9rem 1.2rem;border-radius:.6rem;min-width:16rem;background:var(--panel);border:1px solid var(--line);text-align:left}
 .opt b{font-size:.92rem;font-weight:600}
 .opt span{font-size:.7rem;color:var(--muted)}
 .opt.sel{border-color:var(--accent);background:rgba(47,140,255,.14)}
-.opt.is-focus{transform:translateX(.3rem);background:rgba(255,255,255,.1)}
 .calib{width:100%;height:8rem;border-radius:.6rem;position:relative;border:1px dashed rgba(170,200,255,.35);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.74rem;margin-bottom:.4rem}
-
 #view-profiles{align-items:center;justify-content:center;gap:2rem}
 .profiles-title{font-size:1.5rem;font-weight:300;letter-spacing:.1em;color:#e6eefc}
 .profiles-row{display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap;justify-content:center}
-.profile-card{display:flex;flex-direction:column;align-items:center;gap:.6rem;padding:.8rem;border-radius:.8rem;width:9rem;transition:transform .16s,background .16s}
-.profile-card .big{width:5.4rem;height:5.4rem;border-radius:50%;overflow:hidden;border:2px solid transparent;transition:border-color .2s}
+.profile-card{display:flex;flex-direction:column;align-items:center;gap:.6rem;padding:.8rem;border-radius:.8rem;width:9rem}
+.profile-card .big{width:5.4rem;height:5.4rem;border-radius:50%;overflow:hidden;border:2px solid transparent}
 .profile-card .big svg{width:100%;height:100%}
 .profile-card .nm{font-size:.88rem;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .profile-card .lv{font-size:.66rem;color:var(--muted)}
 .profile-card.add .big{display:grid;place-items:center;border:1px dashed rgba(170,200,255,.4);font-size:1.6rem;color:var(--muted)}
 .profile-card.is-focus{transform:translateY(-.3rem);background:rgba(255,255,255,.05)}
 .profile-card.is-focus .big{border-color:#fff}
-
 #view-home{overflow:hidden}
-#heroArt{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center 30%;animation:fadeIn .5s both}
+#heroArt{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center 30%}
 #heroArt::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#050811 0%,rgba(5,8,17,.7) 40%,rgba(5,8,17,.4) 100%),linear-gradient(90deg,rgba(5,8,17,.6),transparent 65%)}
 .hero{position:relative;z-index:5;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 2.4rem .4rem;pointer-events:none}
-.hero-text.swap{animation:fadeIn .35s both}
 .hero-kicker{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-soft);font-weight:700}
 .hero-title{font-size:clamp(1.5rem,3.2vw,2.6rem);font-weight:600;margin:.3rem 0 .2rem;line-height:1.1;letter-spacing:-.01em}
 .hero-sub{font-size:.8rem;color:#c5d4ee;margin:0;max-width:56ch;line-height:1.45}
 .rail-label{position:relative;z-index:5;padding:0 2.4rem;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.rail{position:relative;z-index:5;display:flex;align-items:center;gap:1.1rem;padding:1.4rem 2.4rem 1.6rem;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scrollbar-width:none}
+.rail{position:relative;z-index:5;display:flex;align-items:center;gap:1.1rem;padding:1.4rem 2.4rem 1.6rem;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
 .rail::-webkit-scrollbar{display:none}
-.tile{position:relative;flex:none;border-radius:.5rem;height:clamp(8.5rem,40vh,19rem);aspect-ratio:3/4;background:#0c1428;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .2s cubic-bezier(.22,.7,.2,1);animation:tileIn .4s cubic-bezier(.22,.7,.2,1) both;animation-delay:calc(var(--i,0) * 40ms);box-shadow:0 8px 24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05)}
+.tile{position:relative;flex:none;border-radius:.5rem;height:clamp(8.5rem,40vh,19rem);aspect-ratio:3/4;background:#0c1428;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 8px 24px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.05)}
 .tile .art{position:absolute;inset:0;background-size:cover;background-position:center}
 .tile .art::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,8,17,.92) 2%,rgba(5,8,17,0) 60%)}
 .tile .tmeta{position:relative;z-index:2;padding:.85rem .9rem;display:flex;flex-direction:column;gap:.1rem}
-.tile .tname{font-size:.85rem;font-weight:600;line-height:1.2;letter-spacing:.01em}
-.tile .tsub{font-size:.62rem;color:#b9c9e6;letter-spacing:.05em;text-transform:uppercase;opacity:.85}
-.tile.is-focus{transform:translateY(-.4rem) scale(1.03)}
+.tile .tname{font-size:.85rem;font-weight:600;line-height:1.2}
+.tile .tsub{font-size:.62rem;color:#b9c9e6;text-transform:uppercase;opacity:.85}
 .tile.add{display:grid;place-items:center;background:rgba(255,255,255,.03);border:1px dashed rgba(170,200,255,.3)}
 .tile.add .plus{font-size:2.4rem;font-weight:200;color:var(--accent-soft);line-height:1}
 .tile.add .label{margin-top:.6rem;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 1rem;line-height:1.5}
-
-/* ===== SEARCH ===== */
-#searchOverlay{position:absolute;inset:0;z-index:85;display:none;flex-direction:column;background:rgba(5,8,17,.97);backdrop-filter:blur(12px);padding:1.6rem 2.4rem}
-#searchOverlay.open{display:flex;animation:fadeIn .2s both}
-.search-bar{display:flex;align-items:center;gap:.8rem;padding:.8rem 1.2rem;border-radius:.6rem;background:rgba(20,28,48,.85);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+#searchOverlay{position:absolute;inset:0;z-index:85;display:none;flex-direction:column;background:rgba(5,8,17,.97);padding:1.6rem 2.4rem}
+#searchOverlay.open{display:flex}
+.search-bar{display:flex;align-items:center;gap:.8rem;padding:.8rem 1.2rem;border-radius:.6rem;background:rgba(20,28,48,.85);border:1px solid var(--line)}
 .search-bar svg{width:1.2rem;height:1.2rem;color:var(--muted);flex:none}
 .search-bar input{flex:1;background:none;border:0;outline:none;color:var(--text);font-size:1rem;font-weight:500}
 .search-bar input::placeholder{color:var(--muted)}
@@ -170,12 +171,10 @@ svg{display:block}
 .search-results::-webkit-scrollbar{display:none}
 .search-group{grid-column:1/-1;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:.6rem 0 .2rem}
 .search-empty{grid-column:1/-1;padding:3rem 2rem;text-align:center;color:var(--muted);font-size:.86rem}
-
-/* ===== STORE ===== */
 .store-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 2.4rem .3rem;flex-wrap:wrap}
 .store-title{font-size:1.4rem;font-weight:600;margin:0;letter-spacing:-.01em}
 .store-title span{color:var(--accent-soft);font-weight:400}
-.store-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 2.4rem 1.4rem;scrollbar-width:none;animation:fadeIn .4s both}
+.store-body{flex:1;min-height:0;overflow-y:auto;padding:0 2.4rem 1.4rem;scrollbar-width:none}
 .store-body::-webkit-scrollbar{display:none}
 .hero-banner{position:relative;border-radius:.8rem;overflow:hidden;height:clamp(9rem,32vh,17rem);display:flex;align-items:flex-end;padding:1.2rem 1.4rem;margin:.6rem 0 .8rem;border:1px solid var(--line);box-shadow:var(--shadow)}
 .hb-art{position:absolute;inset:0;background-size:cover;background-position:center}
@@ -186,16 +185,14 @@ svg{display:block}
 .hb-sub{font-size:.76rem;color:#c5d4ee;margin:0 0 .4rem}
 .store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(9rem,16vw,13rem),1fr));gap:1rem}
 .sk{aspect-ratio:3/4}
-.card{border-radius:.5rem;overflow:hidden;background:var(--card);border:1px solid var(--line);transition:transform .16s;box-shadow:var(--shadow-sm)}
+.card{border-radius:.5rem;overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
 .c-art{position:relative;aspect-ratio:3/4;background-size:cover;background-position:center}
-.lock{position:absolute;top:.4rem;right:.4rem;font-size:.5rem;letter-spacing:.08em;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(255,77,66,.9);color:#fff}
-.badge-dl{position:absolute;top:.4rem;left:.4rem;font-size:.5rem;letter-spacing:.08em;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(70,227,155,.92);color:#03241a}
-.badge-own{position:absolute;top:.4rem;left:.4rem;font-size:.5rem;letter-spacing:.08em;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(47,140,255,.92);color:#fff}
+.lock{position:absolute;top:.4rem;right:.4rem;font-size:.5rem;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(255,77,66,.9);color:#fff}
+.badge-dl{position:absolute;top:.4rem;left:.4rem;font-size:.5rem;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(70,227,155,.92);color:#03241a}
+.badge-own{position:absolute;top:.4rem;left:.4rem;font-size:.5rem;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(47,140,255,.92);color:#fff}
 .c-meta{padding:.55rem .6rem .65rem;display:flex;flex-direction:column;gap:.15rem}
 .c-name{font-size:.76rem;font-weight:600;line-height:1.2}
 .c-tag{font-size:.6rem;color:var(--muted)}
-.card.is-focus{transform:translateY(-.25rem)}
-
 #view-detail{padding:0}
 .detail-wrap{display:flex;flex-direction:column;height:100%;min-height:0}
 .detail-hero{position:relative;height:clamp(8rem,30vh,16rem);flex:none;overflow:hidden}
@@ -216,14 +213,12 @@ svg{display:block}
 .buybox{display:flex;flex-direction:column;gap:.6rem;align-content:start}
 .buybox .btn{width:100%}
 .buybtn-off{width:100%;padding:.8rem 1.2rem;border-radius:.5rem;font-weight:700;font-size:.86rem;background:rgba(255,255,255,.05);color:#6f7f99;border:1px solid var(--line);cursor:not-allowed}
-.buybtn-off.is-focus{background:rgba(255,77,66,.1);color:#ffb2ac;border-color:rgba(255,77,66,.5)}
 .warn{font-size:.74rem;font-weight:600;line-height:1.5;color:var(--danger);padding:.6rem .75rem;border-radius:.5rem;background:rgba(255,77,66,.08);border:1px solid rgba(255,77,66,.3)}
 .okmsg{font-size:.74rem;font-weight:600;line-height:1.5;color:var(--ok);padding:.6rem .75rem;border-radius:.5rem;background:rgba(70,227,155,.08);border:1px solid rgba(70,227,155,.3)}
 .dlbar{height:.5rem;border-radius:99rem;background:rgba(255,255,255,.1);overflow:hidden;margin:.4rem 0}
 .dlbar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .3s}
-
 #view-game{padding:0}
-.g-art{position:absolute;inset:0;background-size:cover;background-position:center 25%;animation:fadeIn .5s both}
+.g-art{position:absolute;inset:0;background-size:cover;background-position:center 25%}
 .g-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,8,17,.96) 8%,rgba(5,8,17,.45) 65%),linear-gradient(0deg,#050811 0%,rgba(5,8,17,0) 55%)}
 .g-wrap{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:.9rem 2.4rem 1rem;min-height:0}
 .g-tabs{display:flex;gap:.2rem;justify-content:center;flex:none}
@@ -244,12 +239,11 @@ svg{display:block}
 .trophy-row .tt{flex:1;min-width:0}
 .trophy-row .tn{font-size:.8rem;font-weight:600}
 .trophy-row .td{font-size:.66rem;color:var(--muted)}
-
 .lib-head{padding:1rem 2.4rem .5rem;display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .lib-note{font-size:.7rem;color:var(--muted);max-width:60ch;line-height:1.5}
 .lib-grid{flex:1;min-height:0;overflow-y:auto;padding:.4rem 2.4rem .8rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(11rem,20vw,16rem),1fr));gap:.6rem;align-content:start;scrollbar-width:none}
 .lib-grid::-webkit-scrollbar{display:none}
-.librow{display:flex;align-items:center;gap:.7rem;padding:.55rem .7rem;border-radius:.5rem;background:var(--card);border:1px solid var(--line);transition:transform .15s,background .15s}
+.librow{display:flex;align-items:center;gap:.7rem;padding:.55rem .7rem;border-radius:.5rem;background:var(--card);border:1px solid var(--line)}
 .librow.is-focus{background:rgba(255,255,255,.1);transform:translateX(.2rem)}
 .appic{width:2.2rem;height:2.2rem;border-radius:.4rem;flex:none;display:grid;place-items:center;font-size:.84rem;font-weight:700;color:#fff}
 .lname{font-size:.78rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -260,23 +254,20 @@ svg{display:block}
 .lib-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 2.4rem 1rem;flex-wrap:wrap}
 .gal-grid{flex:1;min-height:0;overflow-y:auto;padding:.4rem 2.4rem 1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(8rem,14vw,13rem),1fr));gap:.7rem;align-content:start;scrollbar-width:none}
 .gal-grid::-webkit-scrollbar{display:none}
-.shot{position:relative;border-radius:.5rem;overflow:hidden;aspect-ratio:16/9;border:1px solid var(--line);transition:transform .16s}
+.shot{position:relative;border-radius:.5rem;overflow:hidden;aspect-ratio:16/9;border:1px solid var(--line)}
 .s-art{position:absolute;inset:0;background-size:cover;background-position:center}
 .s-cap{position:absolute;left:.45rem;bottom:.4rem;font-size:.6rem;color:#e6eefc;text-shadow:0 0 4px #000}
-.shot.is-focus{transform:scale(1.03)}
-
 #view-settings{padding:0}
 .settings-shell{display:flex;gap:1.2rem;flex:1;min-height:0;padding:1rem 2.4rem}
 .settings-list{width:min(16rem,28%);display:flex;flex-direction:column;gap:.2rem;overflow-y:auto;scrollbar-width:none}
 .settings-list::-webkit-scrollbar{display:none}
-.srow{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.5rem;font-size:.82rem;font-weight:600;color:#cfdcf5;transition:background .15s}
+.srow{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.5rem;font-size:.82rem;font-weight:600;color:#cfdcf5}
 .srow.on{background:rgba(255,255,255,.08);color:#fff}
 .srow.is-focus{background:#fff;color:#0a1220}
 .settings-pane{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:.7rem;padding:1rem 1.4rem;overflow-y:auto;scrollbar-width:none}
 .settings-pane::-webkit-scrollbar{display:none}
 .pane-title{font-size:1.1rem;font-weight:600;margin:0 0 .15rem}
 .pane-sub{font-size:.72rem;color:var(--muted);margin:0 0 .8rem;line-height:1.5}
-
 #friendsPanel{position:absolute;top:0;right:0;bottom:0;width:min(24rem,44vw);z-index:70;background:rgba(9,15,30,.97);border-left:1px solid var(--line);transform:translateX(102%);transition:transform .3s cubic-bezier(.22,.7,.2,1);display:flex;flex-direction:column}
 #friendsPanel.open{transform:none}
 .panel-head{padding:1.1rem 1.2rem .8rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
@@ -287,7 +278,7 @@ svg{display:block}
 .pname2{font-size:.76rem;font-weight:600;margin-top:.2rem}
 .friends-list{flex:1;min-height:0;overflow-y:auto;padding:0 .8rem;scrollbar-width:none}
 .friends-list::-webkit-scrollbar{display:none}
-.frow{display:flex;align-items:center;gap:.7rem;padding:.6rem .5rem;border-radius:.5rem;transition:background .15s}
+.frow{display:flex;align-items:center;gap:.7rem;padding:.6rem .5rem;border-radius:.5rem}
 .frow.is-focus{background:rgba(255,255,255,.1)}
 .fmeta{min-width:0;flex:1}
 .fname{font-size:.78rem;font-weight:600;display:flex;align-items:center;gap:.4rem}
@@ -296,7 +287,6 @@ svg{display:block}
 .fact{font-size:.64rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .panel-foot{padding:.7rem 1rem 1rem}
 .panel-foot .btn{width:100%}
-
 #quickMenu{position:absolute;left:0;right:0;bottom:0;z-index:80;padding:0 1.2rem calc(var(--hints-h) + .3rem);transform:translateY(110%);opacity:0;transition:transform .3s cubic-bezier(.22,.7,.2,1),opacity .25s;pointer-events:none}
 #quickMenu.open{transform:none;opacity:1;pointer-events:auto}
 .qm-inner{border-radius:.7rem;padding:.8rem .9rem;background:rgba(12,19,36,.97);border:1px solid var(--line);display:flex;flex-direction:column;gap:.7rem;box-shadow:var(--shadow)}
@@ -307,7 +297,7 @@ svg{display:block}
 .qm-sub{font-size:.62rem;color:var(--muted)}
 .qm-row{display:flex;align-items:center;gap:.5rem;overflow-x:auto;scrollbar-width:none;padding:.1rem}
 .qm-row::-webkit-scrollbar{display:none}
-.qbtn{flex:none;min-width:5.6rem;height:3.2rem;padding:0 .9rem;border-radius:.5rem;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:.72rem;font-weight:600;color:#d8e4fa;transition:transform .15s,background .15s}
+.qbtn{flex:none;min-width:5.6rem;height:3.2rem;padding:0 .9rem;border-radius:.5rem;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:.72rem;font-weight:600;color:#d8e4fa}
 .qbtn.is-focus{background:#fff;color:#0a1220;transform:translateY(-.15rem)}
 .qbtn.danger2.is-focus{background:var(--danger);color:#fff}
 .qm-vol{flex:none;display:flex;align-items:center;gap:.6rem;padding:.5rem .8rem;min-width:13rem;border-radius:.5rem;background:rgba(255,255,255,.06);border:1px solid var(--line)}
@@ -316,9 +306,8 @@ svg{display:block}
 .volbar{flex:1;height:.3rem;border-radius:99rem;background:rgba(255,255,255,.14);position:relative}
 .volbar i{position:absolute;left:0;top:0;bottom:0;border-radius:99rem;background:var(--accent)}
 .vlabel{font-size:.62rem;min-width:2.2rem;text-align:right;font-variant-numeric:tabular-nums}
-
 #dialogLayer{position:absolute;inset:0;z-index:90;display:none;align-items:center;justify-content:center;background:rgba(3,5,12,.7);padding:2rem}
-#dialogLayer.open{display:flex;animation:fadeIn .2s both}
+#dialogLayer.open{display:flex}
 .dialog-card{width:min(32rem,86vw);max-height:80vh;overflow-y:auto;border-radius:.7rem;padding:1.3rem 1.4rem;background:#0d1628;border:1px solid var(--line);box-shadow:var(--shadow)}
 .dlg-kicker{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-soft);font-weight:700;margin-bottom:.4rem}
 .dlg-title{font-size:1.1rem;font-weight:600;margin:0 0 .5rem}
@@ -326,11 +315,9 @@ svg{display:block}
 .dlg-actions{display:flex;justify-content:flex-end;gap:.5rem;margin-top:1.1rem;flex-wrap:wrap}
 #toast{position:absolute;left:50%;bottom:calc(var(--hints-h) + 1rem);transform:translate(-50%,.8rem);z-index:95;padding:.55rem 1rem;border-radius:.4rem;font-size:.74rem;font-weight:600;background:#101b33;border:1px solid var(--line);opacity:0;transition:opacity .22s,transform .22s;pointer-events:none;max-width:80vw;text-align:center;box-shadow:var(--shadow)}
 #toast.show{opacity:1;transform:translate(-50%,0)}
-
 #rotate{position:absolute;inset:0;z-index:120;display:none;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;background:#050811;text-align:center;padding:2rem}
 @media (orientation:portrait) and (max-width:900px){#rotate{display:flex}}
 #rotate p{font-size:.8rem;color:var(--muted);max-width:28ch;line-height:1.6;margin:0}
-
 #gameHost{position:absolute;inset:0;z-index:100;display:none;background:#000;flex-direction:column}
 #gameHost.open{display:flex}
 #gameCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:#000;touch-action:none}
@@ -338,25 +325,12 @@ svg{display:block}
 #gameTopBar .gt-name{font-size:.9rem;font-weight:600;color:#fff;text-shadow:0 2px 8px #000}
 #gameTopBar .gt-help{font-size:.7rem;color:#b9c9e6;text-shadow:0 2px 8px #000;display:flex;align-items:center;gap:.6rem}
 #gameTopBar .gt-help .key{background:rgba(255,255,255,.18)}
-#gameOverlay{position:absolute;inset:0;z-index:6;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;background:rgba(0,0,0,.65);backdrop-filter:blur(4px)}
-#gameOverlay.open{display:flex}
-#gameOverlay .go-title{font-size:1.6rem;font-weight:700;color:#fff}
-#gameOverlay .go-sub{font-size:.84rem;color:#c5d4ee;max-width:40ch;text-align:center;line-height:1.5}
-#gameOverlay .go-row{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
-#gameOverlay .btn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
-#gameOverlay .btn.primary{background:var(--accent);border-color:transparent;color:#fff}
 #exitHold{position:absolute;left:50%;bottom:2rem;transform:translateX(-50%);z-index:7;display:none;flex-direction:column;align-items:center;gap:.5rem;pointer-events:none}
 #exitHold.show{display:flex}
 #exitHold .eh-ring{width:4rem;height:4rem;border-radius:50%;background:conic-gradient(var(--danger) calc(var(--p,0) * 1%),rgba(255,255,255,.15) 0);display:grid;place-items:center;transition:background .05s linear}
 #exitHold .eh-ring i{width:3.2rem;height:3.2rem;border-radius:50%;background:#050811;display:grid;place-items:center;font-style:normal;font-size:.7rem;font-weight:800;color:#fff;letter-spacing:.05em}
 #exitHold .eh-lbl{font-size:.7rem;color:#fff;text-shadow:0 2px 6px #000;letter-spacing:.05em;text-transform:uppercase;font-weight:700}
-
-@media (max-height:26rem){
-  :root{--hints-h:2.1rem}
-  .hero-sub{display:none}
-  .rail-label{display:none}
-  .tile{height:clamp(7rem,44vh,14rem)}
-}
+@media (max-height:26rem){:root{--hints-h:2.1rem}.hero-sub{display:none}.rail-label{display:none}.tile{height:clamp(7rem,44vh,14rem)}}
 html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!important;transition:none!important}
 </style>
 </head>
@@ -365,7 +339,7 @@ html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!importan
   <canvas id="bg"></canvas>
   <div id="shade"></div>
 
-  <section id="view-boot" class="view">
+  <section id="view-boot" class="view active">
     <div class="boot-logo">
       <div class="boot-mark"><span>NOXURA</span><div class="shine"></div></div>
       <div class="boot-os">NOXURAFLUXOS <b>9.0</b></div>
@@ -447,13 +421,10 @@ html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!importan
     <div class="store-body" id="storeBody"></div>
   </section>
 
-  <section id="view-detail" class="view">
-    <div class="detail-wrap" id="detailWrap"></div>
-  </section>
+  <section id="view-detail" class="view"><div class="detail-wrap" id="detailWrap"></div></section>
 
   <section id="view-game" class="view">
-    <div class="g-art" id="gArt"></div>
-    <div class="g-shade"></div>
+    <div class="g-art" id="gArt"></div><div class="g-shade"></div>
     <div class="g-wrap">
       <div class="g-tabs" id="gTabs"></div>
       <div class="g-head">
@@ -508,7 +479,7 @@ html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!importan
         <div class="panel-title" id="friendsTitle"></div>
         <div class="panel-sub" id="friendsSub"></div>
       </div>
-      <button class="iconbtn" data-f data-action="close-friends" aria-label="Schließen">
+      <button class="iconbtn" data-f data-action="close-friends">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
@@ -517,12 +488,11 @@ html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!importan
     <div class="panel-foot"><button class="btn ghost" data-f data-action="friend-add" id="friendAdd"></button></div>
   </aside>
 
-  <!-- SEARCH OVERLAY -->
   <div id="searchOverlay">
     <div class="search-bar">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       <input type="text" id="searchInput" placeholder="Spiele, Apps und mehr suchen …" autocomplete="off">
-      <button class="iconbtn" data-f data-action="close-search" aria-label="Schließen">
+      <button class="iconbtn" data-f data-action="close-search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
@@ -541,10 +511,7 @@ html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!importan
     </div>
   </div>
 
-  <div id="hints">
-    <div class="hgroup" id="hintL"></div>
-    <div class="hgroup" id="hintR"></div>
-  </div>
+  <div id="hints"><div class="hgroup" id="hintL"></div><div class="hgroup" id="hintR"></div></div>
 
   <div id="gameHost">
     <canvas id="gameCanvas"></canvas>
@@ -552,23 +519,16 @@ html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!importan
       <div class="gt-name" id="gtName"></div>
       <div class="gt-help"><span class="key">B</span>gedrückt halten zum Verlassen</div>
     </div>
-    <div id="gameOverlay">
-      <div class="go-title" id="goTitle"></div>
-      <div class="go-sub" id="goSub"></div>
-      <div class="go-row" id="goRow"></div>
-    </div>
     <div id="exitHold"><div class="eh-ring"><i>B</i></div><div class="eh-lbl">Verlassen …</div></div>
   </div>
 
-  <div id="rotate"><p>Bitte halte dein Gerät im Querformat. NoxuraFluxOS ist für Landscape optimiert.</p></div>
+  <div id="rotate"><p>Bitte halte dein Gerät im Querformat.</p></div>
   <div id="toast"></div>
 </div>
 
 <script>
 (() => {
 'use strict';
-
-/* ================= helpers ================= */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -581,20 +541,17 @@ const TROPHIES = ['Erster Start', 'Zehn Minuten', 'Eine Stunde', 'Entdecker', 'M
 const fmtTime = min => { const h = Math.floor(min / 60), m = min % 60; return h ? `${h} h ${m} min` : `${m} min`; };
 
 const T = {
-  de: { games: 'Spiele', media: 'Medien', store: 'Store', gallery: 'Galerie', library: 'Bibliothek', settings: 'Einstellungen', friends: 'Freunde', back: 'Zurück', next: 'Weiter', finish: 'Fertig', play: 'Spielen', unavailable: 'Nicht verfügbar', home: 'Start', who: 'Wer spielt?', hintMove: 'Navigieren', hintOk: 'Auswählen', hintBack: 'Zurück', hintMenu: 'Schnellmenü', hintSearch: 'Suche', hintTabs: 'Bereiche', press: 'Drücke A oder eine Taste', props: 'Eigenschaften', trophies: 'Trophäen', saves: 'Speicherdaten', overview: 'Übersicht', addGame: 'Spiel hinzufügen', storeLoading: 'Store wird geladen …', download: 'Herunterladen', downloading: 'Wird heruntergeladen …', installed: 'Installiert', owned: 'Im Besitz', searchUpdate: 'Nach Update suchen', updateNet: 'Über Internet suchen', updateMedia: 'Über Speichermedium suchen', updateLatest: 'Es ist bereits das neuste Softwareupdate installiert.', exitGame: 'Spiel verlassen', holdExit: 'B gedrückt halten zum Verlassen' },
-  en: { games: 'Games', media: 'Media', store: 'Store', gallery: 'Gallery', library: 'Library', settings: 'Settings', friends: 'Friends', back: 'Back', next: 'Next', finish: 'Done', play: 'Play', unavailable: 'Unavailable', home: 'Home', who: 'Who is playing?', hintMove: 'Navigate', hintOk: 'Select', hintBack: 'Back', hintMenu: 'Quick menu', hintSearch: 'Search', hintTabs: 'Sections', press: 'Press A or any key', props: 'Properties', trophies: 'Trophies', saves: 'Save data', overview: 'Overview', addGame: 'Add game', storeLoading: 'Loading store …', download: 'Download', downloading: 'Downloading …', installed: 'Installed', owned: 'Owned', searchUpdate: 'Check for update', updateNet: 'Check via internet', updateMedia: 'Check via storage media', updateLatest: 'The latest system software is already installed.', exitGame: 'Exit game', holdExit: 'Hold B to exit' },
-  tr: { games: 'Oyunlar', media: 'Medya', store: 'Mağaza', gallery: 'Galeri', library: 'Kitaplık', settings: 'Ayarlar', friends: 'Arkadaşlar', back: 'Geri', next: 'İleri', finish: 'Bitir', play: 'Oyna', unavailable: 'Kullanılamıyor', home: 'Ana sayfa', who: 'Bugün kim oynuyor?', hintMove: 'Gezin', hintOk: 'Seç', hintBack: 'Geri', hintMenu: 'Hızlı menü', hintSearch: 'Ara', hintTabs: 'Sekmeler', press: 'Devam için A veya bir tuşa basın', props: 'Özellikler', trophies: 'Kupalar', saves: 'Kayıt verileri', overview: 'Genel', addGame: 'Oyun ekle', storeLoading: 'Mağaza yükleniyor …', download: 'İndir', downloading: 'İndiriliyor …', installed: 'Yüklü', owned: 'Sahip', searchUpdate: 'Güncelleme ara', updateNet: 'İnternet üzerinden ara', updateMedia: 'Depolama ortamı üzerinden ara', updateLatest: 'En son sistem yazılımı zaten yüklü.', exitGame: 'Oyundan çık', holdExit: 'Çıkmak için B basılı tut' }
+  de: { games: 'Spiele', media: 'Medien', store: 'Store', gallery: 'Galerie', library: 'Bibliothek', settings: 'Einstellungen', friends: 'Freunde', back: 'Zurück', next: 'Weiter', finish: 'Fertig', play: 'Spielen', unavailable: 'Nicht verfügbar', home: 'Start', who: 'Wer spielt?', hintMove: 'Navigieren', hintOk: 'Auswählen', hintBack: 'Zurück', hintMenu: 'Schnellmenü', hintSearch: 'Suche', hintTabs: 'Bereiche', press: 'Drücke A oder eine Taste', props: 'Eigenschaften', trophies: 'Trophäen', saves: 'Speicherdaten', overview: 'Übersicht', addGame: 'Spiel hinzufügen', storeLoading: 'Store wird geladen …', download: 'Herunterladen', downloading: 'Wird heruntergeladen …', installed: 'Installiert', owned: 'Im Besitz', updateNet: 'Über Internet suchen', updateMedia: 'Über Speichermedium suchen', updateLatest: 'Es ist bereits das neuste Softwareupdate installiert.' },
+  en: { games: 'Games', media: 'Media', store: 'Store', gallery: 'Gallery', library: 'Library', settings: 'Settings', friends: 'Friends', back: 'Back', next: 'Next', finish: 'Done', play: 'Play', unavailable: 'Unavailable', home: 'Home', who: 'Who is playing?', hintMove: 'Navigate', hintOk: 'Select', hintBack: 'Back', hintMenu: 'Quick menu', hintSearch: 'Search', hintTabs: 'Sections', press: 'Press A or any key', props: 'Properties', trophies: 'Trophies', saves: 'Save data', overview: 'Overview', addGame: 'Add game', storeLoading: 'Loading store …', download: 'Download', downloading: 'Downloading …', installed: 'Installed', owned: 'Owned', updateNet: 'Check via internet', updateMedia: 'Check via storage media', updateLatest: 'The latest system software is already installed.' },
+  tr: { games: 'Oyunlar', media: 'Medya', store: 'Mağaza', gallery: 'Galeri', library: 'Kitaplık', settings: 'Ayarlar', friends: 'Arkadaşlar', back: 'Geri', next: 'İleri', finish: 'Bitir', play: 'Oyna', unavailable: 'Kullanılamıyor', home: 'Ana sayfa', who: 'Bugün kim oynuyor?', hintMove: 'Gezin', hintOk: 'Seç', hintBack: 'Geri', hintMenu: 'Hızlı menü', hintSearch: 'Ara', hintTabs: 'Sekmeler', press: 'Devam için A veya bir tuşa basın', props: 'Özellikler', trophies: 'Kupalar', saves: 'Kayıt verileri', overview: 'Genel', addGame: 'Oyun ekle', storeLoading: 'Mağaza yükleniyor …', download: 'İndir', downloading: 'İndiriliyor …', installed: 'Yüklü', owned: 'Sahip', updateNet: 'İnternet üzerinden ara', updateMedia: 'Depolama ortamı üzerinden ara', updateLatest: 'En son sistem yazılımı zaten yüklü.' }
 };
 const t = k => (T[S.prefs.lang] || T.de)[k] || T.de[k] || k;
 
-/* ================= state ================= */
 const DEFAULTS = {
   setup: { done: false },
   prefs: { lang: 'de', ui: 1, frame: 0, anim: true, hc: false, h24: true, vib: true, dz: 20, sfxNav: true, sfxOk: true, telemetry: false, autoUpdate: true, stickSens: 'normal' },
   profiles: [], active: null,
-  library: [],
-  custom: {}, captures: [], play: {}, last: {},
-  owned: [], downloads: {},
+  library: [], custom: {}, captures: [], play: {}, last: {}, owned: [], downloads: {},
   friends: [
     { id: 'f1', n: 'Ayla', on: true, g: 'Echoes of Eternity' },
     { id: 'f2', n: 'Mert', on: false, g: '' },
@@ -607,7 +564,7 @@ function load() {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
     if (!raw) return base;
-    return { ...base, ...raw, setup: { ...base.setup, ...(raw.setup || {}) }, prefs: { ...base.prefs, ...(raw.prefs || {}) }, owned: raw.owned || [], downloads: raw.downloads || {} };
+    return { ...base, ...raw, setup: { ...base.setup, ...(raw.setup || {}) }, prefs: { ...base.prefs, ...(raw.prefs || {}) }, owned: raw.owned || [], downloads: raw.downloads || {}, library: raw.library || [] };
   } catch (e) { return base; }
 }
 let S = load();
@@ -615,26 +572,25 @@ function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e
 const holder = k => (k in S ? S : S.prefs);
 const activeProfile = () => S.profiles.find(p => p.id === S.active) || S.profiles[0] || { id: null, name: 'Gast', avatar: 0, accent: '#2f8cff', trophies: 0 };
 
-/* ================= catalog ================= */
 const rq = (cpu, gpu, ram, disk) => ({ cpu, gpu, ram, disk });
 const CATALOG = {
-  nova: { name: 'Nova Drift', genre: 'Shooter', demo: true, play: 'shooter', desc: 'Schnelle Raumschlachten im Schwarm. Steuere ein wendiges Schiff durch dichte Asteroidenfelder.', art: 'radial-gradient(70% 80% at 75% 30%,#ff7a3d 0,transparent 60%),linear-gradient(160deg,#1a0f3d,#05071a)', meta: { dev: 'Halcyon Lab', ver: '1.2.0', size: '3,4 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 2,8 GHz', '4 GB VRAM', '8 GB', '4 GB') },
-  pixel: { name: 'Pixel Harbor', genre: 'Aufbau', demo: true, play: 'memory', desc: 'Baue deinen eigenen Hafen und trainiere dein Gedächtnis mit Kartenpaaren.', art: 'radial-gradient(60% 70% at 30% 70%,#46e39b 0,transparent 60%),linear-gradient(160deg,#0a2b3d,#03121c)', meta: { dev: 'Tidewell', ver: '2.0.1', size: '1,1 GB', age: 'USK 0', rel: '2024' }, req: rq('2 Kerne, 2,4 GHz', '2 GB VRAM', '4 GB', '1 GB') },
-  skyline: { name: 'Skyline Tactics', genre: 'Strategie', demo: true, play: 'breakout', desc: 'Taktisches Breakout über den Wolkenkratzern einer Megastadt.', art: 'radial-gradient(60% 60% at 60% 20%,#9db0ff 0,transparent 60%),linear-gradient(160deg,#1b1f45,#060818)', meta: { dev: 'Grayline', ver: '1.0.4', size: '5,2 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 3,0 GHz', '4 GB VRAM', '8 GB', '6 GB') },
+  nova: { name: 'Nova Drift', genre: 'Shooter', demo: true, play: 'shooter', desc: 'Schnelle Raumschlachten im Schwarm.', art: 'radial-gradient(70% 80% at 75% 30%,#ff7a3d 0,transparent 60%),linear-gradient(160deg,#1a0f3d,#05071a)', meta: { dev: 'Halcyon Lab', ver: '1.2.0', size: '3,4 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 2,8 GHz', '4 GB VRAM', '8 GB', '4 GB') },
+  pixel: { name: 'Pixel Harbor', genre: 'Aufbau', demo: true, play: 'memory', desc: 'Baue deinen Hafen und trainiere dein Gedächtnis.', art: 'radial-gradient(60% 70% at 30% 70%,#46e39b 0,transparent 60%),linear-gradient(160deg,#0a2b3d,#03121c)', meta: { dev: 'Tidewell', ver: '2.0.1', size: '1,1 GB', age: 'USK 0', rel: '2024' }, req: rq('2 Kerne, 2,4 GHz', '2 GB VRAM', '4 GB', '1 GB') },
+  skyline: { name: 'Skyline Tactics', genre: 'Strategie', demo: true, play: 'breakout', desc: 'Taktisches Breakout über den Wolkenkratzern.', art: 'radial-gradient(60% 60% at 60% 20%,#9db0ff 0,transparent 60%),linear-gradient(160deg,#1b1f45,#060818)', meta: { dev: 'Grayline', ver: '1.0.4', size: '5,2 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 3,0 GHz', '4 GB VRAM', '8 GB', '6 GB') },
   echoes: { name: 'Echoes of Eternity', genre: 'RPG', store: true, price: '59,99 €', desc: 'Eine epische Reise durch ein zerbrechendes Reich.', art: 'radial-gradient(60% 70% at 50% 25%,#ffd479 0,transparent 55%),linear-gradient(160deg,#2a1450,#0b0520)', meta: { dev: 'Lumen Forge', ver: '1.0.0', size: '62 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,6 GHz', '16 GB VRAM', '32 GB', '90 GB SSD') },
   cyberdrift: { name: 'CyberDrift: Neo Istanbul', genre: 'Racing', store: true, price: '49,99 €', desc: 'Hochgeschwindigkeitsrennen durch eine neonbeleuchtete Metropole.', art: 'radial-gradient(60% 60% at 80% 30%,#ff4fa3 0,transparent 55%),linear-gradient(160deg,#0a1f3a,#02060f)', meta: { dev: 'Kairos Studio', ver: '1.0.0', size: '48 GB', age: 'USK 6', rel: '2026' }, req: rq('6 Kerne, 3,4 GHz', '8 GB VRAM', '16 GB', '60 GB SSD') },
   aether: { name: 'Aether Protocol', genre: 'Strategie', store: true, price: '39,99 €', desc: 'Kontrolliere Flotten in einem Netz aus Sternen.', art: 'radial-gradient(60% 70% at 40% 30%,#5ad8ff 0,transparent 55%),linear-gradient(160deg,#071a2e,#02060f)', meta: { dev: 'Orbital Works', ver: '1.1.0', size: '22 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 3,0 GHz', '6 GB VRAM', '16 GB', '40 GB SSD') },
   apex: { name: 'Project Apex: Horizon', genre: 'Shooter', store: true, price: '69,99 €', desc: 'Taktische Missionen am Rand des bekannten Raums.', art: 'radial-gradient(60% 60% at 60% 35%,#ff7a3d 0,transparent 55%),linear-gradient(160deg,#1a1028,#03040a)', meta: { dev: 'Vantage Games', ver: '1.0.0', size: '74 GB', age: 'USK 18', rel: '2026' }, req: rq('8 Kerne, 3,8 GHz', '12 GB VRAM', '32 GB', '110 GB SSD') },
-  elden: { name: 'Elden Veil', genre: 'RPG', store: true, downloadable: true, price: '69,99 €', size: '85 GB', play: 'shooter', desc: 'Ein düsteres Open-World-Rollenspiel in einer zerfallenden Welt. Erkunde verfluchte Königreiche und bezwinge gewaltige Bosse.', art: 'radial-gradient(70% 80% at 60% 30%,#b8862e 0,transparent 55%),radial-gradient(50% 60% at 20% 70%,#5a1e1e 0,transparent 60%),linear-gradient(160deg,#1a1208,#03040a)', meta: { dev: 'FromSoftworks', ver: '1.0.0', size: '85 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,5 GHz', '12 GB VRAM', '16 GB', '90 GB SSD') },
+  elden: { name: 'Elden Veil', genre: 'RPG', store: true, downloadable: true, price: '69,99 €', size: '85 GB', play: 'shooter3d', desc: 'Ein düsteres 3D-Open-World-Rollenspiel in einer zerfallenden Welt. Erkunde verfluchte Königreiche in Echtzeit-3D.', art: 'radial-gradient(70% 80% at 60% 30%,#b8862e 0,transparent 55%),radial-gradient(50% 60% at 20% 70%,#5a1e1e 0,transparent 60%),linear-gradient(160deg,#1a1208,#03040a)', meta: { dev: 'FromSoftworks', ver: '1.0.0', size: '85 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,5 GHz', '12 GB VRAM', '16 GB', '90 GB SSD') },
   neon: { name: 'Neon Requiem', genre: 'Action', store: true, downloadable: true, price: '59,99 €', size: '62 GB', play: 'pong', desc: 'Ein Cyberpunk-Action-Epos in einer neonüberfluteten Megastadt.', art: 'radial-gradient(60% 70% at 70% 30%,#ff4fa3 0,transparent 55%),radial-gradient(50% 60% at 30% 80%,#5ad8ff 0,transparent 60%),linear-gradient(160deg,#0a0f2e,#02040c)', meta: { dev: 'Neon Forge', ver: '1.2.0', size: '62 GB', age: 'USK 18', rel: '2026' }, req: rq('8 Kerne, 3,6 GHz', '10 GB VRAM', '16 GB', '70 GB SSD') },
   starfall: { name: 'Starfall Odyssey', genre: 'Abenteuer', store: true, downloadable: true, price: '64,99 €', size: '71 GB', play: 'snake', desc: 'Ein cineastisches Weltraum-Abenteuer mit atemberaubenden Planetenlandschaften.', art: 'radial-gradient(60% 70% at 40% 30%,#5ad8ff 0,transparent 55%),radial-gradient(50% 60% at 80% 70%,#a77bff 0,transparent 60%),linear-gradient(160deg,#0a1a3a,#02060f)', meta: { dev: 'Orbital Dreams', ver: '1.0.0', size: '71 GB', age: 'USK 12', rel: '2026' }, req: rq('6 Kerne, 3,4 GHz', '10 GB VRAM', '16 GB', '80 GB SSD') },
-  abyss: { name: 'Abyss Chronicles', genre: 'Horror', store: true, downloadable: true, price: '54,99 €', size: '58 GB', play: 'breakout', desc: 'Ein atmosphärisches Survival-Horror-Erlebnis in einer versunkenen Tiefseestation.', art: 'radial-gradient(60% 70% at 50% 40%,#2a6b8a 0,transparent 55%),radial-gradient(50% 60% at 20% 80%,#0a2a3a 0,transparent 60%),linear-gradient(160deg,#03121c,#010308)', meta: { dev: 'Deepwell', ver: '1.1.0', size: '58 GB', age: 'USK 18', rel: '2026' }, req: rq('6 Kerne, 3,2 GHz', '8 GB VRAM', '16 GB', '65 GB SSD') },
-  velocity: { name: 'Velocity Rush', genre: 'Racing', store: true, downloadable: true, price: '44,99 €', size: '38 GB', play: 'reaction', desc: 'Ein rasanter Arcade-Racer mit atemberaubenden Strecken und Reaktionstests.', art: 'radial-gradient(60% 70% at 70% 30%,#ffd479 0,transparent 55%),linear-gradient(160deg,#2a1f08,#05040a)', meta: { dev: 'Turbine Games', ver: '1.0.0', size: '38 GB', age: 'USK 6', rel: '2026' }, req: rq('4 Kerne, 3,2 GHz', '6 GB VRAM', '12 GB', '45 GB SSD') },
-  mystica: { name: 'Mystica Realms', genre: 'RPG', store: true, downloadable: true, price: '49,99 €', size: '55 GB', play: 'memory', desc: 'Ein bezauberndes Fantasy-RPG mit Memory-Rätseln und magischen Welten.', art: 'radial-gradient(60% 70% at 40% 40%,#a77bff 0,transparent 55%),radial-gradient(50% 60% at 70% 70%,#46e39b 0,transparent 60%),linear-gradient(160deg,#1a0f3d,#04020a)', meta: { dev: 'Arcane Studio', ver: '1.0.0', size: '55 GB', age: 'USK 12', rel: '2026' }, req: rq('6 Kerne, 3,3 GHz', '8 GB VRAM', '16 GB', '60 GB SSD') },
-  titanfall2: { name: 'Titanfall: Vanguard', genre: 'Shooter', store: true, downloadable: true, price: '59,99 €', size: '68 GB', play: 'shooter', desc: 'Mech-Shooter mit atemberaubender Geschwindigkeit und vertikalen Kämpfen.', art: 'radial-gradient(60% 70% at 60% 30%,#ff4d42 0,transparent 55%),linear-gradient(160deg,#1a0808,#03040a)', meta: { dev: 'Respawn-like', ver: '1.0.0', size: '68 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,4 GHz', '10 GB VRAM', '16 GB', '75 GB SSD') },
+  abyss: { name: 'Abyss Chronicles', genre: 'Horror', store: true, downloadable: true, price: '54,99 €', size: '58 GB', play: 'breakout', desc: 'Ein atmosphärisches Survival-Horror-Erlebnis.', art: 'radial-gradient(60% 70% at 50% 40%,#2a6b8a 0,transparent 55%),radial-gradient(50% 60% at 20% 80%,#0a2a3a 0,transparent 60%),linear-gradient(160deg,#03121c,#010308)', meta: { dev: 'Deepwell', ver: '1.1.0', size: '58 GB', age: 'USK 18', rel: '2026' }, req: rq('6 Kerne, 3,2 GHz', '8 GB VRAM', '16 GB', '65 GB SSD') },
+  velocity: { name: 'Velocity Rush 3D', genre: 'Racing', store: true, downloadable: true, price: '44,99 €', size: '38 GB', play: 'racer3d', desc: 'Ein rasanter 3D-Arcade-Racer in Echtzeit-3D mit dynamischen Hindernissen und atemberaubender Grafik.', art: 'radial-gradient(60% 70% at 70% 30%,#ffd479 0,transparent 55%),linear-gradient(160deg,#2a1f08,#05040a)', meta: { dev: 'Turbine Games', ver: '1.0.0', size: '38 GB', age: 'USK 6', rel: '2026' }, req: rq('4 Kerne, 3,2 GHz', '6 GB VRAM', '12 GB', '45 GB SSD') },
+  mystica: { name: 'Mystica Realms', genre: 'RPG', store: true, downloadable: true, price: '49,99 €', size: '55 GB', play: 'memory', desc: 'Ein bezauberndes Fantasy-RPG mit Memory-Rätseln.', art: 'radial-gradient(60% 70% at 40% 40%,#a77bff 0,transparent 55%),radial-gradient(50% 60% at 70% 70%,#46e39b 0,transparent 60%),linear-gradient(160deg,#1a0f3d,#04020a)', meta: { dev: 'Arcane Studio', ver: '1.0.0', size: '55 GB', age: 'USK 12', rel: '2026' }, req: rq('6 Kerne, 3,3 GHz', '8 GB VRAM', '16 GB', '60 GB SSD') },
+  titanfall2: { name: 'Titanfall: Vanguard 3D', genre: 'Shooter', store: true, downloadable: true, price: '59,99 €', size: '68 GB', play: 'shooter3d', desc: 'Echter 3D-Mech-Shooter in Ego-Perspektive mit dynamischen Feinden und atemberaubender Grafik.', art: 'radial-gradient(60% 70% at 60% 30%,#ff4d42 0,transparent 55%),linear-gradient(160deg,#1a0808,#03040a)', meta: { dev: 'Respawn-like', ver: '1.0.0', size: '68 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,4 GHz', '10 GB VRAM', '16 GB', '75 GB SSD') },
   gothic: { name: 'Gothic Reborn', genre: 'RPG', store: true, downloadable: true, price: '54,99 €', size: '47 GB', play: 'shooter', desc: 'Ein düsteres Mittelalter-RPG mit taktischen Kämpfen.', art: 'radial-gradient(60% 70% at 40% 30%,#7a5a2e 0,transparent 55%),linear-gradient(160deg,#1a1208,#03040a)', meta: { dev: 'Piranha Bytes', ver: '1.0.0', size: '47 GB', age: 'USK 16', rel: '2026' }, req: rq('4 Kerne, 3,3 GHz', '8 GB VRAM', '16 GB', '50 GB SSD') },
-  cosmic: { name: 'Cosmic Pong', genre: 'Arcade', store: true, downloadable: true, price: '9,99 €', size: '2 GB', play: 'pong', desc: 'Der Klassiker in neuem Gewand: Pong mit kosmischen Effekten.', art: 'radial-gradient(60% 70% at 50% 30%,#5ad8ff 0,transparent 55%),linear-gradient(160deg,#0a1f3a,#02060f)', meta: { dev: 'Retro Works', ver: '1.0.0', size: '2 GB', age: 'USK 0', rel: '2026' }, req: rq('2 Kerne, 2,0 GHz', '2 GB VRAM', '4 GB', '2 GB') },
-  neonvibes: { name: 'Neon Vibes', genre: 'Arcade', store: true, downloadable: true, price: '14,99 €', size: '3 GB', play: 'reaction', desc: 'Reaktionstest im Neon-Style. Wie schnell bist du?', art: 'radial-gradient(60% 70% at 50% 50%,#ff4fa3 0,transparent 55%),linear-gradient(160deg,#2a0a2a,#02040a)', meta: { dev: 'Pulse', ver: '1.0.0', size: '3 GB', age: 'USK 0', rel: '2026' }, req: rq('2 Kerne, 2,0 GHz', '2 GB VRAM', '4 GB', '3 GB') }
+  cosmic: { name: 'Cosmic Pong', genre: 'Arcade', store: true, downloadable: true, price: '9,99 €', size: '2 GB', play: 'pong', desc: 'Der Klassiker in neuem Gewand.', art: 'radial-gradient(60% 70% at 50% 30%,#5ad8ff 0,transparent 55%),linear-gradient(160deg,#0a1f3a,#02060f)', meta: { dev: 'Retro Works', ver: '1.0.0', size: '2 GB', age: 'USK 0', rel: '2026' }, req: rq('2 Kerne, 2,0 GHz', '2 GB VRAM', '4 GB', '2 GB') },
+  neonvibes: { name: 'Neon Vibes', genre: 'Arcade', store: true, downloadable: true, price: '14,99 €', size: '3 GB', play: 'reaction', desc: 'Reaktionstest im Neon-Style.', art: 'radial-gradient(60% 70% at 50% 50%,#ff4fa3 0,transparent 55%),linear-gradient(160deg,#2a0a2a,#02040a)', meta: { dev: 'Pulse', ver: '1.0.0', size: '3 GB', age: 'USK 0', rel: '2026' }, req: rq('2 Kerne, 2,0 GHz', '2 GB VRAM', '4 GB', '3 GB') }
 };
 Object.assign(CATALOG, S.custom);
 const SYS_ART = {
@@ -648,9 +604,8 @@ const MEDIA_ART = [
   'radial-gradient(60% 60% at 50% 30%,#ffd479 0,transparent 60%),linear-gradient(160deg,#241a3a,#03050e)'
 ];
 let storeLoading = false, storeTimer = null;
-let gameId = null, detailId = null, setupSeq = [0, 1, 2, 3, 4, 5, 6], setupIdx = 0, setupDraft = null, libDraft = null;
+let gameId = null, detailId = null;
 
-/* ================= avatars ================= */
 function avatarSVG(i, c) {
   const shapes = [
     `<circle cx="50" cy="40" r="17" fill="${c}"/><path d="M20 90c3-22 15-32 30-32s27 10 30 32z" fill="${c}" opacity=".85"/>`,
@@ -663,7 +618,6 @@ function avatarSVG(i, c) {
   return `<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice"><rect width="100" height="100" fill="#0c1428"/>${shapes[i % 6]}</svg>`;
 }
 
-/* ================= audio ================= */
 let ACX = null, NOISE = null, primed = false;
 function ctx() {
   if (!ACX) { try { ACX = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
@@ -686,33 +640,13 @@ function note(f, d = .12, o = {}) {
   osc.connect(lp).connect(g).connect(a.destination);
   osc.start(t0); osc.stop(t0 + d + .03);
 }
-function whoosh(d = .22, dir = 1) {
-  const a = ctx(); if (!a) return;
-  if (!NOISE) {
-    NOISE = a.createBuffer(1, a.sampleRate * .4, a.sampleRate);
-    const ch = NOISE.getChannelData(0);
-    for (let i = 0; i < ch.length; i++) ch[i] = Math.random() * 2 - 1;
-  }
-  const src = a.createBufferSource(); src.buffer = NOISE;
-  const bp = a.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 1.1;
-  const g = a.createGain(), t0 = a.currentTime;
-  const f0 = dir > 0 ? 500 : 2000, f1 = dir > 0 ? 2000 : 500;
-  bp.frequency.setValueAtTime(f0, t0);
-  bp.frequency.exponentialRampToValueAtTime(f1, t0 + d);
-  const peak = .03 * (S.vol / 100);
-  g.gain.setValueAtTime(.0001, t0);
-  g.gain.exponentialRampToValueAtTime(peak, t0 + d * .35);
-  g.gain.exponentialRampToValueAtTime(.0001, t0 + d);
-  src.connect(bp).connect(g).connect(a.destination);
-  src.start(t0); src.stop(t0 + d + .02);
-}
 const SFX = {
   nav: () => note(1040, .05, { v: .03, cut: 3200 }),
   ok: () => { note(698, .1, { v: .045, type: 'triangle' }); note(1046, .14, { v: .035, type: 'triangle', at: .06 }); },
   back: () => note(560, .11, { v: .04, type: 'triangle', slide: 380 }),
   err: () => { note(220, .12, { v: .045, type: 'square', cut: 900 }); note(185, .16, { v: .045, type: 'square', at: .12, cut: 900 }); },
-  open: () => whoosh(.26, 1),
-  close: () => whoosh(.2, -1),
+  open: () => note(660, .18, { v: .04, type: 'sine', slide: 990 }),
+  close: () => note(660, .18, { v: .04, type: 'sine', slide: 440 }),
   chime: () => [392, 523, 659, 784].forEach((f, i) => note(f, 1, { v: .04, at: i * .14, cut: 2400 }))
 };
 function sfx(n) {
@@ -722,14 +656,12 @@ function sfx(n) {
   try { SFX[n] && SFX[n](); } catch (e) {}
 }
 
-/* ================= toast ================= */
 let toastT = null;
 function toast(m) {
   const el = $('#toast'); el.textContent = m; el.classList.add('show');
   clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 2200);
 }
 
-/* ================= background ================= */
 const bg = $('#bg'), bctx = bg.getContext('2d');
 let W = 1, H = 1, DPR = 1;
 function resizeBG() {
@@ -745,9 +677,7 @@ function drawBG(now) {
   for (let w = 0; w < 2; w++) {
     bctx.beginPath();
     for (let x = 0; x <= W; x += 24 * DPR) {
-      const y = H * (.78 + w * .07)
-        + Math.sin(x / W * 3 + tt * .0002 + w) * H * .015
-        + Math.sin(x / W * 7 - tt * .0003 + w * 2) * H * .006;
+      const y = H * (.78 + w * .07) + Math.sin(x / W * 3 + tt * .0002 + w) * H * .015;
       x === 0 ? bctx.moveTo(x, y) : bctx.lineTo(x, y);
     }
     bctx.lineTo(W, H); bctx.lineTo(0, H); bctx.closePath();
@@ -768,7 +698,6 @@ function drawBG(now) {
   }
 }
 
-/* ================= apply prefs ================= */
 function applyAccent(c) { document.documentElement.style.setProperty('--accent', c); }
 function applyPrefs() {
   const p = S.prefs, r = document.documentElement;
@@ -777,17 +706,17 @@ function applyPrefs() {
   r.lang = p.lang;
   r.classList.toggle('noanim', !p.anim);
   r.classList.toggle('hc', !!p.hc);
-  $('#bootHint').textContent = t('press');
+  const bh = $('#bootHint'); if (bh) bh.textContent = t('press');
 }
 function usedKB() { return Math.round(JSON.stringify(S).length / 1024 * 10) / 10; }
 function tickClock() {
   const s = new Date().toLocaleTimeString(S.prefs.h24 ? 'de-DE' : 'en-US', { hour: '2-digit', minute: '2-digit', hour12: !S.prefs.h24 });
-  $('#clock').textContent = s;
+  const c = $('#clock'); if (c) c.textContent = s;
   const q = $('#qmClock'); if (q) q.textContent = s;
 }
 
-/* ================= focus engine ================= */
 let curView = null, stack = [], focusEl = null, returnEl = null, restoreSel = null;
+let focusLockUntil = 0;
 const dialogOpen = () => $('#dialogLayer').classList.contains('open');
 const qmOpen = () => $('#quickMenu').classList.contains('open');
 const friendsOpen = () => $('#friendsPanel').classList.contains('open');
@@ -815,12 +744,12 @@ function setFocus(el, silent) {
 }
 function placeFocus() {
   clearFocus();
+  const now = performance.now();
+  if (now < focusLockUntil) { setTimeout(() => placeFocus(), 60); return; }
+  focusLockUntil = now + 80;
   const list = focusables();
   let el = null;
-  if (restoreSel) {
-    el = list.find(e => e.dataset.action === restoreSel.action && e.dataset.id === restoreSel.id) || null;
-    restoreSel = null;
-  }
+  if (restoreSel) { el = list.find(e => e.dataset.action === restoreSel.action && e.dataset.id === restoreSel.id) || null; restoreSel = null; }
   el = el || list.find(e => e.hasAttribute('data-default')) || list[0];
   if (el) setFocus(el, true);
   updateHints();
@@ -870,16 +799,10 @@ function cycleTab(dir) {
   S.tab = next; save();
   if (next === 'store') { openStore(); return; }
   if (next === 'gallery') { go('gallery'); return; }
-  if (next === 'media') { rerender(renderHome); sfx('nav'); return; }
-  rerender(renderHome);
-  sfx('nav');
+  rerender(renderHome); sfx('nav');
 }
 
-/* ================= navigation ================= */
-function showView(n) {
-  $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + n));
-  curView = n;
-}
+function showView(n) { $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + n)); curView = n; }
 function go(name, opts = {}) {
   if (opts.id !== undefined) { if (name === 'game') gameId = opts.id; else detailId = opts.id; }
   if (opts.reset) stack = [];
@@ -887,7 +810,8 @@ function go(name, opts = {}) {
   if (curView !== name) sfx('open');
   showView(name);
   if (R[name]) R[name]({});
-  placeFocus();
+  focusLockUntil = 0;
+  setTimeout(() => placeFocus(), 30);
 }
 function goBack() {
   sfx('close');
@@ -895,17 +819,14 @@ function goBack() {
   if (curView === 'game' && p === 'home') restoreSel = { action: 'open-game', id: gameId };
   go(p, { noPush: true });
 }
-function openOverlay(fn) { returnEl = focusEl; fn(); placeFocus(); }
 function closeOverlay() {
   clearFocus();
-  if (returnEl && scopeRoot().contains(returnEl) && returnEl.getClientRects().length) setFocus(returnEl, true);
+  if (returnEl && document.contains(returnEl) && returnEl.getClientRects().length) setFocus(returnEl, true);
   else placeFocus();
   returnEl = null;
   updateHints();
 }
 
-/* ================= hints ================= */
-const KCLS = { A: 'x', B: 'o', Y: 't', X: 'x' };
 let padCount = 0;
 function controllerCount() { return padCount; }
 function pollGamepads() {
@@ -921,8 +842,8 @@ function pollGamepads() {
     if (pill) { pill.textContent = n ? 'Verbunden' : 'Keiner'; pill.className = 'pill' + (n ? '' : ' off'); }
   }
 }
-window.addEventListener('gamepadconnected', e => { pollGamepads(); toast('Controller verbunden'); sfx('ok'); });
-window.addEventListener('gamepaddisconnected', e => { pollGamepads(); toast('Controller getrennt'); sfx('back'); });
+window.addEventListener('gamepadconnected', () => { pollGamepads(); toast('Controller verbunden'); sfx('ok'); });
+window.addEventListener('gamepaddisconnected', () => { pollGamepads(); toast('Controller getrennt'); sfx('back'); });
 function updateHints() {
   const ok = ['A', t('hintOk')], mv = ['↑↓←→', t('hintMove')], bk = ['B', t('hintBack')];
   let items;
@@ -931,14 +852,12 @@ function updateHints() {
   else if (curView === 'boot') items = [['A', t('press')]];
   else if (curView === 'home') items = [mv, ok, ['L1/R1', t('hintTabs')], ['Y', t('hintMenu')]];
   else if (curView === 'game') items = [mv, ok, bk, ['Y', t('hintMenu')]];
-  else if (curView === 'setup') items = [mv, ok, bk];
   else items = [mv, ok, bk, ['Y', t('hintMenu')]];
-  $('#hintL').innerHTML = items.map(([k, l]) => `<span class="hitem"><span class="key ${KCLS[k] || ''}">${k}</span>${esc(l)}</span>`).join('');
-  const n = controllerCount();
-  $('#hintR').innerHTML = `<span class="hitem">${n ? n + ' Controller verbunden' : 'Tastatur / Touch'}</span>`;
+  const hl = $('#hintL'), hr = $('#hintR');
+  if (hl) hl.innerHTML = items.map(([k, l]) => `<span class="hitem"><span class="key">${k}</span>${esc(l)}</span>`).join('');
+  if (hr) hr.innerHTML = `<span class="hitem">${controllerCount() ? controllerCount() + ' Controller verbunden' : 'Tastatur / Touch'}</span>`;
 }
 
-/* ================= hero ================= */
 let heroKey = null;
 function heroData(k) {
   if (k === 'add') return { kicker: t('library'), title: t('addGame'), sub: 'Füge installierte Spiele zu deinem Homescreen hinzu.', art: SYS_ART.add };
@@ -946,7 +865,7 @@ function heroData(k) {
     const id = k.slice(2), g = CATALOG[id];
     if (g) {
       const pl = S.play[id] || 0;
-      return { kicker: g.genre, title: g.name, sub: pl ? `Spielzeit ${fmtTime(pl)} · ${g.meta.dev}` : `${g.meta.dev} · Drücke nach unten für Details`, art: g.art };
+      return { kicker: g.genre, title: g.name, sub: pl ? `Spielzeit ${fmtTime(pl)} · ${g.meta.dev}` : `${g.meta.dev}`, art: g.art };
     }
   }
   if (k && k[0] === 'm') {
@@ -959,20 +878,17 @@ function heroFor(k) {
   if (k === heroKey) return;
   heroKey = k;
   const d = heroData(k);
-  $('#heroKicker').textContent = d.kicker;
-  $('#heroTitle').textContent = d.title;
-  $('#heroSub').textContent = d.sub;
-  const ht = $('#heroText');
-  ht.classList.remove('swap'); void ht.offsetWidth; ht.classList.add('swap');
-  const ha = $('#heroArt');
-  if (ha) { ha.style.backgroundImage = 'none'; ha.style.background = d.art; ha.style.animation = 'none'; void ha.offsetWidth; ha.style.animation = ''; }
+  const hk = $('#heroKicker'), ht = $('#heroTitle'), hs = $('#heroSub'), ha = $('#heroArt');
+  if (hk) hk.textContent = d.kicker;
+  if (ht) ht.textContent = d.title;
+  if (hs) hs.textContent = d.sub;
+  if (ha) { ha.style.backgroundImage = 'none'; ha.style.background = d.art; }
 }
 
-/* ================= boot ================= */
 let bootTimer = null;
 function startBoot() {
   go('boot', { replace: true });
-  requestAnimationFrame(() => requestAnimationFrame(() => { $('#bootBar').style.width = '100%'; }));
+  requestAnimationFrame(() => requestAnimationFrame(() => { const bb = $('#bootBar'); if (bb) bb.style.width = '100%'; }));
   bootTimer = setTimeout(afterBoot, 3200);
 }
 function afterBoot() {
@@ -983,17 +899,16 @@ function afterBoot() {
 }
 function skipBoot() { if (curView === 'boot') afterBoot(); }
 function primeAudio() {
-  if (primed) return;
-  primed = true;
-  ctx();
+  if (primed) return; primed = true; ctx();
   if (curView === 'boot') setTimeout(() => sfx('chime'), 120);
 }
 
-/* ================= setup ================= */
+/* ===== SETUP ===== */
+let setupState = { step: 0, seq: [0,1,2,3,4,5,6], draft: { name: '', avatar: 0, accent: '#2f8cff' } };
 function startSetup(full) {
-  setupSeq = full ? [0, 1, 2, 3, 4, 5, 6] : [6];
-  setupIdx = 0;
-  setupDraft = { name: '', avatar: 0, accent: S.profiles.length ? activeProfile().accent : '#2f8cff' };
+  setupState.seq = full ? [0,1,2,3,4,5,6] : [6];
+  setupState.step = 0;
+  setupState.draft = { name: '', avatar: 0, accent: '#2f8cff' };
   go('setup', { replace: true });
 }
 const row = (label, ctrl, desc = '') => `<div class="setrow"><div><div class="tl">${label}</div>${desc ? `<div class="ts">${desc}</div>` : ''}</div><div class="sc">${ctrl}</div></div>`;
@@ -1003,10 +918,8 @@ const rangeEl = (k, min, max, step, unit) => {
   const v = holder(k)[k];
   return `<div class="range"><input type="range" min="${min}" max="${max}" step="${step}" value="${v}" data-f data-action="range" data-key="${k}" data-unit="${unit}" style="--p:${(v - min) / (max - min) * 100}%"><span class="rlbl" data-lbl="${k}">${v}${unit}</span></div>`;
 };
-function renderSetup() {
-  if (!setupDraft) setupDraft = { name: '', avatar: 0, accent: '#2f8cff' };
-  const step = setupSeq[setupIdx], last = setupIdx === setupSeq.length - 1, d = setupDraft;
-  const info = {
+function setupStepInfo(step) {
+  return {
     0: ['Sprache', 'Wähle die Sprache für Menüs und Hinweise.'],
     1: ['Anzeige', 'Passe Größe und Rahmen an deinen Bildschirm an.'],
     2: ['Controller', 'Drücke Tasten auf deinem Controller und teste die Vibration.'],
@@ -1014,43 +927,53 @@ function renderSetup() {
     4: ['Datenschutz', 'Wähle, welche Daten geteilt werden dürfen.'],
     5: ['Profil erstellen', 'Name, Avatar und Akzentfarbe festlegen.'],
     6: ['Abschluss', 'Alles bereit. Willkommen bei NoxuraFluxOS.']
-  }[step];
-  $('#setupStep').textContent = `SCHRITT ${setupIdx + 1} VON ${setupSeq.length}`;
+  }[step] || ['', ''];
+}
+function renderSetup() {
+  const seq = setupState.seq, idx = setupState.step, step = seq[idx], isLast = idx === seq.length - 1, draft = setupState.draft;
+  const info = setupStepInfo(step);
+  $('#setupStep').textContent = `SCHRITT ${idx + 1} VON ${seq.length}`;
   $('#setupTitle').textContent = info[0];
   $('#setupSub').textContent = info[1];
-  let h = '';
-  if (step === 0) h = [['de', 'Deutsch', 'Standard'], ['en', 'English', 'International'], ['tr', 'Türkçe', 'Türkisch']]
-    .map(([v, b, s]) => `<button class="opt${S.prefs.lang === v ? ' sel' : ''}" data-f data-action="choose" data-key="lang" data-val="${v}"${S.prefs.lang === v ? ' data-default' : ''}><b>${b}</b><span>${s}</span></button>`).join('');
-  if (step === 1) h = `<div class="calib"><span></span>Testbild</div>`
-    + row('Skalierung', segEl('ui', [[0.9, '90 %'], [1, '100 %'], [1.1, '110 %'], [1.2, '120 %']]))
-    + row('Bildschirmrahmen', rangeEl('frame', 0, 40, 1, 'px'), 'Bis der Rahmen am Bildschirmrand anliegt.');
-  if (step === 2) h = `<div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">Status</div><div class="pad-state" id="padState">${controllerCount() ? 'Verbunden – drücke eine Taste' : 'Kein Controller erkannt – Tastatur funktioniert ebenfalls'}</div></div><span class="pill ${controllerCount() ? '' : 'off'}" id="padPill">${controllerCount() ? 'Verbunden' : 'Keiner'}</span></div>
-    <div class="actions"><button class="btn" data-f data-default data-action="pad-vibrate">Vibration testen</button></div>`;
-  if (step === 3) h = `<div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">Netzwerkstatus</div><div class="pad-state">${navigator.onLine ? 'Verbunden mit dem Internet' : 'Offline – einige Funktionen sind eingeschränkt'}</div></div><span class="pill ${navigator.onLine ? '' : 'off'}">${navigator.onLine ? 'Online' : 'Offline'}</span></div>
-    <div class="actions"><button class="btn" data-f data-default data-action="toast-net">Verbindung testen</button></div>`;
-  if (step === 4) h = toggleEl('telemetry', 'Diagnosedaten senden', 'Hilft, Fehler zu finden. Keine persönlichen Daten.') + toggleEl('autoUpdate', 'Automatische Updates', 'Systemupdates im Hintergrund herunterladen.');
-  if (step === 5) h = `<div style="display:flex;flex-direction:column;gap:.9rem;width:100%">
-    <div><button class="btn" data-f data-default data-action="rename-draft">Name: ${esc(d.name || 'Spieler')}</button></div>
-    <div class="avatars">${[0, 1, 2, 3, 4, 5].map(i => `<button class="av${d.avatar === i ? ' sel' : ''}" data-f data-action="set-avatar" data-val="${i}">${avatarSVG(i, d.accent)}</button>`).join('')}</div>
-    <div class="swatches">${ACCENTS.map(c => `<button class="sw${d.accent === c ? ' sel' : ''}" data-f data-action="set-accent" data-val="${c}" style="background:${c}"></button>`).join('')}</div>
-  </div>`;
-  if (step === 6) h = `<div class="okmsg" style="width:100%">Einrichtung abgeschlossen. Du kannst jetzt Spiele, den Store, Galerie und Einstellungen nutzen.</div>`;
-  $('#setupBody').innerHTML = h;
-  $('#setupBack').style.visibility = (setupIdx === 0 && setupSeq.length === 7) ? 'hidden' : 'visible';
+  let html = '';
+  if (step === 0) {
+    html = [['de','Deutsch','Standard'],['en','English','International'],['tr','Türkçe','Türkisch']]
+      .map(([v,b,s]) => `<button class="opt${S.prefs.lang===v?' sel':''}" data-f data-action="setup-choose-lang" data-val="${v}"><b>${b}</b><span>${s}</span></button>`).join('');
+  } else if (step === 1) {
+    html = `<div class="calib"><span></span>Testbild</div>` + row('Skalierung', segEl('ui', [[0.9,'90 %'],[1,'100 %'],[1.1,'110 %'],[1.2,'120 %']])) + row('Bildschirmrahmen', rangeEl('frame', 0, 40, 1, 'px'), 'Bis der Rahmen anliegt.');
+  } else if (step === 2) {
+    const n = controllerCount();
+    html = `<div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">Status</div><div class="pad-state" id="padState">${n ? 'Verbunden – drücke eine Taste' : 'Kein Controller erkannt'}</div></div><span class="pill ${n?'':'off'}" id="padPill">${n?'Verbunden':'Keiner'}</span></div><div class="actions"><button class="btn" data-f data-action="pad-vibrate">Vibration testen</button></div>`;
+  } else if (step === 3) {
+    html = `<div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">Netzwerkstatus</div><div class="pad-state">${navigator.onLine?'Verbunden':'Offline'}</div></div><span class="pill ${navigator.onLine?'':'off'}">${navigator.onLine?'Online':'Offline'}</span></div><div class="actions"><button class="btn" data-f data-action="toast-net">Verbindung testen</button></div>`;
+  } else if (step === 4) {
+    html = toggleEl('telemetry', 'Diagnosedaten senden', 'Hilft, Fehler zu finden.') + toggleEl('autoUpdate', 'Automatische Updates', 'Im Hintergrund nach Updates suchen.');
+  } else if (step === 5) {
+    html = `<div style="display:flex;flex-direction:column;gap:.9rem;width:100%">
+      <div><button class="btn" data-f data-action="setup-rename">Name: ${esc(draft.name || 'Spieler')}</button></div>
+      <div class="avatars">${[0,1,2,3,4,5].map(i => `<button class="av${draft.avatar===i?' sel':''}" data-f data-action="setup-avatar" data-val="${i}">${avatarSVG(i, draft.accent)}</button>`).join('')}</div>
+      <div class="swatches">${ACCENTS.map(c => `<button class="sw${draft.accent===c?' sel':''}" data-f data-action="setup-accent" data-val="${c}" style="background:${c}"></button>`).join('')}</div>
+    </div>`;
+  } else if (step === 6) {
+    html = `<div class="okmsg" style="width:100%">Einrichtung abgeschlossen.</div>`;
+  }
+  $('#setupBody').innerHTML = html;
+  $('#setupBack').style.visibility = (idx === 0 && seq.length === 7) ? 'hidden' : 'visible';
   $('#setupBack').textContent = t('back');
-  $('#setupNext').textContent = last ? t('finish') : t('next');
+  $('#setupNext').textContent = isLast ? t('finish') : t('next');
 }
 function finishSetup() {
-  const d = setupDraft, full = setupSeq.length === 7;
-  const p = { id: uid(), name: (d.name || 'Spieler').slice(0, 16), avatar: d.avatar, accent: d.accent, trophies: 0 };
+  const draft = setupState.draft;
+  const full = setupState.seq.length === 7;
+  const p = { id: uid(), name: (draft.name || 'Spieler').slice(0, 16), avatar: draft.avatar, accent: draft.accent, trophies: 0 };
   S.profiles.push(p); S.active = p.id;
   if (full) S.setup.done = true;
   save(); applyAccent(p.accent);
   sfx('ok'); toast(`Willkommen, ${p.name}`);
+  setupState = { step: 0, seq: [0], draft: null };
   go(full ? 'home' : 'profiles', { reset: full });
 }
 
-/* ================= profiles ================= */
 function renderProfiles() {
   $('#profilesTitle').textContent = t('who');
   const cards = S.profiles.map((p, i) => `<div class="profile-card" data-f data-action="select-profile" data-id="${p.id}"${i === 0 ? ' data-default' : ''}>
@@ -1060,10 +983,9 @@ function renderProfiles() {
   $('#profilesRow').innerHTML = cards.join('');
 }
 
-/* ================= home ================= */
 function tileGame(id, i) {
   const g = CATALOG[id]; if (!g) return '';
-  return `<div class="tile" data-f data-hero="g:${id}" data-action="open-game" data-id="${id}" style="--i:${i}">
+  return `<div class="tile" data-f data-hero="g:${id}" data-action="open-game" data-id="${id}">
     <div class="art" style="background:${g.art}"></div>
     <div class="tmeta"><div class="tname">${esc(g.name)}</div><div class="tsub">${esc(g.genre)}</div></div></div>`;
 }
@@ -1084,15 +1006,12 @@ function renderHome() {
   let html;
   if (S.tab === 'games') {
     if (S.library.length === 0) {
-      html = `<div class="tile add" data-f data-hero="add" data-action="open-store" data-default style="--i:0">
-        <div class="plus">+</div>
-        <div class="label">Spiele im Store<br>entdecken</div></div>`;
+      html = `<div class="tile add" data-f data-hero="add" data-action="open-store" data-default><div class="plus">+</div><div class="label">Spiele im Store<br>entdecken</div></div>`;
     } else {
-      html = S.library.map((id, i) => tileGame(id, i)).join('')
-        + `<div class="tile add" data-f data-hero="add" data-action="open-store" style="--i:${S.library.length}"><div class="plus">+</div><div class="label">${esc(t('addGame'))}</div></div>`;
+      html = S.library.map((id, i) => tileGame(id, i)).join('') + `<div class="tile add" data-f data-hero="add" data-action="open-store"><div class="plus">+</div><div class="label">${esc(t('addGame'))}</div></div>`;
     }
   } else {
-    html = ['Video', 'Musik', 'Fotos'].map((n, i) => `<div class="tile" data-f data-hero="m${i}" data-action="toast-media" style="--i:${i}"><div class="art" style="background:${MEDIA_ART[i]}"></div><div class="tmeta"><div class="tname">${n}</div><div class="tsub">${esc(t('media'))}</div></div></div>`).join('');
+    html = ['Video', 'Musik', 'Fotos'].map((n, i) => `<div class="tile" data-f data-hero="m${i}" data-action="toast-media"><div class="art" style="background:${MEDIA_ART[i]}"></div><div class="tmeta"><div class="tname">${n}</div><div class="tsub">${esc(t('media'))}</div></div></div>`).join('');
   }
   $('#rail').innerHTML = html;
   const first = $('#rail [data-f]');
@@ -1100,24 +1019,18 @@ function renderHome() {
   else { heroKey = null; heroFor(''); }
 }
 function openStore() {
-  storeLoading = true;
-  clearTimeout(storeTimer);
+  storeLoading = true; clearTimeout(storeTimer);
   go('store');
-  storeTimer = setTimeout(() => {
-    storeLoading = false;
-    if (curView === 'store') rerender(renderStore);
-  }, 900);
+  storeTimer = setTimeout(() => { storeLoading = false; if (curView === 'store') rerender(renderStore); }, 900);
 }
 
-/* ================= store ================= */
 function renderStore() {
   $('#storeBack').textContent = t('back');
   $('#storeTitle').innerHTML = `NoxuraGames <span>${esc(t('store'))}</span>`;
   const cats = ['Alle', 'RPG', 'Racing', 'Strategie', 'Shooter', 'Action', 'Abenteuer', 'Horror', 'Arcade'];
   if (storeLoading) {
     $('#storeCats').innerHTML = '';
-    $('#storeBody').innerHTML = `<div class="loading"><div class="spin"></div>${esc(t('storeLoading'))}</div>
-      <div class="store-grid" style="margin-top:.6rem">${Array.from({ length: 8 }, () => '<div class="skeleton sk"></div>').join('')}</div>`;
+    $('#storeBody').innerHTML = `<div class="loading"><div class="spin"></div>${esc(t('storeLoading'))}</div><div class="store-grid" style="margin-top:.6rem">${Array.from({ length: 8 }, () => '<div class="skeleton sk"></div>').join('')}</div>`;
     return;
   }
   $('#storeCats').innerHTML = cats.map(c => `<button class="chip${S.storeCat === c ? ' on' : ''}" data-f data-action="store-cat" data-val="${c}">${c}</button>`).join('');
@@ -1140,8 +1053,7 @@ function renderStore() {
       const badge = g.downloadable
         ? (owned ? `<span class="badge-own">${t('installed')}</span>` : dl !== undefined && dl < 100 ? `<span class="badge-dl">${Math.round(dl)}%</span>` : `<span class="badge-dl">${t('download')}</span>`)
         : `<span class="lock">NICHT VERFÜGBAR</span>`;
-      return `
-      <div class="card" data-f data-action="open-detail" data-id="${id}">
+      return `<div class="card" data-f data-action="open-detail" data-id="${id}">
         <div class="c-art" style="background:${g.art}">${badge}</div>
         <div class="c-meta"><div class="c-name">${esc(g.name)}</div><div class="c-tag">${esc(g.genre)} · ${g.price || ''}</div></div>
       </div>`;
@@ -1149,7 +1061,6 @@ function renderStore() {
     </div>`;
 }
 
-/* ================= store detail ================= */
 function renderDetail() {
   const id = detailId, g = CATALOG[id];
   if (!g) return goBack();
@@ -1161,20 +1072,14 @@ function renderDetail() {
   let actionHTML = '';
   if (downloadable) {
     if (owned) {
-      actionHTML = `<button class="btn primary" data-f data-default data-action="launch-owned" data-id="${id}">${esc(t('play'))}</button>
-        <div class="okmsg">${esc(t('installed'))} · ${esc(g.size || m.size || '')}</div>`;
+      actionHTML = `<button class="btn primary" data-f data-default data-action="launch-owned" data-id="${id}">${esc(t('play'))}</button><div class="okmsg">${esc(t('installed'))} · ${esc(g.size || m.size || '')}</div>`;
     } else if (dl !== undefined && dl < 100) {
-      actionHTML = `<div class="okmsg">${esc(t('downloading'))}</div>
-        <div class="dlbar"><i style="width:${dl}%"></i></div>
-        <div class="slegend"><span>${Math.round(dl)}%</span><span>${esc(g.size || '')}</span></div>`;
+      actionHTML = `<div class="okmsg">${esc(t('downloading'))}</div><div class="dlbar"><i style="width:${dl}%"></i></div><div class="slegend"><span>${Math.round(dl)}%</span><span>${esc(g.size || '')}</span></div>`;
     } else {
-      actionHTML = `<button class="btn primary" data-f data-default data-action="download-game" data-id="${id}">${esc(t('download'))} · ${esc(g.price)}</button>
-        <div class="kv"><b>Größe</b><span>${esc(g.size || m.size || '–')}</span></div>
-        <div class="okmsg">Dieses Spiel ist mit deiner Konsole kompatibel und kann heruntergeladen werden.</div>`;
+      actionHTML = `<button class="btn primary" data-f data-default data-action="download-game" data-id="${id}">${esc(t('download'))} · ${esc(g.price)}</button><div class="kv"><b>Größe</b><span>${esc(g.size || m.size || '–')}</span></div><div class="okmsg">Kompatibel – kann heruntergeladen werden.</div>`;
     }
   } else {
-    actionHTML = `<button class="buybtn-off" data-f data-default data-action="noop">${esc(t('unavailable'))}</button>
-      <div class="warn">Dieses Gerät unterstützt die Hardware-Anforderungen von diesem Spiel nicht.</div>`;
+    actionHTML = `<button class="buybtn-off" data-f data-default data-action="noop">${esc(t('unavailable'))}</button><div class="warn">Dieses Gerät unterstützt die Hardware-Anforderungen nicht.</div>`;
   }
   $('#detailWrap').innerHTML = `
     <div class="detail-hero">
@@ -1198,9 +1103,7 @@ function renderDetail() {
         <div class="drow"><b>Arbeitsspeicher</b><span>${esc(r.ram)}</span></div>
         <div class="drow"><b>Speicher</b><span>${esc(r.disk)}</span></div>
       </div>
-      <div class="buybox">${actionHTML}
-        <button class="btn ghost" data-f data-action="back">${esc(t('back'))}</button>
-      </div>
+      <div class="buybox">${actionHTML}<button class="btn ghost" data-f data-action="back">${esc(t('back'))}</button></div>
     </div>`;
 }
 function startDownload(id) {
@@ -1219,9 +1122,8 @@ function startDownload(id) {
       clearInterval(iv);
       S.owned.push(id);
       if (!S.library.includes(id)) S.library.push(id);
-      save();
-      sfx('ok');
-      toast(`${CATALOG[id].name} installiert – bereit zum Spielen`);
+      save(); sfx('ok');
+      toast(`${CATALOG[id].name} installiert`);
       if (curView === 'detail' && detailId === id) rerender(renderDetail);
       if (curView === 'store') rerender(renderStore);
       if (curView === 'home') rerender(renderHome);
@@ -1229,7 +1131,6 @@ function startDownload(id) {
   }, 500);
 }
 
-/* ================= game page ================= */
 const TROPHY_TABS = [['info', 'overview'], ['props', 'props'], ['trophies', 'trophies'], ['saves', 'saves']];
 function trophyUnlocked(id, i) { return i === 0 || (S.play[id] || 0) > i * 40; }
 function renderGame() {
@@ -1241,53 +1142,33 @@ function renderGame() {
   $('#gArt').style.background = g.art;
   $('#gTitle').textContent = g.name;
   $('#gMeta').textContent = `${g.genre} · ${g.meta.dev}`;
-  $('#gTabs').innerHTML = TROPHY_TABS.map(([k, lk]) => `<button class="tab${S.gameTab === k ? ' on' : ''}" data-f data-top data-action="game-tab" data-val="${k}">${t(lk)}</button>`).join('');
-  $('#gActions').innerHTML = `<button class="btn primary" data-f data-default data-action="launch" data-id="${id}">${esc(t('play'))}</button>`
-    + (inLib
-      ? `<button class="btn ghost" data-f data-action="game-remove" data-id="${id}">Vom Homescreen entfernen</button>`
-      : `<button class="btn ghost" data-f data-action="game-add" data-id="${id}">Zum Homescreen hinzufügen</button>`);
+  $('#gTabs').innerHTML = TROPHY_TABS.map(([k, lk]) => `<button class="tab${S.gameTab === k ? ' on' : ''}" data-f data-action="game-tab" data-val="${k}">${t(lk)}</button>`).join('');
+  $('#gActions').innerHTML = `<button class="btn primary" data-f data-default data-action="launch" data-id="${id}">${esc(t('play'))}</button>` + (inLib
+    ? `<button class="btn ghost" data-f data-action="game-remove" data-id="${id}">Vom Homescreen entfernen</button>`
+    : `<button class="btn ghost" data-f data-action="game-add" data-id="${id}">Zum Homescreen hinzufügen</button>`);
   let body = '';
   if (S.gameTab === 'info') {
-    body = `<p class="g-desc">${esc(g.desc)}</p>
-      <div class="g-stats">
-        <div><b>${fmtTime(pl)}</b><span>Spielzeit</span></div>
-        <div><b>${last ? new Date(last).toLocaleDateString('de-DE') : '–'}</b><span>Zuletzt gespielt</span></div>
-        <div><b>${unlocked}/${TROPHIES.length}</b><span>Trophäen</span></div>
-      </div>`;
+    body = `<p class="g-desc">${esc(g.desc)}</p><div class="g-stats"><div><b>${fmtTime(pl)}</b><span>Spielzeit</span></div><div><b>${last ? new Date(last).toLocaleDateString('de-DE') : '–'}</b><span>Zuletzt</span></div><div><b>${unlocked}/${TROPHIES.length}</b><span>Trophäen</span></div></div>`;
   } else if (S.gameTab === 'props') {
-    const rows = [['Entwickler', g.meta.dev], ['Genre', g.genre], ['Version', g.meta.ver], ['Größe', g.meta.size], ['Altersfreigabe', g.meta.age], ['Erschienen', g.meta.rel], ['Speicherort', 'Interner Speicher'], ['Spielzeit', fmtTime(pl)], ['Zuletzt gespielt', last ? new Date(last).toLocaleString('de-DE') : 'Noch nie']];
+    const rows = [['Entwickler', g.meta.dev], ['Genre', g.genre], ['Version', g.meta.ver], ['Größe', g.meta.size], ['Altersfreigabe', g.meta.age], ['Erschienen', g.meta.rel]];
     const req = g.req || rq('–', '–', '–', '–');
-    body = `<div class="props">${rows.map(([a, b]) => `<div class="kv"><b>${a}</b><span>${esc(b)}</span></div>`).join('')}</div>
-      <div class="sec-title">Hardware</div>
-      <div class="props">
-        <div class="kv"><b>Prozessor</b><span>${esc(req.cpu)}</span></div>
-        <div class="kv"><b>Grafik</b><span>${esc(req.gpu)}</span></div>
-        <div class="kv"><b>Arbeitsspeicher</b><span>${esc(req.ram)}</span></div>
-        <div class="kv"><b>Speicher</b><span>${esc(req.disk)}</span></div>
-      </div>`;
+    body = `<div class="props">${rows.map(([a, b]) => `<div class="kv"><b>${a}</b><span>${esc(b)}</span></div>`).join('')}</div><div class="sec-title">Hardware</div><div class="props"><div class="kv"><b>Prozessor</b><span>${esc(req.cpu)}</span></div><div class="kv"><b>Grafik</b><span>${esc(req.gpu)}</span></div><div class="kv"><b>RAM</b><span>${esc(req.ram)}</span></div><div class="kv"><b>Speicher</b><span>${esc(req.disk)}</span></div></div>`;
   } else if (S.gameTab === 'trophies') {
     body = TROPHIES.map((n, i) => {
       const u = trophyUnlocked(id, i);
       const prog = u ? 100 : clamp(Math.round((pl / ((i) * 40 || 1)) * 100), 0, 99);
-      return `<div class="trophy-row"><div class="tic${u ? ' on' : ''}">${i + 1}</div>
-        <div class="tt"><div class="tn">${esc(n)}</div><div class="td">${u ? 'Freigeschaltet' : 'Gesperrt'}</div><div class="bar"><i style="width:${prog}%"></i></div></div></div>`;
+      return `<div class="trophy-row"><div class="tic${u ? ' on' : ''}">${i + 1}</div><div class="tt"><div class="tn">${esc(n)}</div><div class="td">${u ? 'Freigeschaltet' : 'Gesperrt'}</div><div class="bar"><i style="width:${prog}%"></i></div></div></div>`;
     }).join('');
   } else if (S.gameTab === 'saves') {
-    body = `<div class="props">
-        <div class="kv"><b>Speicherdaten</b><span>${(hash(id) % 40) + 12} MB</span></div>
-        <div class="kv"><b>Letzter Speicherstand</b><span>${last ? new Date(last).toLocaleString('de-DE') : '–'}</span></div>
-      </div>
-      <div class="actions" style="margin-top:1rem"><button class="btn danger" data-f data-action="saves-clear" data-id="${id}">Speicherdaten löschen</button></div>`;
+    body = `<div class="props"><div class="kv"><b>Speicherdaten</b><span>${(hash(id) % 40) + 12} MB</span></div><div class="kv"><b>Letzter Speicherstand</b><span>${last ? new Date(last).toLocaleString('de-DE') : '–'}</span></div></div><div class="actions" style="margin-top:1rem"><button class="btn danger" data-f data-action="saves-clear" data-id="${id}">Speicherdaten löschen</button></div>`;
   }
   $('#gPanel').innerHTML = body;
 }
 
-/* ================= GAMES ENGINE ================= */
+/* ===== GAME ENGINE ===== */
 const Game = {
   running: false, id: null, play: null, state: null, raf: null, last: 0, keys: {},
-  canvas: null, ctx: null, W: 0, H: 0, dpr: 1,
-  exitHoldStart: null, exitHoldActive: false,
-  padIndex: null, startTime: 0,
+  canvas: null, ctx: null, W: 0, H: 0, dpr: 1, exitHoldStart: null, padIndex: null, startTime: 0,
   init() {
     this.canvas = $('#gameCanvas');
     this.ctx = this.canvas.getContext('2d');
@@ -1299,15 +1180,12 @@ const Game = {
       if (!this.running) return;
       this.keys[e.key.toLowerCase()] = true;
       if (e.key === 'Escape' || e.key === 'Backspace' || e.key.toLowerCase() === 'b') {
-        e.preventDefault();
-        this.startExitHold();
+        e.preventDefault(); this.startExitHold();
       }
     });
     window.addEventListener('keyup', e => {
       this.keys[e.key.toLowerCase()] = false;
-      if (e.key === 'Escape' || e.key === 'Backspace' || e.key.toLowerCase() === 'b') {
-        this.endExitHold();
-      }
+      if (e.key === 'Escape' || e.key === 'Backspace' || e.key.toLowerCase() === 'b') this.endExitHold();
     });
     this.canvas.addEventListener('pointerdown', e => { if (this.play && this.play.onPointer) this.play.onPointer('down', e); });
     this.canvas.addEventListener('pointermove', e => { if (this.play && this.play.onPointer) this.play.onPointer('move', e); });
@@ -1315,22 +1193,21 @@ const Game = {
   },
   resize() {
     this.dpr = Math.min(2, window.devicePixelRatio || 1);
-    this.W = this.canvas.clientWidth;
-    this.H = this.canvas.clientHeight;
+    this.W = this.canvas.clientWidth; this.H = this.canvas.clientHeight;
     this.canvas.width = Math.round(this.W * this.dpr);
     this.canvas.height = Math.round(this.H * this.dpr);
     if (this.play && this.play.onResize) this.play.onResize(this.W, this.H);
   },
   start(id) {
-    const g = CATALOG[id]; if (!g || !g.play) { toast('Dieses Spiel ist nicht spielbar'); return; }
+    const g = CATALOG[id]; if (!g || !g.play) { toast('Nicht spielbar'); return; }
     if (!g.demo && !S.owned.includes(id)) { toast('Spiel nicht installiert'); return; }
     if (!GAMES[g.play]) { toast('Spielmodul fehlt'); return; }
     this.id = id; this.play = GAMES[g.play]; this.state = null;
     this.running = true;
     $('#gameHost').classList.add('open');
     $('#gtName').textContent = g.name;
-    $('#gameOverlay').classList.remove('open');
     $('#exitHold').classList.remove('show');
+    this.canvas.style.display = '';
     this.resize();
     S.play[id] = (S.play[id] || 0) + 1;
     S.last[id] = Date.now();
@@ -1346,18 +1223,21 @@ const Game = {
     const dt = Math.min(0.05, (now - this.last) / 1000);
     this.last = now;
     const pad = this.readPad();
-    this.ctx.save();
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.scale(this.dpr, this.dpr);
-    this.play.update(this.state, dt, { keys: this.keys, pad, W: this.W, H: this.H });
-    this.play.draw(this.ctx, this.state, this.W, this.H);
-    this.ctx.restore();
+    if (this.play.update) this.play.update(this.state, dt, { keys: this.keys, pad, W: this.W, H: this.H });
+    if (this.play.draw) {
+      this.ctx.save();
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.scale(this.dpr, this.dpr);
+      this.play.draw(this.ctx, this.state, this.W, this.H);
+      this.ctx.restore();
+    }
     if (this.exitHoldStart !== null) {
       const held = (now - this.exitHoldStart) / 1000;
       const pct = clamp(held / 4 * 100, 0, 100);
       $('#exitHold').classList.add('show');
-      $('#exitHold .eh-ring').style.setProperty('--p', pct);
+      const ring = $('#exitHold .eh-ring');
+      if (ring) ring.style.setProperty('--p', pct);
       if (held >= 4) { this.stop(); return; }
     } else {
       $('#exitHold').classList.remove('show');
@@ -1370,9 +1250,8 @@ const Game = {
     let p = this.padIndex !== null ? pads[this.padIndex] : null;
     if (!p || !p.connected) for (const q of pads) if (q && q.connected) { p = q; this.padIndex = q.index; break; }
     if (!p) return null;
-    const bBtn = p.buttons[1] || p.buttons[0];
-    if (bBtn && bBtn.pressed) this.startExitHold();
-    else this.endExitHold();
+    const bBtn = p.buttons[1];
+    if (bBtn && bBtn.pressed) this.startExitHold(); else this.endExitHold();
     const dz = 0.35;
     const ax = p.axes[0] || 0, ay = p.axes[1] || 0;
     return {
@@ -1385,20 +1264,14 @@ const Game = {
       right: !!(p.buttons[15] && p.buttons[15].pressed) || (ax > dz)
     };
   },
-  startExitHold() {
-    if (this.exitHoldStart === null) this.exitHoldStart = performance.now();
-  },
-  endExitHold() {
-    this.exitHoldStart = null;
-    $('#exitHold').classList.remove('show');
-  },
+  startExitHold() { if (this.exitHoldStart === null) this.exitHoldStart = performance.now(); },
+  endExitHold() { this.exitHoldStart = null; $('#exitHold').classList.remove('show'); },
   stop() {
+    if (this.play && this.play.cleanup && this.state) { try { this.play.cleanup(this.state); } catch (e) {} }
     this.running = false;
     if (this.raf) cancelAnimationFrame(this.raf);
-    this.raf = null;
-    this.exitHoldStart = null;
+    this.raf = null; this.exitHoldStart = null;
     $('#gameHost').classList.remove('open');
-    $('#gameOverlay').classList.remove('open');
     $('#exitHold').classList.remove('show');
     const id = this.id;
     if (id) {
@@ -1407,50 +1280,36 @@ const Game = {
       S.last[id] = Date.now();
       save();
     }
-    sfx('back');
-    toast('Spiel beendet');
+    sfx('back'); toast('Spiel beendet');
     if (curView === 'game') rerender(renderGame);
     if (curView === 'home') rerender(renderHome);
   }
 };
 
-/* ================= MINIGAMES (verbessert) ================= */
+/* ===== GAMES ===== */
 const GAMES = {
   snake: {
     create(W, H) {
-      const cell = 22;
-      const cols = Math.floor(W / cell), rows = Math.floor(H / cell);
+      const cell = 22, cols = Math.floor(W / cell), rows = Math.floor(H / cell);
       return { cell, cols, rows, snake: [{x: Math.floor(cols/2), y: Math.floor(rows/2)}], dir: {x:1,y:0}, food: {x:5,y:5}, acc: 0, score: 0, over: false, speed: 0.13 };
     },
-    onResize(W, H) {
-      if (!Game.state) return;
-      const cell = 22;
-      Game.state.cols = Math.floor(W / cell);
-      Game.state.rows = Math.floor(H / cell);
-    },
+    onResize(W, H) { if (Game.state) { Game.state.cols = Math.floor(W / 22); Game.state.rows = Math.floor(H / 22); } },
     update(s, dt, inp) {
-      if (s.over) {
-        if (inp.pad && inp.pad.a) { Object.assign(s, GAMES.snake.create(inp.W, inp.H)); s.over = false; }
-        if (inp.keys['enter'] || inp.keys[' ']) { Object.assign(s, GAMES.snake.create(inp.W, inp.H)); s.over = false; }
-        return;
-      }
+      if (s.over) { if (inp.pad?.a || inp.keys['enter'] || inp.keys[' ']) { Object.assign(s, GAMES.snake.create(inp.W, inp.H)); s.over = false; } return; }
       s.acc += dt;
       const step = Math.max(0.06, s.speed - s.score * 0.004);
       let ndx = s.dir.x, ndy = s.dir.y;
-      if (inp.keys['arrowleft'] || inp.keys['a'] || (inp.pad && inp.pad.left)) { ndx = -1; ndy = 0; }
-      else if (inp.keys['arrowright'] || inp.keys['d'] || (inp.pad && inp.pad.right)) { ndx = 1; ndy = 0; }
-      else if (inp.keys['arrowup'] || inp.keys['w'] || (inp.pad && inp.pad.up)) { ndx = 0; ndy = -1; }
-      else if (inp.keys['arrowdown'] || inp.keys['s'] || (inp.pad && inp.pad.down)) { ndx = 0; ndy = 1; }
-      if (ndx !== -s.dir.x || ndy !== -s.dir.y) { s.dir = {x:ndx,y:ndy}; }
+      if (inp.keys['arrowleft'] || inp.keys['a'] || inp.pad?.left) { ndx = -1; ndy = 0; }
+      else if (inp.keys['arrowright'] || inp.keys['d'] || inp.pad?.right) { ndx = 1; ndy = 0; }
+      else if (inp.keys['arrowup'] || inp.keys['w'] || inp.pad?.up) { ndx = 0; ndy = -1; }
+      else if (inp.keys['arrowdown'] || inp.keys['s'] || inp.pad?.down) { ndx = 0; ndy = 1; }
+      if (ndx !== -s.dir.x || ndy !== -s.dir.y) s.dir = {x:ndx,y:ndy};
       if (s.acc >= step) {
         s.acc = 0;
         const head = {x: s.snake[0].x + s.dir.x, y: s.snake[0].y + s.dir.y};
         if (head.x < 0 || head.y < 0 || head.x >= s.cols || head.y >= s.rows || s.snake.some(p => p.x===head.x && p.y===head.y)) { s.over = true; return; }
         s.snake.unshift(head);
-        if (head.x === s.food.x && head.y === s.food.y) {
-          s.score++;
-          s.food = {x: Math.floor(Math.random()*s.cols), y: Math.floor(Math.random()*s.rows)};
-        } else s.snake.pop();
+        if (head.x === s.food.x && head.y === s.food.y) { s.score++; s.food = {x: Math.floor(Math.random()*s.cols), y: Math.floor(Math.random()*s.rows)}; } else s.snake.pop();
       }
     },
     draw(ctx, s, W, H) {
@@ -1459,48 +1318,39 @@ const GAMES = {
       ctx.strokeStyle = 'rgba(90,216,255,.06)';
       for (let x=0;x<W;x+=s.cell) { ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke(); }
       for (let y=0;y<H;y+=s.cell) { ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke(); }
-      const t = performance.now()/300;
-      const r = s.cell/2 + Math.sin(t)*2;
+      const r = s.cell/2 + Math.sin(performance.now()/300)*2;
       const fg = ctx.createRadialGradient(s.food.x*s.cell+s.cell/2, s.food.y*s.cell+s.cell/2, 0, s.food.x*s.cell+s.cell/2, s.food.y*s.cell+s.cell/2, r+4);
       fg.addColorStop(0,'#ff7a7a'); fg.addColorStop(1,'rgba(255,77,66,0)');
-      ctx.fillStyle = fg;
-      ctx.beginPath(); ctx.arc(s.food.x*s.cell+s.cell/2, s.food.y*s.cell+s.cell/2, r+4, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle = '#ff4d42';
-      ctx.beginPath(); ctx.arc(s.food.x*s.cell+s.cell/2, s.food.y*s.cell+s.cell/2, s.cell/2-3, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = fg; ctx.beginPath(); ctx.arc(s.food.x*s.cell+s.cell/2, s.food.y*s.cell+s.cell/2, r+4, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#ff4d42'; ctx.beginPath(); ctx.arc(s.food.x*s.cell+s.cell/2, s.food.y*s.cell+s.cell/2, s.cell/2-3, 0, Math.PI*2); ctx.fill();
       s.snake.forEach((p,i) => {
-        const a = i===0 ? 1 : 0.7 - i/(s.snake.length*2);
-        ctx.fillStyle = i===0 ? '#5ad8ff' : `rgba(47,140,255,${Math.max(.2, a)})`;
-        ctx.beginPath();
-        ctx.roundRect(p.x*s.cell+2, p.y*s.cell+2, s.cell-4, s.cell-4, 5);
-        ctx.fill();
+        ctx.fillStyle = i===0 ? '#5ad8ff' : `rgba(47,140,255,${Math.max(.2, .7 - i/(s.snake.length*2))})`;
+        ctx.fillRect(p.x*s.cell+2, p.y*s.cell+2, s.cell-4, s.cell-4);
       });
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 22px sans-serif';
-      ctx.fillText('Score: ' + s.score, 24, 44);
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 22px sans-serif'; ctx.fillText('Score: ' + s.score, 24, 44);
       if (s.over) {
         ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(0,0,W,H);
         ctx.fillStyle = '#fff'; ctx.font = 'bold 36px sans-serif'; ctx.textAlign = 'center';
         ctx.fillText('Game Over', W/2, H/2 - 20);
-        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
-        ctx.fillText('A oder Enter zum Neustart', W/2, H/2 + 24);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8'; ctx.fillText('A oder Enter zum Neustart', W/2, H/2 + 24);
         ctx.textAlign = 'left';
       }
     }
   },
   pong: {
     create(W, H) { return { W, H, ball:{x:W/2,y:H/2,vx:320,vy:210,r:11}, left:{x:22,y:H/2-45,w:12,h:90}, right:{x:W-34,y:H/2-45,w:12,h:90}, score:{l:0,r:0}, over:false, trail:[] }; },
-    onResize(W, H) { if (!Game.state) return; Game.state.W = W; Game.state.H = H; },
+    onResize(W, H) { if (Game.state) { Game.state.W = W; Game.state.H = H; } },
     update(s, dt, inp) {
-      if (s.over) { if (inp.keys['enter']||inp.keys[' ']||(inp.pad&&inp.pad.a)) { Object.assign(s, GAMES.pong.create(inp.W,inp.H)); s.over=false; } return; }
-      const speed = 620;
-      if (inp.keys['arrowup']||inp.keys['w']||(inp.pad&&inp.pad.up)) s.left.y -= speed*dt;
-      if (inp.keys['arrowdown']||inp.keys['s']||(inp.pad&&inp.pad.down)) s.left.y += speed*dt;
+      if (s.over) { if (inp.pad?.a || inp.keys['enter'] || inp.keys[' ']) { Object.assign(s, GAMES.pong.create(inp.W,inp.H)); s.over=false; } return; }
+      const sp = 620;
+      if (inp.keys['arrowup']||inp.keys['w']||inp.pad?.up) s.left.y -= sp*dt;
+      if (inp.keys['arrowdown']||inp.keys['s']||inp.pad?.down) s.left.y += sp*dt;
       s.left.y = clamp(s.left.y, 0, s.H-s.left.h);
       const target = s.ball.y - s.right.h/2 + Math.sin(performance.now()/700)*10;
       s.right.y += clamp(target - s.right.y, -320*dt, 320*dt);
       s.right.y = clamp(s.right.y, 0, s.H-s.right.h);
       s.ball.x += s.ball.vx*dt; s.ball.y += s.ball.vy*dt;
-      s.trail.push({x:s.ball.x,y:s.ball.y,life:.3}); 
-      s.trail.forEach(t => t.life -= dt); s.trail = s.trail.filter(t=>t.life>0);
+      s.trail.push({x:s.ball.x,y:s.ball.y,life:.3}); s.trail.forEach(t => t.life -= dt); s.trail = s.trail.filter(t=>t.life>0);
       if (s.ball.y < s.ball.r || s.ball.y > s.H-s.ball.r) s.ball.vy *= -1;
       if (s.ball.x < s.left.x+s.left.w && s.ball.y > s.left.y && s.ball.y < s.left.y+s.left.h && s.ball.vx < 0) { s.ball.vx *= -1.05; s.ball.x = s.left.x+s.left.w+1; s.ball.vy += (s.ball.y-(s.left.y+s.left.h/2))*3; }
       if (s.ball.x > s.right.x && s.ball.y > s.right.y && s.ball.y < s.right.y+s.right.h && s.ball.vx > 0) { s.ball.vx *= -1.05; s.ball.x = s.right.x-1; }
@@ -1512,17 +1362,11 @@ const GAMES = {
       const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0a0f2e'); g.addColorStop(1,'#02040c');
       ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
       ctx.strokeStyle = 'rgba(90,216,255,.2)'; ctx.setLineDash([12,12]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(W/2,0); ctx.lineTo(W/2,H); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
-      s.trail.forEach(t => {
-        const a = Math.max(0, t.life * 2);
-        ctx.fillStyle = `rgba(90,216,255,${a})`;
-        ctx.beginPath(); ctx.arc(t.x, t.y, s.ball.r * (0.4 + a), 0, Math.PI*2); ctx.fill();
-      });
-      const lg = ctx.createLinearGradient(0, s.left.y, 0, s.left.y+s.left.h);
-      lg.addColorStop(0,'#5ad8ff'); lg.addColorStop(1,'#2f8cff');
-      ctx.fillStyle = lg; ctx.beginPath(); ctx.roundRect(s.left.x, s.left.y, s.left.w, s.left.h, 6); ctx.fill();
-      const rg = ctx.createLinearGradient(0, s.right.y, 0, s.right.y+s.right.h);
-      rg.addColorStop(0,'#ff4fa3'); rg.addColorStop(1,'#c0207a');
-      ctx.fillStyle = rg; ctx.beginPath(); ctx.roundRect(s.right.x, s.right.y, s.right.w, s.right.h, 6); ctx.fill();
+      s.trail.forEach(t => { const a = Math.max(0, t.life * 2); ctx.fillStyle = `rgba(90,216,255,${a})`; ctx.beginPath(); ctx.arc(t.x, t.y, s.ball.r * (0.4 + a), 0, Math.PI*2); ctx.fill(); });
+      const lg = ctx.createLinearGradient(0, s.left.y, 0, s.left.y+s.left.h); lg.addColorStop(0,'#5ad8ff'); lg.addColorStop(1,'#2f8cff');
+      ctx.fillStyle = lg; ctx.fillRect(s.left.x, s.left.y, s.left.w, s.left.h);
+      const rg = ctx.createLinearGradient(0, s.right.y, 0, s.right.y+s.right.h); rg.addColorStop(0,'#ff4fa3'); rg.addColorStop(1,'#c0207a');
+      ctx.fillStyle = rg; ctx.fillRect(s.right.x, s.right.y, s.right.w, s.right.h);
       ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.ball.x, s.ball.y, s.ball.r, 0, Math.PI*2); ctx.fill();
       ctx.font = 'bold 42px sans-serif'; ctx.textAlign = 'center';
       ctx.fillStyle = 'rgba(90,216,255,.85)'; ctx.fillText(s.score.l, W/2-80, 70);
@@ -1532,106 +1376,77 @@ const GAMES = {
         ctx.fillStyle = 'rgba(0,0,0,.78)'; ctx.fillRect(0,0,W,H);
         ctx.fillStyle = '#fff'; ctx.font = 'bold 36px sans-serif'; ctx.textAlign = 'center';
         ctx.fillText(s.score.l > s.score.r ? 'Du gewinnst!' : 'Du verlierst', W/2, H/2-20);
-        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
-        ctx.fillText('A oder Enter zum Neustart', W/2, H/2+24);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8'; ctx.fillText('A oder Enter zum Neustart', W/2, H/2+24);
         ctx.textAlign = 'left';
       }
     }
   },
   breakout: {
     create(W, H) {
-      const bricks = [];
-      const cols = 9, rows = 6, bw = (W-60)/cols, bh = 22;
+      const bricks = [], cols = 9, rows = 6, bw = (W-60)/cols, bh = 22;
       for (let r=0;r<rows;r++) for (let c=0;c<cols;c++) bricks.push({x:30+c*bw, y:90+r*(bh+7), w:bw-5, h:bh, alive:true, hue: 200 + r*20});
       return { W,H, paddle:{x:W/2-55,y:H-45,w:110,h:14}, ball:{x:W/2,y:H/2,vx:280,vy:-330,r:9}, bricks, score:0, lives:3, over:false, trail:[] };
     },
-    onResize(W,H){ if(!Game.state)return; Game.state.W=W; Game.state.H=H; Game.state.paddle.y=H-45; },
+    onResize(W,H){ if(Game.state){ Game.state.W=W; Game.state.H=H; Game.state.paddle.y=H-45; } },
     update(s, dt, inp) {
-      if (s.over) { if (inp.keys['enter']||inp.keys[' ']||(inp.pad&&inp.pad.a)) { Object.assign(s, GAMES.breakout.create(inp.W,inp.H)); s.over=false; } return; }
+      if (s.over) { if (inp.pad?.a || inp.keys['enter'] || inp.keys[' ']) { Object.assign(s, GAMES.breakout.create(inp.W,inp.H)); s.over=false; } return; }
       const sp = 680;
-      if (inp.keys['arrowleft']||inp.keys['a']||(inp.pad&&inp.pad.left)) s.paddle.x -= sp*dt;
-      if (inp.keys['arrowright']||inp.keys['d']||(inp.pad&&inp.pad.right)) s.paddle.x += sp*dt;
+      if (inp.keys['arrowleft']||inp.keys['a']||inp.pad?.left) s.paddle.x -= sp*dt;
+      if (inp.keys['arrowright']||inp.keys['d']||inp.pad?.right) s.paddle.x += sp*dt;
       s.paddle.x = clamp(s.paddle.x, 0, s.W-s.paddle.w);
       s.ball.x += s.ball.vx*dt; s.ball.y += s.ball.vy*dt;
-      s.trail.push({x:s.ball.x,y:s.ball.y,life:.25}); 
-      s.trail.forEach(t => t.life -= dt); s.trail = s.trail.filter(t=>t.life>0);
+      s.trail.push({x:s.ball.x,y:s.ball.y,life:.25}); s.trail.forEach(t => t.life -= dt); s.trail = s.trail.filter(t=>t.life>0);
       if (s.ball.x < s.ball.r || s.ball.x > s.W-s.ball.r) s.ball.vx *= -1;
       if (s.ball.y < s.ball.r) s.ball.vy *= -1;
-      if (s.ball.y > s.paddle.y && s.ball.y < s.paddle.y+s.paddle.h && s.ball.x > s.paddle.x && s.ball.x < s.paddle.x+s.paddle.w && s.ball.vy > 0) {
-        s.ball.vy *= -1;
-        s.ball.vx += (s.ball.x - (s.paddle.x+s.paddle.w/2)) * 6;
-      }
-      for (const b of s.bricks) {
-        if (!b.alive) continue;
-        if (s.ball.x > b.x && s.ball.x < b.x+b.w && s.ball.y > b.y && s.ball.y < b.y+b.h) {
-          b.alive = false; s.score += 10;
-          s.ball.vy *= -1; break;
-        }
-      }
+      if (s.ball.y > s.paddle.y && s.ball.y < s.paddle.y+s.paddle.h && s.ball.x > s.paddle.x && s.ball.x < s.paddle.x+s.paddle.w && s.ball.vy > 0) { s.ball.vy *= -1; s.ball.vx += (s.ball.x - (s.paddle.x+s.paddle.w/2)) * 6; }
+      for (const b of s.bricks) { if (b.alive && s.ball.x > b.x && s.ball.x < b.x+b.w && s.ball.y > b.y && s.ball.y < b.y+b.h) { b.alive = false; s.score += 10; s.ball.vy *= -1; break; } }
       if (s.ball.y > s.H) { s.lives--; if (s.lives <= 0) s.over = true; else s.ball = {x:s.W/2,y:s.H/2,vx:280,vy:-330,r:9}; }
       if (s.bricks.every(b=>!b.alive)) s.over = true;
     },
     draw(ctx, s, W, H) {
       const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0a0f2e'); g.addColorStop(1,'#02040c');
       ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-      s.bricks.forEach(b => { if (b.alive) { 
-        const grd = ctx.createLinearGradient(b.x, b.y, b.x, b.y+b.h);
-        grd.addColorStop(0, `hsl(${b.hue},80%,65%)`);
-        grd.addColorStop(1, `hsl(${b.hue},70%,45%)`);
-        ctx.fillStyle = grd; 
-        ctx.beginPath(); ctx.roundRect(b.x, b.y, b.w, b.h, 4); ctx.fill();
-      }});
-      s.trail.forEach(t => {
-        const a = Math.max(0, t.life * 3);
-        ctx.fillStyle = `rgba(255,255,255,${a})`;
-        ctx.beginPath(); ctx.arc(t.x, t.y, s.ball.r * (0.3 + a*0.7), 0, Math.PI*2); ctx.fill();
-      });
-      const lg = ctx.createLinearGradient(s.paddle.x, 0, s.paddle.x+s.paddle.w, 0);
-      lg.addColorStop(0,'#5ad8ff'); lg.addColorStop(1,'#2f8cff');
-      ctx.fillStyle = lg; ctx.beginPath(); ctx.roundRect(s.paddle.x, s.paddle.y, s.paddle.w, s.paddle.h, 7); ctx.fill();
+      s.bricks.forEach(b => { if (b.alive) { const grd = ctx.createLinearGradient(b.x, b.y, b.x, b.y+b.h); grd.addColorStop(0, `hsl(${b.hue},80%,65%)`); grd.addColorStop(1, `hsl(${b.hue},70%,45%)`); ctx.fillStyle = grd; ctx.fillRect(b.x, b.y, b.w, b.h); }});
+      s.trail.forEach(t => { const a = Math.max(0, t.life * 3); ctx.fillStyle = `rgba(255,255,255,${a})`; ctx.beginPath(); ctx.arc(t.x, t.y, s.ball.r * (0.3 + a*0.7), 0, Math.PI*2); ctx.fill(); });
+      const lg = ctx.createLinearGradient(s.paddle.x, 0, s.paddle.x+s.paddle.w, 0); lg.addColorStop(0,'#5ad8ff'); lg.addColorStop(1,'#2f8cff');
+      ctx.fillStyle = lg; ctx.fillRect(s.paddle.x, s.paddle.y, s.paddle.w, s.paddle.h);
       ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.ball.x, s.ball.y, s.ball.r, 0, Math.PI*2); ctx.fill();
-      ctx.font = 'bold 20px sans-serif'; ctx.fillStyle = '#fff';
-      ctx.fillText('Score: ' + s.score + '   Leben: ' + s.lives, 24, 40);
+      ctx.font = 'bold 20px sans-serif'; ctx.fillStyle = '#fff'; ctx.fillText('Score: ' + s.score + '   Leben: ' + s.lives, 24, 40);
       if (s.over) {
         ctx.fillStyle = 'rgba(0,0,0,.78)'; ctx.fillRect(0,0,W,H);
         ctx.fillStyle = '#fff'; ctx.font = 'bold 36px sans-serif'; ctx.textAlign = 'center';
         ctx.fillText(s.bricks.every(b=>!b.alive) ? 'Gewonnen!' : 'Game Over', W/2, H/2-20);
-        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
-        ctx.fillText('A oder Enter zum Neustart', W/2, H/2+24);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8'; ctx.fillText('A oder Enter zum Neustart', W/2, H/2+24);
         ctx.textAlign = 'left';
       }
     }
   },
   shooter: {
     create(W, H) { return { W,H, player:{x:W/2, y:H-70, w:36, h:26, cd:0}, bullets:[], enemies:[], particles:[], acc:0, score:0, over:false, hp:3 }; },
-    onResize(W,H){ if(!Game.state)return; Game.state.W=W; Game.state.H=H; Game.state.player.y=H-70; },
+    onResize(W,H){ if(Game.state){ Game.state.W=W; Game.state.H=H; Game.state.player.y=H-70; } },
     update(s, dt, inp) {
-      if (s.over) { if (inp.keys['enter']||inp.keys[' ']||(inp.pad&&inp.pad.a)) { Object.assign(s, GAMES.shooter.create(inp.W,inp.H)); s.over=false; } return; }
+      if (s.over) { if (inp.pad?.a || inp.keys['enter'] || inp.keys[' ']) { Object.assign(s, GAMES.shooter.create(inp.W,inp.H)); s.over=false; } return; }
       const sp = 480;
-      if (inp.keys['arrowleft']||inp.keys['a']||(inp.pad&&inp.pad.left)) s.player.x -= sp*dt;
-      if (inp.keys['arrowright']||inp.keys['d']||(inp.pad&&inp.pad.right)) s.player.x += sp*dt;
+      if (inp.keys['arrowleft']||inp.keys['a']||inp.pad?.left) s.player.x -= sp*dt;
+      if (inp.keys['arrowright']||inp.keys['d']||inp.pad?.right) s.player.x += sp*dt;
       s.player.x = clamp(s.player.x, s.player.w/2, s.W-s.player.w/2);
       s.player.cd -= dt;
-      const fire = inp.keys[' '] || inp.keys['x'] || (inp.pad && inp.pad.a);
+      const fire = inp.keys[' '] || inp.keys['x'] || inp.pad?.a;
       if (fire && s.player.cd <= 0) { s.bullets.push({x:s.player.x, y:s.player.y-18, vy:-560}); s.player.cd = 0.14; }
       s.acc += dt;
       if (s.acc > Math.max(0.25, 0.8 - s.score * 0.002)) { s.acc = 0; s.enemies.push({x:Math.random()*(s.W-50)+25, y:-25, vy:130+Math.random()*100, w:32, h:32, rot:0}); }
       s.bullets.forEach(b => b.y += b.vy*dt);
       s.bullets = s.bullets.filter(b => b.y > -20);
       s.enemies.forEach(e => { e.y += e.vy*dt; e.rot += dt*2; });
-      for (const e of s.enemies) {
-        for (const b of s.bullets) {
-          if (b.x > e.x-e.w/2 && b.x < e.x+e.w/2 && b.y > e.y-e.h/2 && b.y < e.y+e.h/2) {
-            e.dead = true; b.dead = true; s.score += 10;
-            for (let p=0;p<8;p++) s.particles.push({x:e.x,y:e.y,vx:(Math.random()-.5)*300,vy:(Math.random()-.5)*300,life:.5,hue:Math.random()*60+340});
-          }
+      for (const e of s.enemies) for (const b of s.bullets) {
+        if (b.x > e.x-e.w/2 && b.x < e.x+e.w/2 && b.y > e.y-e.h/2 && b.y < e.y+e.h/2) {
+          e.dead = true; b.dead = true; s.score += 10;
+          for (let p=0;p<8;p++) s.particles.push({x:e.x,y:e.y,vx:(Math.random()-.5)*300,vy:(Math.random()-.5)*300,life:.5,hue:Math.random()*60+340});
         }
       }
       s.bullets = s.bullets.filter(b => !b.dead);
       s.enemies = s.enemies.filter(e => !e.dead && e.y < s.H+50);
-      for (const e of s.enemies) {
-        if (Math.abs(e.x - s.player.x) < 22 && Math.abs(e.y - s.player.y) < 22) { s.hp--; e.dead = true; if (s.hp <= 0) s.over = true; }
-      }
+      for (const e of s.enemies) if (Math.abs(e.x - s.player.x) < 22 && Math.abs(e.y - s.player.y) < 22) { s.hp--; e.dead = true; if (s.hp <= 0) s.over = true; }
       s.enemies = s.enemies.filter(e => !e.dead);
       s.particles.forEach(p => { p.x += p.vx*dt; p.y += p.vy*dt; p.life -= dt; p.vy += 400*dt; });
       s.particles = s.particles.filter(p => p.life > 0);
@@ -1641,52 +1456,36 @@ const GAMES = {
       const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0a0f2e'); g.addColorStop(1,'#02040c');
       ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
       for (let i=0;i<60;i++) { const x=(i*137 + performance.now()/40)%W, y=(i*89 + performance.now()/20)%H; ctx.fillStyle=`rgba(255,255,255,${.15 + (i%3)*.1})`; ctx.fillRect(x,y,1.5,1.5); }
-      s.particles.forEach(p => {
-        const a = Math.max(0, p.life*2);
-        ctx.fillStyle = `hsla(${p.hue},100%,65%,${a})`;
-        ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill();
-      });
-      const pg = ctx.createLinearGradient(s.player.x-s.player.w/2, 0, s.player.x+s.player.w/2, 0);
-      pg.addColorStop(0,'#5ad8ff'); pg.addColorStop(1,'#2f8cff');
-      ctx.fillStyle = pg;
-      ctx.beginPath();
+      s.particles.forEach(p => { const a = Math.max(0, p.life*2); ctx.fillStyle = `hsla(${p.hue},100%,65%,${a})`; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); });
+      const pg = ctx.createLinearGradient(s.player.x-s.player.w/2, 0, s.player.x+s.player.w/2, 0); pg.addColorStop(0,'#5ad8ff'); pg.addColorStop(1,'#2f8cff');
+      ctx.fillStyle = pg; ctx.beginPath();
       ctx.moveTo(s.player.x, s.player.y - s.player.h/2);
       ctx.lineTo(s.player.x - s.player.w/2, s.player.y + s.player.h/2);
       ctx.lineTo(s.player.x, s.player.y + s.player.h/3);
       ctx.lineTo(s.player.x + s.player.w/2, s.player.y + s.player.h/2);
       ctx.closePath(); ctx.fill();
-      ctx.fillStyle = '#ffd479';
-      s.bullets.forEach(b => ctx.fillRect(b.x-2, b.y-10, 4, 14));
-      s.enemies.forEach(e => {
-        const eg = ctx.createRadialGradient(e.x, e.y, 0, e.x, e.y, e.w/2);
-        eg.addColorStop(0,'#ff6b6b'); eg.addColorStop(1,'#c02020');
-        ctx.fillStyle = eg;
-        ctx.beginPath(); ctx.arc(e.x, e.y, e.w/2, 0, Math.PI*2); ctx.fill();
-        ctx.strokeStyle = '#ff4d42'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.arc(e.x, e.y, e.w/2 + 3 + Math.sin(e.rot)*2, 0, Math.PI*2); ctx.stroke();
-      });
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 20px sans-serif';
-      ctx.fillText('Score: ' + s.score + '   HP: ' + s.hp, 24, 40);
+      ctx.fillStyle = '#ffd479'; s.bullets.forEach(b => ctx.fillRect(b.x-2, b.y-10, 4, 14));
+      s.enemies.forEach(e => { const eg = ctx.createRadialGradient(e.x, e.y, 0, e.x, e.y, e.w/2); eg.addColorStop(0,'#ff6b6b'); eg.addColorStop(1,'#c02020'); ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(e.x, e.y, e.w/2, 0, Math.PI*2); ctx.fill(); });
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 20px sans-serif'; ctx.fillText('Score: ' + s.score + '   HP: ' + s.hp, 24, 40);
       if (s.over) {
         ctx.fillStyle = 'rgba(0,0,0,.78)'; ctx.fillRect(0,0,W,H);
         ctx.fillStyle = '#fff'; ctx.font = 'bold 36px sans-serif'; ctx.textAlign = 'center';
         ctx.fillText(s.score >= 500 ? 'Geschafft!' : 'Game Over', W/2, H/2-20);
-        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
-        ctx.fillText('A oder Enter zum Neustart', W/2, H/2+24);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8'; ctx.fillText('A oder Enter zum Neustart', W/2, H/2+24);
         ctx.textAlign = 'left';
       }
     }
   },
   memory: {
     create(W, H) {
-      const n = 12; const cards = [];
+      const n = 12, cards = [];
       for (let i=0;i<n/2;i++) { cards.push({v:i, open:false, done:false}); cards.push({v:i, open:false, done:false}); }
       for (let i=cards.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [cards[i],cards[j]]=[cards[j],cards[i]]; }
       return { W,H, cards, first:null, second:null, timer:0, moves:0, over:false, cols:4 };
     },
-    onResize(W,H){ if(!Game.state)return; Game.state.W=W; Game.state.H=H; },
+    onResize(W,H){ if(Game.state){ Game.state.W=W; Game.state.H=H; } },
     update(s, dt, inp) {
-      if (s.over) { if (inp.keys['enter']||inp.keys[' ']||(inp.pad&&inp.pad.a)) { Object.assign(s, GAMES.memory.create(inp.W,inp.H)); s.over=false; } return; }
+      if (s.over) { if (inp.pad?.a || inp.keys['enter'] || inp.keys[' ']) { Object.assign(s, GAMES.memory.create(inp.W,inp.H)); s.over=false; } return; }
       if (s.first && s.second) { s.timer += dt; if (s.timer > 0.7) {
         if (s.cards[s.first].v !== s.cards[s.second].v) { s.cards[s.first].open=false; s.cards[s.second].open=false; }
         else { s.cards[s.first].done=true; s.cards[s.second].done=true; }
@@ -1695,18 +1494,13 @@ const GAMES = {
       }}
     },
     onPointer(t, e) {
-      const s = Game.state; if (!s || s.over) return;
-      if (t !== 'down') return;
+      const s = Game.state; if (!s || s.over || t !== 'down') return;
       const r = Game.canvas.getBoundingClientRect();
       const x = e.clientX - r.left, y = e.clientY - r.top;
-      const margin = 50, gap = 12;
-      const cw = (Game.W - margin*2 - gap*(s.cols-1))/s.cols;
-      const ch = cw * 1.3;
-      const rows = Math.ceil(s.cards.length/s.cols);
-      const startY = (Game.H - (ch*rows + gap*(rows-1)))/2;
+      const margin = 50, gap = 12, cw = (Game.W - margin*2 - gap*(s.cols-1))/s.cols, ch = cw * 1.3;
+      const rows = Math.ceil(s.cards.length/s.cols), startY = (Game.H - (ch*rows + gap*(rows-1)))/2;
       for (let i=0;i<s.cards.length;i++) {
-        const cx = margin + (i%s.cols)*(cw+gap);
-        const cy = startY + Math.floor(i/s.cols)*(ch+gap);
+        const cx = margin + (i%s.cols)*(cw+gap), cy = startY + Math.floor(i/s.cols)*(ch+gap);
         if (x > cx && x < cx+cw && y > cy && y < cy+ch) {
           if (s.cards[i].open || s.cards[i].done) return;
           s.cards[i].open = true;
@@ -1719,22 +1513,13 @@ const GAMES = {
     draw(ctx, s, W, H) {
       const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#1a0f3d'); g.addColorStop(1,'#04020a');
       ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-      const margin = 50, gap = 12;
-      const cw = (W - margin*2 - gap*(s.cols-1))/s.cols;
-      const ch = cw * 1.3;
-      const rows = Math.ceil(s.cards.length/s.cols);
-      const startY = (H - (ch*rows + gap*(rows-1)))/2;
+      const margin = 50, gap = 12, cw = (W - margin*2 - gap*(s.cols-1))/s.cols, ch = cw * 1.3;
+      const rows = Math.ceil(s.cards.length/s.cols), startY = (H - (ch*rows + gap*(rows-1)))/2;
       s.cards.forEach((c, i) => {
-        const cx = margin + (i%s.cols)*(cw+gap);
-        const cy = startY + Math.floor(i/s.cols)*(ch+gap);
-        if (c.open || c.done) {
-          const cg = ctx.createLinearGradient(cx, cy, cx+cw, cy+ch);
-          cg.addColorStop(0,'#5ad8ff'); cg.addColorStop(1,'#2f8cff');
-          ctx.fillStyle = cg;
-        } else {
-          ctx.fillStyle = 'rgba(255,255,255,.08)';
-        }
-        ctx.beginPath(); ctx.roundRect(cx, cy, cw, ch, 10); ctx.fill();
+        const cx = margin + (i%s.cols)*(cw+gap), cy = startY + Math.floor(i/s.cols)*(ch+gap);
+        if (c.open || c.done) { const cg = ctx.createLinearGradient(cx, cy, cx+cw, cy+ch); cg.addColorStop(0,'#5ad8ff'); cg.addColorStop(1,'#2f8cff'); ctx.fillStyle = cg; }
+        else ctx.fillStyle = 'rgba(255,255,255,.08)';
+        ctx.fillRect(cx, cy, cw, ch);
         if (c.open || c.done) {
           const hue = (c.v * 60) % 360;
           ctx.fillStyle = `hsl(${hue},70%,70%)`;
@@ -1743,33 +1528,29 @@ const GAMES = {
           ctx.textAlign='left'; ctx.textBaseline='alphabetic';
         }
       });
-      ctx.fillStyle = '#fff'; ctx.font = 'bold 20px sans-serif';
-      ctx.fillText('Züge: ' + s.moves, 24, 40);
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 20px sans-serif'; ctx.fillText('Züge: ' + s.moves, 24, 40);
       if (s.over) {
         ctx.fillStyle = 'rgba(0,0,0,.78)'; ctx.fillRect(0,0,W,H);
         ctx.fillStyle = '#fff'; ctx.font = 'bold 36px sans-serif'; ctx.textAlign = 'center';
         ctx.fillText('Geschafft!', W/2, H/2-20);
-        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
-        ctx.fillText('A oder Enter zum Neustart', W/2, H/2+24);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8'; ctx.fillText('A oder Enter zum Neustart', W/2, H/2+24);
         ctx.textAlign = 'left';
       }
     }
   },
   reaction: {
     create(W, H) { return { W,H, state:'wait', t:0, best:null, last:null, score:0, waitTime: 1.5 + Math.random()*2 }; },
-    onResize(W,H){ if(!Game.state)return; Game.state.W=W; Game.state.H=H; },
+    onResize(W,H){ if(Game.state){ Game.state.W=W; Game.state.H=H; } },
     update(s, dt, inp) {
       if (s.state === 'wait') { s.t += dt; if (s.t > s.waitTime) { s.state = 'go'; s.t = 0; } }
       else if (s.state === 'go') { s.t += dt; if (s.t > 5) { s.state = 'missed'; s.t = 0; } }
-      if (inp.keys[' '] || inp.keys['enter'] || (inp.pad && inp.pad.a)) {
+      if (inp.keys[' '] || inp.keys['enter'] || inp.pad?.a) {
         if (s.state === 'wait') { s.state = 'tooearly'; s.t = 0; }
         else if (s.state === 'go') { s.last = s.t * 1000; if (!s.best || s.last < s.best) s.best = s.last; s.score++; s.state = 'result'; s.t = 0; }
       }
       if (s.state === 'tooearly' || s.state === 'result' || s.state === 'missed') {
         s.t += dt;
-        if (s.t > 1.2) {
-          if ((inp.keys[' '] || inp.keys['enter'] || (inp.pad && inp.pad.a))) { s.state = 'wait'; s.t = 0; s.waitTime = 1.5 + Math.random()*2; }
-        }
+        if (s.t > 1.2 && (inp.keys[' '] || inp.keys['enter'] || inp.pad?.a)) { s.state = 'wait'; s.t = 0; s.waitTime = 1.5 + Math.random()*2; }
       }
     },
     draw(ctx, s, W, H) {
@@ -1784,24 +1565,196 @@ const GAMES = {
       ctx.fillStyle = '#fff'; ctx.font = 'bold 48px sans-serif'; ctx.textAlign='center';
       const msg = s.state === 'wait' ? 'Warte auf Grün …' : s.state === 'go' ? 'JETZT!' : s.state === 'tooearly' ? 'Zu früh!' : s.state === 'missed' ? 'Verpasst!' : Math.round(s.last) + ' ms';
       ctx.fillText(msg, W/2, H/2);
-      ctx.font = '20px sans-serif';
-      ctx.fillText('Bestwert: ' + (s.best ? Math.round(s.best) + ' ms' : '–'), W/2, H/2+60);
-      ctx.font = '15px sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.6)';
-      ctx.fillText('Leertaste / A drücken, wenn grün', W/2, H/2+95);
+      ctx.font = '20px sans-serif'; ctx.fillText('Bestwert: ' + (s.best ? Math.round(s.best) + ' ms' : '–'), W/2, H/2+60);
+      ctx.font = '15px sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.fillText('Leertaste / A drücken, wenn grün', W/2, H/2+95);
       ctx.textAlign='left';
     }
+  },
+  /* ===== 3D SHOOTER ===== */
+  shooter3d: {
+    create(W, H) {
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x050811);
+      scene.fog = new THREE.Fog(0x050811, 20, 80);
+      const camera = new THREE.PerspectiveCamera(75, W/H, 0.1, 200);
+      camera.position.set(0, 6, 10);
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(W, H);
+      renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+      renderer.domElement.style.cssText = 'position:absolute;inset:0;width:100%;height:100%';
+      const host = Game.canvas.parentNode;
+      host.appendChild(renderer.domElement);
+      Game.canvas.style.display = 'none';
+      scene.add(new THREE.AmbientLight(0x404060, 0.9));
+      const dir = new THREE.DirectionalLight(0xffffff, 1.2);
+      dir.position.set(5, 10, 5); scene.add(dir);
+      const point = new THREE.PointLight(0x5ad8ff, 1.5, 30);
+      point.position.set(0, 5, 0); scene.add(point);
+      const ground = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshStandardMaterial({ color: 0x0a1a2e, roughness: 0.9 }));
+      ground.rotation.x = -Math.PI / 2; scene.add(ground);
+      const grid = new THREE.GridHelper(100, 50, 0x2f8cff, 0x1a3a5a);
+      grid.position.y = 0.01; scene.add(grid);
+      const player = new THREE.Group();
+      const body = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 1.2, 8), new THREE.MeshStandardMaterial({ color: 0x2f8cff, emissive: 0x1a4a8a, emissiveIntensity: 0.5 }));
+      body.position.y = 0.6; player.add(body);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), new THREE.MeshStandardMaterial({ color: 0x5ad8ff, emissive: 0x2f8cff, emissiveIntensity: 0.8 }));
+      head.position.y = 1.4; player.add(head);
+      scene.add(player);
+      return { scene, camera, renderer, player, enemies: [], bullets: [], hp: 5, score: 0, over: false, spawnAcc: 0, shootCd: 0, W, H };
+    },
+    onResize(W, H) { const s = Game.state; if (!s || !s.renderer) return; s.camera.aspect = W / H; s.camera.updateProjectionMatrix(); s.renderer.setSize(W, H); },
+    update(s, dt, inp) {
+      if (s.over) return;
+      const speed = 8;
+      if (inp.keys['w'] || inp.keys['arrowup'] || inp.pad?.up) s.player.position.z -= speed * dt;
+      if (inp.keys['s'] || inp.keys['arrowdown'] || inp.pad?.down) s.player.position.z += speed * dt;
+      if (inp.keys['a'] || inp.keys['arrowleft'] || inp.pad?.left) s.player.position.x -= speed * dt;
+      if (inp.keys['d'] || inp.keys['arrowright'] || inp.pad?.right) s.player.position.x += speed * dt;
+      if (inp.pad?.lx) s.player.position.x += inp.pad.lx * speed * dt;
+      if (inp.pad?.ly) s.player.position.z += inp.pad.ly * speed * dt;
+      s.player.position.x = clamp(s.player.position.x, -15, 15);
+      s.player.position.z = clamp(s.player.position.z, -15, 15);
+      if (inp.keys[' '] || inp.keys['x'] || inp.pad?.a) {
+        if (s.shootCd <= 0) {
+          const bullet = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffd479 }));
+          bullet.position.copy(s.player.position); bullet.position.y = 1.2;
+          bullet.userData.vel = new THREE.Vector3(0, 0, -30);
+          s.scene.add(bullet); s.bullets.push(bullet);
+          s.shootCd = 0.15;
+        }
+      }
+      s.shootCd -= dt;
+      s.spawnAcc += dt;
+      if (s.spawnAcc > 1.2) {
+        s.spawnAcc = 0;
+        const size = 0.6 + Math.random() * 0.4;
+        const mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(size, 0), new THREE.MeshStandardMaterial({ color: 0xff4d42, emissive: 0x8a1a1a, emissiveIntensity: 0.6 }));
+        const angle = Math.random() * Math.PI * 2, dist = 25 + Math.random() * 15;
+        mesh.position.set(Math.cos(angle) * dist, 1, Math.sin(angle) * dist);
+        mesh.userData = { speed: 2 + Math.random() * 2 };
+        s.scene.add(mesh); s.enemies.push(mesh);
+      }
+      s.bullets.forEach(b => { b.position.addScaledVector(b.userData.vel, dt); if (b.position.length() > 60) b.userData.dead = true; });
+      s.bullets = s.bullets.filter(b => { if (b.userData.dead) { s.scene.remove(b); return false; } return true; });
+      s.enemies.forEach(e => {
+        const toP = new THREE.Vector3().subVectors(s.player.position, e.position).normalize();
+        e.position.addScaledVector(toP, e.userData.speed * dt);
+        e.rotation.x += dt * 2; e.rotation.y += dt * 3;
+        if (e.position.distanceTo(s.player.position) < 1.5) { s.hp--; e.userData.dead = true; if (s.hp <= 0) s.over = true; }
+      });
+      s.enemies = s.enemies.filter(e => { if (e.userData.dead) { s.scene.remove(e); return false; } return true; });
+      s.bullets.forEach(b => {
+        s.enemies.forEach(e => { if (b.position.distanceTo(e.position) < 0.8) { e.userData.dead = true; b.userData.dead = true; s.score += 10; } });
+      });
+      s.camera.position.lerp(new THREE.Vector3(s.player.position.x, 6, s.player.position.z + 10), 0.05);
+      s.camera.lookAt(s.player.position.x, 1, s.player.position.z - 5);
+    },
+    draw(ctx, s, W, H) {
+      s.renderer.render(s.scene, s.camera);
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 24px sans-serif';
+      ctx.fillText('Score: ' + s.score, 24, 44); ctx.fillText('HP: ' + s.hp, 24, 76);
+      if (s.over) {
+        ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 42px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Game Over', W/2, H/2 - 20);
+        ctx.font = '18px sans-serif'; ctx.fillStyle = '#93a6c8'; ctx.fillText('B 4s halten zum Verlassen', W/2, H/2 + 30);
+        ctx.textAlign = 'left';
+      }
+    },
+    cleanup(s) { if (s.renderer) { s.renderer.domElement.remove(); s.renderer.dispose(); } Game.canvas.style.display = ''; }
+  },
+  /* ===== 3D RACER ===== */
+  racer3d: {
+    create(W, H) {
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x050811);
+      scene.fog = new THREE.Fog(0x0a0f2e, 30, 120);
+      const camera = new THREE.PerspectiveCamera(75, W/H, 0.1, 300);
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(W, H);
+      renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+      renderer.domElement.style.cssText = 'position:absolute;inset:0;width:100%;height:100%';
+      const host = Game.canvas.parentNode;
+      host.appendChild(renderer.domElement);
+      Game.canvas.style.display = 'none';
+      scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+      const dl = new THREE.DirectionalLight(0xffffff, 1);
+      dl.position.set(10, 20, 10); scene.add(dl);
+      const road = new THREE.Mesh(new THREE.PlaneGeometry(20, 400), new THREE.MeshStandardMaterial({ color: 0x1a1a2e, roughness: 0.8 }));
+      road.rotation.x = -Math.PI / 2; road.position.z = -100; scene.add(road);
+      const laneLines = [];
+      for (let i = 0; i < 40; i++) {
+        const line = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 3), new THREE.MeshBasicMaterial({ color: 0xffd479 }));
+        line.rotation.x = -Math.PI / 2; line.position.set(0, 0.02, -i * 10);
+        scene.add(line); laneLines.push(line);
+      }
+      for (const side of [-10, 10]) {
+        const l = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 400), new THREE.MeshBasicMaterial({ color: 0x2f8cff }));
+        l.rotation.x = -Math.PI / 2; l.position.set(side, 0.02, -100); scene.add(l);
+      }
+      const car = new THREE.Group();
+      const carBody = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.6, 3.5), new THREE.MeshStandardMaterial({ color: 0x2f8cff, metalness: 0.7, roughness: 0.2 }));
+      carBody.position.y = 0.5; car.add(carBody);
+      const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.5, 1.8), new THREE.MeshStandardMaterial({ color: 0x0a1a2e, metalness: 0.5, roughness: 0.1 }));
+      cabin.position.set(0, 1.0, -0.2); car.add(cabin);
+      scene.add(car);
+      return { scene, camera, renderer, car, obstacles: [], laneLines, speed: 30, score: 0, hp: 3, over: false, spawnAcc: 0, W, H };
+    },
+    onResize(W, H) { const s = Game.state; if (!s || !s.renderer) return; s.camera.aspect = W / H; s.camera.updateProjectionMatrix(); s.renderer.setSize(W, H); },
+    update(s, dt, inp) {
+      if (s.over) return;
+      s.speed = Math.min(70, s.speed + dt * 2);
+      if (inp.keys['a'] || inp.keys['arrowleft'] || inp.pad?.left) s.car.position.x -= 18 * dt;
+      if (inp.keys['d'] || inp.keys['arrowright'] || inp.pad?.right) s.car.position.x += 18 * dt;
+      if (inp.pad?.lx) s.car.position.x += inp.pad.lx * 18 * dt;
+      s.car.position.x = clamp(s.car.position.x, -8, 8);
+      s.car.rotation.z = -s.car.position.x * 0.04;
+      s.laneLines.forEach(l => { l.position.z += s.speed * dt; if (l.position.z > 10) l.position.z -= 400; });
+      s.spawnAcc += dt;
+      if (s.spawnAcc > 0.5) {
+        s.spawnAcc = 0;
+        const isObs = Math.random() > 0.4;
+        let mesh;
+        if (isObs) mesh = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.2, 1.5), new THREE.MeshStandardMaterial({ color: 0xff4d42, emissive: 0x8a1a1a, emissiveIntensity: 0.4 }));
+        else mesh = new THREE.Mesh(new THREE.OctahedronGeometry(0.7), new THREE.MeshStandardMaterial({ color: 0xffd479, emissive: 0xffaa00, emissiveIntensity: 0.6 }));
+        mesh.position.set((Math.random() - 0.5) * 16, 0.7, -150);
+        mesh.userData = { isObs };
+        s.scene.add(mesh); s.obstacles.push(mesh);
+      }
+      s.obstacles.forEach(o => {
+        o.position.z += s.speed * dt;
+        if (!o.userData.isObs) o.rotation.y += dt * 2;
+        if (o.position.z > 10) { o.userData.dead = true; if (!o.userData.isObs) s.score += 5; }
+        if (Math.abs(o.position.z - s.car.position.z) < 2 && Math.abs(o.position.x - s.car.position.x) < 1.5) {
+          if (o.userData.isObs) { s.hp--; o.userData.dead = true; if (s.hp <= 0) s.over = true; }
+          else { s.score += 20; o.userData.dead = true; }
+        }
+      });
+      s.obstacles = s.obstacles.filter(o => { if (o.userData.dead) { s.scene.remove(o); return false; } return true; });
+      s.camera.position.set(s.car.position.x * 0.5, 6, 10);
+      s.camera.lookAt(s.car.position.x, 1, -10);
+    },
+    draw(ctx, s, W, H) {
+      s.renderer.render(s.scene, s.camera);
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 24px sans-serif';
+      ctx.fillText('Score: ' + s.score, 24, 44); ctx.fillText('HP: ' + s.hp, 24, 76); ctx.fillText('Speed: ' + Math.round(s.speed * 3.6) + ' km/h', 24, 108);
+      if (s.over) {
+        ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 42px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Game Over', W/2, H/2 - 20);
+        ctx.font = '18px sans-serif'; ctx.fillStyle = '#93a6c8'; ctx.fillText('B 4s halten zum Verlassen', W/2, H/2 + 30);
+        ctx.textAlign = 'left';
+      }
+    },
+    cleanup(s) { if (s.renderer) { s.renderer.domElement.remove(); s.renderer.dispose(); } Game.canvas.style.display = ''; }
   }
 };
 setInterval(() => Game.readPad && Game.readPad(), 100);
-if (!CanvasRenderingContext2D.prototype.roundRect) {
-  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r) { this.beginPath(); this.moveTo(x+r,y); this.arcTo(x+w,y,x+w,y+h,r); this.arcTo(x+w,y+h,x,y+h,r); this.arcTo(x,y+h,x,y,r); this.arcTo(x,y,x+w,y,r); this.closePath(); return this; };
-}
 
-/* ================= library ================= */
 function renderLibrary() {
   if (!libDraft) libDraft = [...S.library];
   $('#libTitle').textContent = t('library');
-  $('#libNote').textContent = 'Wähle die Spiele für deinen Homescreen. Änderungen werden mit „Übernehmen" gespeichert.';
+  $('#libNote').textContent = 'Wähle die Spiele für deinen Homescreen.';
   $('#libCustom').textContent = 'Eigenes Spiel hinzufügen';
   $('#libTest').textContent = 'Test-Start';
   $('#libCancel').textContent = t('back');
@@ -1816,11 +1769,11 @@ function renderLibrary() {
   }).join('') || '<div class="empty">Keine installierten Spiele</div>';
   $('#libCount').textContent = `${libDraft.length} auf dem Homescreen`;
 }
+let libDraft = null;
 
-/* ================= gallery ================= */
 function renderGallery() {
   $('#galTitle').textContent = 'Capture Galerie';
-  $('#galNote').textContent = `${S.captures.length} von 12 Captures · Wähle ein Bild zum Löschen`;
+  $('#galNote').textContent = `${S.captures.length} von 12 Captures`;
   $('#galTake').textContent = 'Screenshot erstellen';
   $('#galGrid').innerHTML = S.captures.length
     ? S.captures.map((c, i) => `<div class="shot" data-f data-action="shot-open" data-val="${i}"${i === 0 ? ' data-default' : ''}><div class="s-art" style="background-image:url(${c.d})"></div><div class="s-cap">${esc(c.t)}</div></div>`).join('')
@@ -1834,146 +1787,59 @@ function takeShot() {
   x.fillStyle = 'rgba(0,0,0,.45)'; x.fillRect(0, 324, 640, 36);
   x.fillStyle = '#e6eefc'; x.font = '14px sans-serif';
   x.fillText('NoxuraFluxOS 9.0 · ' + new Date().toLocaleString('de-DE'), 16, 347);
-  const d = c.toDataURL('image/jpeg', .75);
-  S.captures.unshift({ d, t: new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) });
+  S.captures.unshift({ d: c.toDataURL('image/jpeg', .75), t: new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) });
   S.captures = S.captures.slice(0, 12);
   save(); sfx('ok'); toast('Screenshot gespeichert');
 }
 
-/* ================= search ================= */
 function openSearch() {
   returnEl = focusEl;
   $('#searchOverlay').classList.add('open');
-  const inp = $('#searchInput');
-  inp.value = '';
+  $('#searchInput').value = '';
   renderSearchResults('');
-  setTimeout(() => inp.focus(), 100);
+  setTimeout(() => $('#searchInput').focus(), 100);
   sfx('open');
 }
 function closeSearch() {
   if (!searchOpen()) return;
   $('#searchOverlay').classList.remove('open');
-  closeOverlay();
-  sfx('close');
+  closeOverlay(); sfx('close');
 }
 function renderSearchResults(q) {
-  const query = q.trim().toLowerCase();
-  const box = $('#searchResults');
-  if (!query) {
-    box.innerHTML = `<div class="search-empty">Tippe einen Namen ein, um Spiele zu finden.</div>`;
-    $('#searchHint').textContent = 'Tippe einen Namen ein. Ergebnisse erscheinen sofort.';
-    return;
-  }
-  const all = Object.entries(CATALOG);
-  const matches = all.filter(([id, g]) => g.name.toLowerCase().includes(query) || g.genre.toLowerCase().includes(query) || (g.meta.dev || '').toLowerCase().includes(query));
-  if (!matches.length) {
-    box.innerHTML = `<div class="search-empty">Keine Ergebnisse für „${esc(q)}"</div>`;
-    $('#searchHint').textContent = matches.length + ' Ergebnis(se)';
-    return;
-  }
+  const query = q.trim().toLowerCase(), box = $('#searchResults');
+  if (!query) { box.innerHTML = `<div class="search-empty">Tippe einen Namen ein.</div>`; $('#searchHint').textContent = 'Tippe einen Namen ein.'; return; }
+  const matches = Object.entries(CATALOG).filter(([id, g]) => g.name.toLowerCase().includes(query) || g.genre.toLowerCase().includes(query) || (g.meta.dev || '').toLowerCase().includes(query));
+  if (!matches.length) { box.innerHTML = `<div class="search-empty">Keine Ergebnisse für „${esc(q)}"</div>`; $('#searchHint').textContent = '0 Ergebnisse'; return; }
   $('#searchHint').textContent = matches.length + ' Ergebnis(se)';
-  let html = '';
   const owned = matches.filter(([id]) => S.owned.includes(id) || CATALOG[id].demo);
   const store = matches.filter(([id]) => !S.owned.includes(id) && !CATALOG[id].demo);
-  if (owned.length) {
-    html += `<div class="search-group">Installiert & bereit</div>`;
-    html += owned.map(([id, g]) => cardHTML(id, g)).join('');
-  }
-  if (store.length) {
-    html += `<div class="search-group">Im Store</div>`;
-    html += store.map(([id, g]) => cardHTML(id, g)).join('');
-  }
+  let html = '';
+  if (owned.length) { html += `<div class="search-group">Installiert</div>`; html += owned.map(([id, g]) => cardHTML(id, g)).join(''); }
+  if (store.length) { html += `<div class="search-group">Im Store</div>`; html += store.map(([id, g]) => cardHTML(id, g)).join(''); }
   box.innerHTML = html;
-  // focus first result
   const first = box.querySelector('[data-f]');
   if (first) setFocus(first, true);
   updateHints();
 }
 function cardHTML(id, g) {
-  const owned = S.owned.includes(id);
-  const dl = S.downloads[id];
-  const badge = owned ? `<span class="badge-own">Installiert</span>` 
-    : (dl !== undefined && dl < 100 ? `<span class="badge-dl">${Math.round(dl)}%</span>` 
-    : (g.downloadable ? `<span class="badge-dl">Download</span>` : `<span class="lock">Nicht verfügbar</span>`));
-  return `<div class="card" data-f data-action="open-detail" data-id="${id}">
-    <div class="c-art" style="background:${g.art}">${badge}</div>
-    <div class="c-meta"><div class="c-name">${esc(g.name)}</div><div class="c-tag">${esc(g.genre)}</div></div>
-  </div>`;
+  const owned = S.owned.includes(id), dl = S.downloads[id];
+  const badge = owned ? `<span class="badge-own">Installiert</span>` : (dl !== undefined && dl < 100 ? `<span class="badge-dl">${Math.round(dl)}%</span>` : (g.downloadable ? `<span class="badge-dl">Download</span>` : `<span class="lock">Nicht verfügbar</span>`));
+  return `<div class="card" data-f data-action="open-detail" data-id="${id}"><div class="c-art" style="background:${g.art}">${badge}</div><div class="c-meta"><div class="c-name">${esc(g.name)}</div><div class="c-tag">${esc(g.genre)}</div></div></div>`;
 }
 
-/* ================= settings ================= */
 const SECTIONS = [['system', 'System'], ['display', 'Anzeige'], ['controller', 'Controller'], ['sound', 'Sound'], ['update', 'Softwareupdate'], ['profile', 'Profil & Reset']];
 function paneHTML(sec) {
   const p = activeProfile();
   const pct = clamp(usedKB() / 5120 * 100, 1, 100);
-  if (sec === 'system') {
-    return `<h2 class="pane-title">System</h2><p class="pane-sub">Sprache, Zeit, Netzwerk und Speicher.</p>
-      ${row('Sprache', segEl('lang', [['de', 'Deutsch'], ['en', 'English'], ['tr', 'Türkçe']]))}
-      ${toggleEl('h24', '24-Stunden-Format', 'Uhrzeit im 24-h-Format anzeigen')}
-      ${row('Netzwerk', `<span class="pill${navigator.onLine ? '' : ' off'}">${navigator.onLine ? 'Verbunden' : 'Offline'}</span>`)}
-      ${row('Akku', `<span>${esc($('#batPct').textContent || '–')}</span>`)}
-      <div class="sec-title">Speicher</div>
-      <div class="kv"><b>Benutzte Daten</b><span>${usedKB()} KB</span></div>
-      <div class="sbar"><i style="width:${pct}%"></i></div>
-      <div class="slegend"><span>Genutzt</span><span>5 MB Limit</span></div>
-      <div class="sec-title">Über das System</div>
-      <div class="kv"><b>Version</b><span>NoxuraFluxOS 9.0</span></div>
-      <div class="kv"><b>Profile</b><span>${S.profiles.length}</span></div>
-      <div class="kv"><b>Aktives Profil</b><span>${esc(p.name)}</span></div>`;
-  }
-  if (sec === 'display') {
-    return `<h2 class="pane-title">Anzeige</h2><p class="pane-sub">Größe, Rahmen und Bewegung.</p>
-      ${row('Skalierung', segEl('ui', [[0.9, '90 %'], [1, '100 %'], [1.1, '110 %'], [1.2, '120 %']]), 'Größe der gesamten Oberfläche')}
-      ${row('Bildschirmrahmen', rangeEl('frame', 0, 40, 1, 'px'), 'Abstand zum Bildschirmrand')}
-      ${toggleEl('anim', 'Animationen', 'Übergänge, Kacheln und Hintergrund')}
-      ${toggleEl('hc', 'Hoher Kontrast', 'Hellere Schrift und deutlichere Ränder')}
-      <div class="actions" style="margin-top:1rem"><button class="btn" data-f data-action="fullscreen">Vollbild</button></div>`;
-  }
+  if (sec === 'system') return `<h2 class="pane-title">System</h2><p class="pane-sub">Sprache, Zeit, Netzwerk und Speicher.</p>${row('Sprache', segEl('lang', [['de', 'Deutsch'], ['en', 'English'], ['tr', 'Türkçe']]))}${toggleEl('h24', '24-Stunden-Format', '')}${row('Netzwerk', `<span class="pill${navigator.onLine ? '' : ' off'}">${navigator.onLine ? 'Verbunden' : 'Offline'}</span>`)}<div class="sec-title">Speicher</div><div class="kv"><b>Benutzte Daten</b><span>${usedKB()} KB</span></div><div class="sbar"><i style="width:${pct}%"></i></div><div class="slegend"><span>Genutzt</span><span>5 MB Limit</span></div><div class="sec-title">Über das System</div><div class="kv"><b>Version</b><span>NoxuraFluxOS 9.0</span></div><div class="kv"><b>Profile</b><span>${S.profiles.length}</span></div><div class="kv"><b>Aktives Profil</b><span>${esc(p.name)}</span></div>`;
+  if (sec === 'display') return `<h2 class="pane-title">Anzeige</h2><p class="pane-sub">Größe, Rahmen und Bewegung.</p>${row('Skalierung', segEl('ui', [[0.9, '90 %'], [1, '100 %'], [1.1, '110 %'], [1.2, '120 %']]), '')}${row('Bildschirmrahmen', rangeEl('frame', 0, 40, 1, 'px'), 'Abstand zum Bildschirmrand')}${toggleEl('anim', 'Animationen', '')}${toggleEl('hc', 'Hoher Kontrast', '')}<div class="actions" style="margin-top:1rem"><button class="btn" data-f data-action="fullscreen">Vollbild</button></div>`;
   if (sec === 'controller') {
     const n = controllerCount();
-    return `<h2 class="pane-title">Controller</h2><p class="pane-sub">Verbindung, Vibration und Eingabe.</p>
-      <div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">${n ? n + ' verbunden' : 'Kein Controller erkannt'}</div><div class="pad-state" id="padState">${n ? 'Drücke eine Taste zum Testen' : 'Schließe einen Controller an und drücke eine Taste'}</div></div><span class="pill ${n ? '' : 'off'}" id="padPill">${n ? 'Verbunden' : 'Keiner'}</span></div>
-      ${toggleEl('vib', 'Vibration', 'Rückmeldung bei Eingaben und Fehlern')}
-      ${row('Stick-Empfindlichkeit', segEl('stickSens', [['slow', 'Langsam'], ['normal', 'Normal'], ['fast', 'Schnell']]), 'Steuert die Menü-Navigation')}
-      <div class="actions" style="margin:.8rem 0 1rem"><button class="btn" data-f data-action="pad-vibrate">Vibration testen</button><button class="btn ghost" data-f data-action="pad-refresh">Erneut suchen</button></div>
-      <div class="sec-title">Belegung</div>
-      <div class="kv"><b>A / ✕</b><span>Auswählen</span></div>
-      <div class="kv"><b>B / ○</b><span>Zurück / Spiel verlassen (4s halten)</span></div>
-      <div class="kv"><b>Y / △</b><span>Schnellmenü</span></div>
-      <div class="kv"><b>L1 / R1</b><span>Bereiche wechseln</span></div>`;
+    return `<h2 class="pane-title">Controller</h2><p class="pane-sub">Verbindung, Vibration und Empfindlichkeit.</p><div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">${n ? n + ' verbunden' : 'Kein Controller'}</div><div class="pad-state" id="padState">${n ? 'Bereit' : 'Schließe einen Controller an'}</div></div><span class="pill ${n ? '' : 'off'}" id="padPill">${n ? 'Verbunden' : 'Keiner'}</span></div>${toggleEl('vib', 'Vibration', '')}${row('Stick-Empfindlichkeit', segEl('stickSens', [['slow', 'Langsam'], ['normal', 'Normal'], ['fast', 'Schnell']]), 'Steuert die Menü-Navigation')}<div class="actions" style="margin:.8rem 0 1rem"><button class="btn" data-f data-action="pad-vibrate">Vibration testen</button><button class="btn ghost" data-f data-action="pad-refresh">Erneut suchen</button></div><div class="sec-title">Belegung</div><div class="kv"><b>A / ✕</b><span>Auswählen</span></div><div class="kv"><b>B / ○</b><span>Zurück / Spiel verlassen (4s halten)</span></div><div class="kv"><b>Y / △</b><span>Schnellmenü</span></div><div class="kv"><b>L1 / R1</b><span>Bereiche wechseln</span></div>`;
   }
-  if (sec === 'sound') {
-    return `<h2 class="pane-title">Sound</h2><p class="pane-sub">Konsolen-Töne für Navigation, Bestätigung und Übergänge.</p>
-      ${toggleEl('sound', 'Konsolen-Sounds', 'Alle Töne ein- oder ausschalten')}
-      ${row('Lautstärke', rangeEl('vol', 0, 100, 5, '%'))}
-      ${toggleEl('sfxNav', 'Navigationstöne', 'Kurzer Ton beim Fokuswechsel')}
-      ${toggleEl('sfxOk', 'Bestätigungstöne', 'Ton beim Auswählen')}
-      <div class="actions" style="margin-top:1rem"><button class="btn" data-f data-action="sound-test">Testton abspielen</button></div>`;
-  }
-  if (sec === 'update') {
-    return `<h2 class="pane-title">Softwareupdate</h2><p class="pane-sub">Suche nach Systemupdates über Internet oder ein Speichermedium.</p>
-      <div class="kv"><b>Aktuelle Version</b><span>NoxuraFluxOS 9.0</span></div>
-      <div class="kv"><b>Installiert am</b><span>${new Date().toLocaleDateString('de-DE')}</span></div>
-      <div class="sec-title">Update suchen</div>
-      <div class="actions" style="flex-wrap:wrap">
-        <button class="btn primary" data-f data-default data-action="update-net">${t('updateNet')}</button>
-        <button class="btn" data-f data-action="update-media">${t('updateMedia')}</button>
-      </div>
-      <div class="sec-title">Automatische Updates</div>
-      ${toggleEl('autoUpdate', 'Automatisch nach Updates suchen', 'Im Hintergrund nach neuen Versionen suchen')}
-      <div class="sec-title">Verlauf</div>
-      <div class="kv"><b>9.0</b><span>Aktuell</span></div>
-      <div class="kv"><b>8.7</b><span>Installiert</span></div>
-      <div class="kv"><b>8.6</b><span>Installiert</span></div>`;
-  }
-  if (sec === 'profile') {
-    return `<h2 class="pane-title">Profil & Reset</h2><p class="pane-sub">Profil anpassen oder das Gerät zurücksetzen.</p>
-      ${row('Name', `<button class="btn" data-f data-default data-action="rename-profile">${esc(p.name)}</button>`)}
-      ${row('Akzentfarbe', `<div class="swatches">${ACCENTS.map(c => `<button class="sw${p.accent === c ? ' sel' : ''}" data-f data-action="set-accent" data-val="${c}" style="background:${c}"></button>`).join('')}</div>`)}
-      ${row('Profil wechseln', `<button class="btn" data-f data-action="profile-switch">Öffnen</button>`)}
-      <div class="sec-title">Gefahrenzone</div>
-      ${row('Werkseinstellungen', `<button class="btn danger" data-f data-action="reset-all">Zurücksetzen</button>`, 'Löscht Profile, Einstellungen, Bibliothek und Captures.')}`;
-  }
+  if (sec === 'sound') return `<h2 class="pane-title">Sound</h2><p class="pane-sub">Konsolen-Töne.</p>${toggleEl('sound', 'Konsolen-Sounds', '')}${row('Lautstärke', rangeEl('vol', 0, 100, 5, '%'))}${toggleEl('sfxNav', 'Navigationstöne', '')}${toggleEl('sfxOk', 'Bestätigungstöne', '')}<div class="actions" style="margin-top:1rem"><button class="btn" data-f data-action="sound-test">Testton</button></div>`;
+  if (sec === 'update') return `<h2 class="pane-title">Softwareupdate</h2><p class="pane-sub">Suche nach Systemupdates.</p><div class="kv"><b>Aktuelle Version</b><span>NoxuraFluxOS 9.0</span></div><div class="kv"><b>Installiert am</b><span>${new Date().toLocaleDateString('de-DE')}</span></div><div class="sec-title">Update suchen</div><div class="actions" style="flex-wrap:wrap"><button class="btn primary" data-f data-default data-action="update-net">${t('updateNet')}</button><button class="btn" data-f data-action="update-media">${t('updateMedia')}</button></div><div class="sec-title">Automatische Updates</div>${toggleEl('autoUpdate', 'Automatisch suchen', '')}<div class="sec-title">Verlauf</div><div class="kv"><b>9.0</b><span>Aktuell</span></div><div class="kv"><b>8.7</b><span>Installiert</span></div>`;
+  if (sec === 'profile') return `<h2 class="pane-title">Profil & Reset</h2><p class="pane-sub">Profil anpassen oder zurücksetzen.</p>${row('Name', `<button class="btn" data-f data-default data-action="rename-profile">${esc(p.name)}</button>`)}${row('Akzentfarbe', `<div class="swatches">${ACCENTS.map(c => `<button class="sw${p.accent === c ? ' sel' : ''}" data-f data-action="set-accent" data-val="${c}" style="background:${c}"></button>`).join('')}</div>`)}${row('Profil wechseln', `<button class="btn" data-f data-action="profile-switch">Öffnen</button>`)}<div class="sec-title">Gefahrenzone</div>${row('Werkseinstellungen', `<button class="btn danger" data-f data-action="reset-all">Zurücksetzen</button>`, 'Löscht Profile, Einstellungen, Bibliothek und Captures.')}`;
   return '';
 }
 function renderSettings() {
@@ -1987,7 +1853,6 @@ function updateVolUI() {
   $$('input[data-key="vol"]').forEach(i => { i.value = S.vol; i.style.setProperty('--p', S.vol + '%'); });
 }
 
-/* ================= friends ================= */
 function renderFriends() {
   const on = S.friends.filter(f => f.on).length;
   $('#friendsTitle').textContent = t('friends');
@@ -1999,51 +1864,29 @@ function renderFriends() {
     const inP = S.party.includes(f.id);
     return `<div class="frow" data-f data-action="friend-invite" data-id="${f.id}"${i === 0 ? ' data-default' : ''}>
       <div class="avatar" style="width:2.1rem;height:2.1rem">${avatarSVG(hash(f.n) % 6, '#8fc4ff')}</div>
-      <div class="fmeta"><div class="fname"><span class="dot${f.on ? '' : ' off'}"></span>${esc(f.n)}</div>
-      <div class="fact">${f.on ? (f.g ? 'Spielt ' + esc(f.g) : 'Online') : 'Offline'}</div></div>
+      <div class="fmeta"><div class="fname"><span class="dot${f.on ? '' : ' off'}"></span>${esc(f.n)}</div><div class="fact">${f.on ? (f.g ? 'Spielt ' + esc(f.g) : 'Online') : 'Offline'}</div></div>
       <span class="chip${inP ? ' on' : ''}">${inP ? 'In Party' : 'Einladen'}</span></div>`;
-  }).join('') || '<div class="empty">Noch keine Freunde</div>';
+  }).join('');
   $('#friendBadge').textContent = on;
 }
 
-/* ================= quick menu ================= */
 function renderQuick() {
   const p = activeProfile();
-  $('#quickInner').innerHTML = `
-    <div class="qm-top">
-      <div class="qm-user"><div class="avatar">${avatarSVG(p.avatar, p.accent)}</div><div><div class="qm-name">${esc(p.name)}</div><div class="qm-sub">NoxuraFluxOS 9.0</div></div></div>
-      <div class="qm-sub" id="qmClock"></div>
-    </div>
-    <div class="qm-row">
-      <button class="qbtn" data-f data-default data-action="qm-home">${esc(t('home'))}</button>
-      <button class="qbtn" data-f data-action="qm-friends">${esc(t('friends'))}</button>
-      <button class="qbtn" data-f data-action="qm-settings">${esc(t('settings'))}</button>
-      <button class="qbtn" data-f data-action="qm-full">Vollbild</button>
-      <div class="qm-vol" data-f data-slider="vol"><span class="lab">Lautstärke</span><div class="volbar"><i style="width:${S.vol}%"></i></div><span class="vlabel">${S.vol}%</span></div>
-      <button class="qbtn danger2" data-f data-action="qm-reset">Neustart</button>
-    </div>`;
+  $('#quickInner').innerHTML = `<div class="qm-top"><div class="qm-user"><div class="avatar">${avatarSVG(p.avatar, p.accent)}</div><div><div class="qm-name">${esc(p.name)}</div><div class="qm-sub">NoxuraFluxOS 9.0</div></div></div><div class="qm-sub" id="qmClock"></div></div><div class="qm-row"><button class="qbtn" data-f data-default data-action="qm-home">${esc(t('home'))}</button><button class="qbtn" data-f data-action="qm-friends">${esc(t('friends'))}</button><button class="qbtn" data-f data-action="qm-settings">${esc(t('settings'))}</button><button class="qbtn" data-f data-action="qm-full">Vollbild</button><div class="qm-vol" data-f data-slider="vol"><span class="lab">Lautstärke</span><div class="volbar"><i style="width:${S.vol}%"></i></div><span class="vlabel">${S.vol}%</span></div><button class="qbtn danger2" data-f data-action="qm-reset">Neustart</button></div>`;
   tickClock();
 }
 function openQuick() { if (!qmOpen()) { returnEl = focusEl; renderQuick(); $('#quickMenu').classList.add('open'); placeFocus(); } }
 function closeQuick() { if (qmOpen()) { $('#quickMenu').classList.remove('open'); closeOverlay(); } }
-function openFriends() {
-  if (friendsOpen()) return;
-  returnEl = focusEl;
-  renderFriends();
-  $('#friendsPanel').classList.add('open');
-  placeFocus();
-}
+function openFriends() { if (!friendsOpen()) { returnEl = focusEl; renderFriends(); $('#friendsPanel').classList.add('open'); placeFocus(); } }
 function closeFriends() { if (friendsOpen()) { $('#friendsPanel').classList.remove('open'); closeOverlay(); } }
 
-/* ================= dialog ================= */
 let dlgCb = null;
 function openDialog(o) {
   returnEl = focusEl;
   $('#dlgKicker').textContent = o.kicker || '';
   $('#dlgTitle').textContent = o.title;
   $('#dlgBody').innerHTML = o.body || '';
-  $('#dlgActions').innerHTML = o.buttons.map((b, i) =>
-    `<button class="btn ${b.cls || ''}" data-f data-action="dlg-result" data-val="${i}"${i === (o.def ?? 0) ? ' data-default' : ''}>${esc(b.label)}</button>`).join('');
+  $('#dlgActions').innerHTML = o.buttons.map((b, i) => `<button class="btn ${b.cls || ''}" data-f data-action="dlg-result" data-val="${i}"${i === (o.def ?? 0) ? ' data-default' : ''}>${esc(b.label)}</button>`).join('');
   dlgCb = o.cb || null;
   $('#dialogLayer').classList.add('open');
   placeFocus();
@@ -2057,32 +1900,24 @@ function closeDialog(i) {
   closeOverlay();
 }
 
-/* ================= fullscreen ================= */
 function toggleFS() {
-  const d = document;
-  try {
-    if (!d.fullscreenElement) { const p = d.documentElement.requestFullscreen(); if (p && p.catch) p.catch(() => toast('Vollbild nicht verfügbar')); }
-    else if (d.exitFullscreen) d.exitFullscreen();
-  } catch (e) { toast('Vollbild nicht verfügbar'); }
+  try { if (!document.fullscreenElement) { const p = document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(() => toast('Vollbild nicht verfügbar')); } else if (document.exitFullscreen) document.exitFullscreen(); } catch (e) { toast('Vollbild nicht verfügbar'); }
+}
+function askName(cb) {
+  const inp = document.createElement('input');
+  inp.type = 'text'; inp.value = '';
+  inp.style.cssText = 'width:100%;padding:.6rem .8rem;border-radius:.4rem;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font-size:.86rem';
+  openDialog({ kicker: 'Eingabe', title: 'Name eingeben', body: '', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'OK', cls: 'primary' }], def: 1, cb: i => { if (i === 1) cb(inp.value.trim()); } });
+  $('#dlgBody').appendChild(inp);
+  setTimeout(() => inp.focus(), 60);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); closeDialog(1); } });
 }
 
-/* ================= actions ================= */
 function coerce(v) { if (v === 'true') return true; if (v === 'false') return false; if (v !== '' && !isNaN(v)) return +v; return v; }
 const ACT = {
   'boot-skip': () => skipBoot(),
-  choose(el) {
-    const k = el.dataset.key, o = holder(k);
-    o[k] = coerce(el.dataset.val);
-    save(); applyPrefs();
-    rerender(refresh);
-  },
-  toggle(el) {
-    const k = el.dataset.key, o = holder(k);
-    o[k] = !o[k];
-    save(); applyPrefs();
-    if (k === 'sound' && o[k]) sfx('ok');
-    rerender(refresh);
-  },
+  choose(el) { const k = el.dataset.key, o = holder(k); o[k] = coerce(el.dataset.val); save(); applyPrefs(); rerender(refresh); },
+  toggle(el) { const k = el.dataset.key, o = holder(k); o[k] = !o[k]; save(); applyPrefs(); if (k === 'sound' && o[k]) sfx('ok'); rerender(refresh); },
   range(el) {
     const k = el.dataset.key, o = holder(k);
     o[k] = +el.value;
@@ -2092,35 +1927,24 @@ const ACT = {
     save(); applyPrefs();
     if (k === 'vol') updateVolUI();
   },
-  'setup-back': () => {
-    if (setupIdx > 0) { setupIdx--; sfx('back'); rerender(renderSetup); }
-    else if (setupSeq.length === 1) go('profiles', { noPush: true });
-  },
-  'setup-next': () => {
-    if (setupIdx < setupSeq.length - 1) { setupIdx++; sfx('nav'); rerender(renderSetup); }
-    else finishSetup();
-  },
+  'setup-back': () => { if (setupState.step > 0) { setupState.step--; sfx('back'); renderSetup(); placeFocus(); } else if (setupState.seq.length === 1) go('profiles', { noPush: true }); },
+  'setup-next': () => { if (setupState.step < setupState.seq.length - 1) { setupState.step++; sfx('nav'); renderSetup(); placeFocus(); } else finishSetup(); },
+  'setup-choose-lang': el => { S.prefs.lang = el.dataset.val; save(); applyPrefs(); renderSetup(); placeFocus(); },
+  'setup-avatar': el => { setupState.draft.avatar = +el.dataset.val; renderSetup(); placeFocus(); },
+  'setup-accent': el => { setupState.draft.accent = el.dataset.val; renderSetup(); placeFocus(); },
+  'setup-rename': () => askName(n => { if (n) { setupState.draft.name = n; renderSetup(); placeFocus(); } }),
   'pad-vibrate': () => {
     const pads = navigator.getGamepads ? navigator.getGamepads() : [];
     let did = false;
-    if (pads) for (const p of pads) if (p && p.connected && p.vibrationActuator) { p.vibrationActuator.playEffect('dual-rumble', { duration: 300, strongMagnitude: 1, weakMagnitude: 1 }).catch(()=>{}); did = true; }
-    if (!did) { if (navigator.vibrate) navigator.vibrate([200,80,200]); }
+    if (pads) for (const p of pads) if (p && p.connected && p.vibrationActuator) { p.vibrationActuator.playEffect('dual-rumble', { duration: 300, strongMagnitude: 1, weakMagnitude: 1 }).catch(() => {}); did = true; }
+    if (!did && navigator.vibrate) navigator.vibrate([200, 80, 200]);
     sfx('ok'); toast(did ? 'Vibration gesendet' : 'Vibration ausgelöst');
   },
   'pad-refresh': () => { pollGamepads(); toast(controllerCount() ? controllerCount() + ' Controller gefunden' : 'Kein Controller gefunden'); },
   'toast-net': () => toast(navigator.onLine ? 'Internetverbindung OK' : 'Keine Verbindung'),
-  'rename-draft': () => askName(n => { if (n) { setupDraft.name = n; rerender(renderSetup); } }),
-  'set-avatar': el => { setupDraft.avatar = +el.dataset.val; rerender(renderSetup); },
-  'set-accent': el => {
-    const c = el.dataset.val;
-    if (curView === 'setup' && setupDraft) { setupDraft.accent = c; rerender(renderSetup); }
-    else { const p = activeProfile(); p.accent = c; save(); applyAccent(c); rerender(refresh); }
-  },
-  'select-profile': el => {
-    const p = S.profiles.find(x => x.id === el.dataset.id);
-    if (p) { S.active = p.id; save(); applyAccent(p.accent); go('home', { reset: true }); }
-  },
-  'profiles-add': () => { setupSeq = [5]; setupIdx = 0; setupDraft = { name: '', avatar: 0, accent: '#2f8cff' }; go('setup', { replace: true }); },
+  'set-accent': el => { const c = el.dataset.val; if (curView === 'setup' && setupState.draft) { setupState.draft.accent = c; renderSetup(); placeFocus(); } else { const p = activeProfile(); p.accent = c; save(); applyAccent(c); rerender(refresh); } },
+  'select-profile': el => { const p = S.profiles.find(x => x.id === el.dataset.id); if (p) { S.active = p.id; save(); applyAccent(p.accent); go('home', { reset: true }); } },
+  'profiles-add': () => { setupState.seq = [5]; setupState.step = 0; setupState.draft = { name: '', avatar: 0, accent: '#2f8cff' }; go('setup', { replace: true }); },
   'open-profiles': () => go('profiles'),
   'tab': el => { S.tab = el.dataset.val; save(); rerender(renderHome); },
   'open-store': () => openStore(),
@@ -2143,12 +1967,12 @@ const ACT = {
   'launch': el => Game.start(el.dataset.id),
   'game-add': el => { const id = el.dataset.id; if (!S.library.includes(id)) S.library.push(id); save(); sfx('ok'); toast('Hinzugefügt'); rerender(renderGame); },
   'game-remove': el => { S.library = S.library.filter(x => x !== el.dataset.id); save(); sfx('back'); rerender(renderGame); },
-  'saves-clear': el => openDialog({ kicker: 'Speicherdaten', title: 'Speicherdaten löschen?', body: 'Diese Aktion kann nicht rückgängig gemacht werden.', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Löschen', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { toast('Speicherdaten gelöscht'); } } }),
+  'saves-clear': el => openDialog({ kicker: 'Speicherdaten', title: 'Löschen?', body: 'Diese Aktion kann nicht rückgängig gemacht werden.', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Löschen', cls: 'danger' }], def: 0, cb: i => { if (i === 1) toast('Gelöscht'); } }),
   'lib-toggle': el => { const id = el.dataset.id; if (libDraft.includes(id)) libDraft = libDraft.filter(x => x !== id); else libDraft.push(id); rerender(renderLibrary); },
   'lib-apply': () => { S.library = [...libDraft]; save(); sfx('ok'); toast('Bibliothek aktualisiert'); goBack(); },
   'lib-cancel': () => goBack(),
   'lib-test': () => { const id = libDraft[0]; if (id) Game.start(id); },
-  'lib-custom': () => askName(n => { if (!n) return; const id = 'custom_' + uid(); S.custom[id] = { name: n, genre: 'Eigenes', demo: true, desc: 'Benutzerdefiniertes Spiel.', art: SYS_ART.add, meta: { dev: 'Benutzer', ver: '1.0', size: '–', age: '–', rel: '2026' }, req: rq('–', '–', '–', '–') }; CATALOG[id] = S.custom[id]; S.library.push(id); save(); toast('Spiel hinzugefügt'); rerender(renderLibrary); }),
+  'lib-custom': () => askName(n => { if (!n) return; const id = 'custom_' + uid(); S.custom[id] = { name: n, genre: 'Eigenes', demo: true, desc: 'Benutzerdefiniertes Spiel.', art: SYS_ART.add, meta: { dev: 'Benutzer', ver: '1.0', size: '–', age: '–', rel: '2026' }, req: rq('–', '–', '–', '–') }; CATALOG[id] = S.custom[id]; S.library.push(id); save(); toast('Hinzugefügt'); rerender(renderLibrary); }),
   'shot-take': () => { takeShot(); rerender(renderGallery); },
   'shot-open': el => { const i = +el.dataset.val; openDialog({ kicker: 'Capture', title: S.captures[i].t, body: `<img src="${S.captures[i].d}" style="width:100%;border-radius:.4rem">`, buttons: [{ label: 'Schließen', cls: 'ghost' }, { label: 'Löschen', cls: 'danger' }], def: 0, cb: r => { if (r === 1) { S.captures.splice(i, 1); save(); rerender(renderGallery); } } }); },
   'toast-media': () => toast('Medien-Apps folgen in einem Update'),
@@ -2157,7 +1981,7 @@ const ACT = {
   'sound-test': () => { sfx('ok'); },
   'rename-profile': () => askName(n => { if (!n) return; const p = activeProfile(); p.name = n.slice(0, 16); save(); rerender(renderSettings); }),
   'profile-switch': () => go('profiles'),
-  'reset-all': () => openDialog({ kicker: 'Werkseinstellungen', title: 'Alles zurücksetzen?', body: 'Profile, Einstellungen, Bibliothek und Captures werden gelöscht.', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Zurücksetzen', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { localStorage.removeItem(KEY); S = load(); applyPrefs(); toast('Zurückgesetzt'); go('boot', { reset: true }); startBoot(); } } }),
+  'reset-all': () => openDialog({ kicker: 'Reset', title: 'Alles zurücksetzen?', body: 'Profile, Einstellungen, Bibliothek und Captures werden gelöscht.', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Zurücksetzen', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { localStorage.removeItem(KEY); S = load(); applyPrefs(); toast('Zurückgesetzt'); go('boot', { reset: true }); startBoot(); } } }),
   'update-net': () => showUpdateResult('Internet'),
   'update-media': () => showUpdateResult('Speichermedium'),
   'dlg-result': el => closeDialog(+el.dataset.val),
@@ -2165,7 +1989,7 @@ const ACT = {
   'qm-friends': () => { closeQuick(); openFriends(); },
   'qm-settings': () => { closeQuick(); go('settings'); },
   'qm-full': () => { closeQuick(); toggleFS(); },
-  'qm-reset': () => { closeQuick(); openDialog({ kicker: 'Neustart', title: 'Konsole neu starten?', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Neustart', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { go('boot', { reset: true }); startBoot(); } } }); },
+  'qm-reset': () => { closeQuick(); openDialog({ kicker: 'Neustart', title: 'Neu starten?', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Neustart', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { go('boot', { reset: true }); startBoot(); } } }); },
   'friend-invite': el => { const id = el.dataset.id; if (S.party.includes(id)) S.party = S.party.filter(x => x !== id); else if (S.party.length < 3) S.party.push(id); save(); sfx('ok'); rerender(renderFriends); },
   'friend-add': () => askName(n => { if (!n) return; S.friends.push({ id: uid(), n: n.slice(0, 14), on: false, g: '' }); save(); rerender(renderFriends); })
 };
@@ -2181,51 +2005,16 @@ function refresh() {
   else if (curView === 'gallery') renderGallery();
 }
 function showUpdateResult(source) {
-  openDialog({
-    kicker: 'Softwareupdate · ' + (source || ''),
-    title: 'Update-Prüfung',
-    body: `<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem"><div class="spin"></div><span>Suche über ${source} …</span></div>`,
-    buttons: [],
-    def: 0
-  });
+  openDialog({ kicker: 'Softwareupdate · ' + (source || ''), title: 'Update-Prüfung', body: `<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem"><div class="spin"></div><span>Suche über ${source} …</span></div>`, buttons: [], def: 0 });
   setTimeout(() => {
-    $('#dlgBody').innerHTML = `<div class="okmsg">${esc(t('updateLatest'))}</div>
-      <div class="kv" style="margin-top:.6rem"><b>Version</b><span>NoxuraFluxOS 9.0</span></div>
-      <div class="kv"><b>Quelle</b><span>${esc(source || '–')}</span></div>
-      <div class="kv"><b>Status</b><span>Aktuell</span></div>`;
+    $('#dlgBody').innerHTML = `<div class="okmsg">${esc(t('updateLatest'))}</div><div class="kv" style="margin-top:.6rem"><b>Version</b><span>NoxuraFluxOS 9.0</span></div><div class="kv"><b>Quelle</b><span>${esc(source || '–')}</span></div><div class="kv"><b>Status</b><span>Aktuell</span></div>`;
     $('#dlgActions').innerHTML = `<button class="btn primary" data-f data-default data-action="dlg-result" data-val="-1">OK</button>`;
     placeFocus();
   }, 1400);
 }
-function askName(cb) {
-  const inp = document.createElement('input');
-  inp.type = 'text'; inp.value = '';
-  inp.style.cssText = 'width:100%;padding:.6rem .8rem;border-radius:.4rem;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font-size:.86rem';
-  openDialog({
-    kicker: 'Eingabe', title: 'Name eingeben',
-    body: '', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'OK', cls: 'primary' }], def: 1,
-    cb: i => { if (i === 1) cb(inp.value.trim()); }
-  });
-  $('#dlgBody').appendChild(inp);
-  setTimeout(() => inp.focus(), 60);
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); closeDialog(1); } });
-}
 
-/* ================= R renderers map ================= */
-const R = {
-  boot: () => {},
-  setup: () => renderSetup(),
-  profiles: () => renderProfiles(),
-  home: () => renderHome(),
-  store: () => renderStore(),
-  detail: () => renderDetail(),
-  game: () => renderGame(),
-  library: () => renderLibrary(),
-  gallery: () => renderGallery(),
-  settings: () => renderSettings()
-};
+const R = { boot: () => {}, setup: () => renderSetup(), profiles: () => renderProfiles(), home: () => renderHome(), store: () => renderStore(), detail: () => renderDetail(), game: () => renderGame(), library: () => renderLibrary(), gallery: () => renderGallery(), settings: () => renderSettings() };
 
-/* ================= input ================= */
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-f]');
   if (el) { e.preventDefault(); primeAudio(); if (ACT[el.dataset.action]) { try { ACT[el.dataset.action](el, e); } catch (err) { console.error(err); } } }
@@ -2242,12 +2031,9 @@ document.addEventListener('input', e => {
     if (k === 'vol') updateVolUI();
     if (k === 'ui' || k === 'frame') applyPrefs();
   }
-  if (el.id === 'searchInput') {
-    renderSearchResults(el.value);
-  }
+  if (el.id === 'searchInput') renderSearchResults(el.value);
 });
 
-/* ================= keyboard + gamepad global ================= */
 document.addEventListener('keydown', e => {
   primeAudio();
   if (Game.running) return;
@@ -2283,64 +2069,44 @@ document.addEventListener('keydown', e => {
   else if (e.key.toLowerCase() === 'e' || e.key === 'PageDown') { e.preventDefault(); cycleTab(1); }
 });
 
-/* gamepad navigation outside games */
+let lastPadNav = 0, padNeutralRequired = true, padNeutralTimer = 0;
 function gamepadNavLoop() {
   if (Game.running) { requestAnimationFrame(gamepadNavLoop); return; }
   const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+  const now = performance.now();
   if (pads) for (const p of pads) {
     if (!p || !p.connected) continue;
-    const now = performance.now();
-    if (!p._lastNav) p._lastNav = 0;
-    if (!p._stickReset) p._stickReset = true;
-    if (!p._lockUntil) p._lockUntil = 0;
     const sens = S.prefs.stickSens || 'normal';
-    const dz = sens === 'slow' ? 0.7 : sens === 'fast' ? 0.4 : 0.55;
-    const lockMs = sens === 'slow' ? 400 : sens === 'fast' ? 200 : 280;
+    const dz = sens === 'slow' ? 0.75 : sens === 'fast' ? 0.45 : 0.6;
+    const cooldown = sens === 'slow' ? 500 : sens === 'fast' ? 280 : 400;
     const ax = p.axes[0] || 0, ay = p.axes[1] || 0;
-    const inDeadzone = Math.abs(ax) < dz && Math.abs(ay) < dz;
-    if (inDeadzone) p._stickReset = true;
-    if (p._stickReset && now - p._lockUntil > 0) {
+    const stickActive = Math.abs(ax) > dz || Math.abs(ay) > dz;
+    const dpadActive = (p.buttons[12]?.pressed) || (p.buttons[13]?.pressed) || (p.buttons[14]?.pressed) || (p.buttons[15]?.pressed);
+    if (!stickActive && !dpadActive) { padNeutralRequired = false; padNeutralTimer = 0; }
+    else if (padNeutralRequired) { padNeutralTimer += 16; if (padNeutralTimer > 100) padNeutralRequired = false; }
+    if (!padNeutralRequired && now - lastPadNav > cooldown && !searchOpen()) {
       let dir = null;
-      if (ax < -dz || (p.buttons[14] && p.buttons[14].pressed)) dir = 'left';
-      else if (ax > dz || (p.buttons[15] && p.buttons[15].pressed)) dir = 'right';
-      else if (ay < -dz || (p.buttons[12] && p.buttons[12].pressed)) dir = 'up';
-      else if (ay > dz || (p.buttons[13] && p.buttons[13].pressed)) dir = 'down';
-      if (dir && !searchOpen()) {
-        move(dir);
-        p._stickReset = false;
-        p._lockUntil = now + lockMs;
-      }
+      if (Math.abs(ax) > dz) dir = ax < 0 ? 'left' : 'right';
+      else if (Math.abs(ay) > dz) dir = ay < 0 ? 'up' : 'down';
+      else if (p.buttons[14]?.pressed) dir = 'left';
+      else if (p.buttons[15]?.pressed) dir = 'right';
+      else if (p.buttons[12]?.pressed) dir = 'up';
+      else if (p.buttons[13]?.pressed) dir = 'down';
+      if (dir) { move(dir); lastPadNav = now; padNeutralRequired = true; padNeutralTimer = 0; }
     }
     if (searchOpen()) {
-      if (p.buttons[1] && p.buttons[1].pressed && now - (p._lastB || 0) > 350) { p._lastB = now; closeSearch(); }
+      if (p.buttons[1]?.pressed && now - (p._lastB || 0) > 500) { p._lastB = now; closeSearch(); }
       continue;
     }
-    if (p.buttons[0] && p.buttons[0].pressed && now - (p._lastA || 0) > 350) {
-      p._lastA = now;
-      if (focusEl && ACT[focusEl.dataset.action]) { try { ACT[focusEl.dataset.action](focusEl, { type: 'gamepad' }); } catch (err) {} }
-    }
-    if (p.buttons[1] && p.buttons[1].pressed && now - (p._lastB || 0) > 400) {
-      p._lastB = now;
-      if (dialogOpen()) closeDialog(-1);
-      else if (qmOpen()) closeQuick();
-      else if (friendsOpen()) closeFriends();
-      else if (curView !== 'home' && curView !== 'boot' && curView !== 'setup') goBack();
-    }
-    if (p.buttons[4] && p.buttons[4].pressed && now - (p._lastL1 || 0) > 300) {
-      p._lastL1 = now; cycleTab(-1);
-    }
-    if (p.buttons[5] && p.buttons[5].pressed && now - (p._lastR1 || 0) > 300) {
-      p._lastR1 = now; cycleTab(1);
-    }
-    if (p.buttons[3] && p.buttons[3].pressed && now - (p._lastY || 0) > 400) {
-      p._lastY = now;
-      if (qmOpen()) closeQuick(); else openQuick();
-    }
+    if (p.buttons[0]?.pressed && now - (p._lastA || 0) > 500) { p._lastA = now; if (focusEl && ACT[focusEl.dataset.action]) { try { ACT[focusEl.dataset.action](focusEl, { type: 'gamepad' }); } catch (err) {} } }
+    if (p.buttons[1]?.pressed && now - (p._lastB || 0) > 500) { p._lastB = now; if (dialogOpen()) closeDialog(-1); else if (qmOpen()) closeQuick(); else if (friendsOpen()) closeFriends(); else if (curView !== 'home' && curView !== 'boot' && curView !== 'setup') goBack(); }
+    if (p.buttons[4]?.pressed && now - (p._lastL1 || 0) > 500) { p._lastL1 = now; cycleTab(-1); }
+    if (p.buttons[5]?.pressed && now - (p._lastR1 || 0) > 500) { p._lastR1 = now; cycleTab(1); }
+    if (p.buttons[3]?.pressed && now - (p._lastY || 0) > 500) { p._lastY = now; if (qmOpen()) closeQuick(); else openQuick(); }
   }
   requestAnimationFrame(gamepadNavLoop);
 }
 
-/* ================= boot loop / init ================= */
 function loop(now) { drawBG(now); requestAnimationFrame(loop); }
 window.addEventListener('resize', () => { resizeBG(); if (Game.running) Game.resize(); });
 window.addEventListener('orientationchange', () => setTimeout(() => { resizeBG(); if (Game.running) Game.resize(); }, 300));
