@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#050811">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>NoxuraFluxOS 8.6</title>
+<title>NoxuraFluxOS 8.7</title>
 <style>
 :root{
   --accent:#2f8cff;--accent-2:#5ad8ff;--accent-soft:#8fc4ff;
   --danger:#ff4d42;--ok:#46e39b;
   --text:#eef3ff;--muted:#93a6c8;
-  --line:rgba(160,195,255,.14);
-  --panel:rgba(14,22,42,.62);
+  --line:rgba(160,195,255,.12);
+  --panel:rgba(16,24,44,.72);
+  --card:rgba(22,32,56,.82);
   --ui:1;--frame:0px;--hints-h:2.6rem;
+  --shadow:0 8px 32px rgba(0,0,0,.45);
 }
 html.hc{--muted:#c9d6ee;--line:rgba(200,225,255,.42)}
 html{font-size:calc(clamp(10px,1.1vh + .36vw,18px) * var(--ui));height:100%;background:#050811}
@@ -24,33 +24,35 @@ button,input{font:inherit;color:inherit}
 button{background:none;border:0;cursor:pointer;padding:0}
 svg{display:block}
 #app{position:fixed;inset:var(--frame);overflow:hidden;background:#050811}
-#bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-#shade{position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(5,8,17,.15),rgba(5,8,17,.9))}
+#bg{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.55}
+#shade{position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(5,8,17,.35),rgba(5,8,17,.96))}
+
 .view{position:absolute;left:0;right:0;top:0;bottom:var(--hints-h);display:none;flex-direction:column;min-width:0;z-index:5;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
-.view.active{display:flex;animation:viewIn .34s cubic-bezier(.22,.7,.2,1) both}
-@keyframes viewIn{from{opacity:0;transform:translateY(.6rem)}to{opacity:1;transform:none}}
+.view.active{display:flex;animation:viewIn .28s cubic-bezier(.22,.7,.2,1) both}
+@keyframes viewIn{from{opacity:0;transform:translateY(.4rem)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes tileIn{from{opacity:0;transform:translateX(1.2rem)}to{opacity:1;transform:none}}
+@keyframes tileIn{from{opacity:0;transform:translateX(.8rem)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes markIn{from{opacity:0;letter-spacing:.7em}to{opacity:1;letter-spacing:.42em}}
 @keyframes shine{0%{left:-60%}60%,100%{left:120%}}
-[data-f]{position:relative;outline:none}
-[data-f].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140,255,.55);z-index:3}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.6rem 1.3rem;border-radius:.5rem;font-size:.84rem;font-weight:600;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--text);transition:transform .15s,background .15s,box-shadow .15s}
+
+[data-f]{position:relative;outline:none;border-radius:.6rem}
+[data-f].is-focus{box-shadow:0 0 0 .14rem #fff,0 0 0 .3rem rgba(47,140,255,.55);z-index:3}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.6rem 1.3rem;border-radius:.55rem;font-size:.84rem;font-weight:600;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text);transition:transform .15s,background .15s,box-shadow .15s}
 .btn.primary{background:var(--accent);border-color:transparent;color:#fff}
 .btn.danger{background:rgba(255,77,66,.14);border-color:rgba(255,77,66,.4);color:#ffb2ac}
 .btn.ghost{background:transparent}
 .btn.is-focus{background:#fff;color:#0a1220;transform:scale(1.03)}
 .btn.primary.is-focus{background:#fff;color:#0a1220}
 .chips{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center}
-.chip{padding:.32rem .85rem;border-radius:99rem;font-size:.7rem;font-weight:600;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--muted)}
+.chip{padding:.32rem .85rem;border-radius:99rem;font-size:.7rem;font-weight:600;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted)}
 .chip.on{background:rgba(255,255,255,.14);color:#fff}
 .chip.is-focus{background:#fff;color:#0a1220;transform:scale(1.04)}
-.iconbtn{width:2.1rem;height:2.1rem;border-radius:50%;display:grid;place-items:center;color:#d8e4fa;background:rgba(255,255,255,.06);transition:transform .15s,background .15s}
+.iconbtn{width:2.2rem;height:2.2rem;border-radius:50%;display:grid;place-items:center;color:#d8e4fa;background:rgba(255,255,255,.05);transition:transform .15s,background .15s;position:relative}
 .iconbtn svg{width:1.05rem;height:1.05rem}
 .iconbtn.is-focus{background:#fff;color:#0a1220;transform:scale(1.08)}
-.badge{position:absolute;top:-.2rem;right:-.2rem;min-width:1rem;height:1rem;padding:0 .25rem;border-radius:99rem;background:var(--ok);color:#03241a;font-size:.58rem;font-weight:800;display:grid;place-items:center}
+.badge{position:absolute;top:-.15rem;right:-.15rem;min-width:1rem;height:1rem;padding:0 .25rem;border-radius:99rem;background:var(--ok);color:#03241a;font-size:.58rem;font-weight:800;display:grid;place-items:center}
 .avatar{border-radius:50%;overflow:hidden;background:#0c1428;display:grid;place-items:center;flex:none}
 .avatar svg{width:100%;height:100%}
 .empty{padding:2rem;color:var(--muted);font-size:.8rem;text-align:center}
@@ -69,6 +71,7 @@ svg{display:block}
 .skeleton{background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.1) 37%,rgba(255,255,255,.04) 63%);background-size:200% 100%;animation:shimmer 1.4s linear infinite;border-radius:.7rem}
 .loading{display:flex;align-items:center;gap:.9rem;color:var(--muted);font-size:.8rem;padding:1rem 0}
 .spin{width:1.4rem;height:1.4rem;border-radius:50%;border:.18rem solid rgba(255,255,255,.14);border-top-color:var(--accent);animation:spin .8s linear infinite}
+
 .setrow{display:flex;justify-content:space-between;align-items:center;gap:1.2rem;padding:.75rem .2rem;border-bottom:1px solid var(--line)}
 .setrow .tl{font-size:.82rem;font-weight:600}
 .setrow .ts{font-size:.7rem;color:var(--muted);margin-top:.2rem;line-height:1.45}
@@ -77,8 +80,8 @@ svg{display:block}
 .toggle i{position:absolute;top:.14rem;left:.14rem;width:1.17rem;height:1.17rem;border-radius:50%;background:#fff;transition:transform .2s}
 .toggle.on{background:var(--accent)}
 .toggle.on i{transform:translateX(1.15rem)}
-.toggle.is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140,255,.55)}
-.seg{display:inline-flex;background:rgba(255,255,255,.06);border-radius:99rem;padding:.15rem;gap:.1rem;flex-wrap:wrap}
+.toggle.is-focus{box-shadow:0 0 0 .14rem #fff,0 0 0 .3rem rgba(47,140,255,.55)}
+.seg{display:inline-flex;background:rgba(255,255,255,.05);border-radius:99rem;padding:.15rem;gap:.1rem;flex-wrap:wrap}
 .seg button{padding:.32rem .75rem;border-radius:99rem;font-size:.7rem;font-weight:600;color:var(--muted)}
 .seg button.on{background:rgba(255,255,255,.16);color:#fff}
 .seg button.is-focus{background:#fff;color:#0a1220}
@@ -86,7 +89,7 @@ svg{display:block}
 input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:.3rem;border-radius:99rem;background:linear-gradient(90deg,var(--accent) var(--p,50%),rgba(255,255,255,.12) var(--p,50%));outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:1rem;height:1rem;border-radius:50%;background:#fff}
 input[type=range]::-moz-range-thumb{width:1rem;height:1rem;border:0;border-radius:50%;background:#fff}
-input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140,255,.55)}
+input[type=range].is-focus{box-shadow:0 0 0 .14rem #fff,0 0 0 .3rem rgba(47,140,255,.55)}
 .rlbl{min-width:3.4rem;text-align:right;font-size:.74rem;font-weight:600;font-variant-numeric:tabular-nums}
 .swatches{display:flex;gap:.55rem;flex-wrap:wrap}
 .sw{width:1.8rem;height:1.8rem;border-radius:50%;border:2px solid transparent;transition:transform .14s}
@@ -99,10 +102,13 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .av.is-focus{transform:scale(1.1)}
 .pad-state{font-family:ui-monospace,Consolas,monospace;font-size:.72rem;color:var(--accent-soft);margin-top:.4rem;min-height:1.1rem}
 .controller-vis{display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;border-radius:.6rem;background:var(--panel);border:1px solid var(--line);margin-bottom:.8rem}
+
 #hints{position:absolute;left:0;right:0;bottom:0;height:var(--hints-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.6rem;font-size:.7rem;color:var(--muted);pointer-events:none;z-index:60;background:linear-gradient(0deg,rgba(3,5,12,.92),rgba(3,5,12,0))}
 #hints .hgroup{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .hitem{display:inline-flex;align-items:center;white-space:nowrap}
 .key{display:inline-flex;align-items:center;justify-content:center;min-width:1.4rem;height:1.4rem;padding:0 .3rem;margin-right:.4rem;border-radius:.35rem;background:rgba(255,255,255,.1);font-size:.66rem;font-weight:800;color:#fff}
+.key.on{background:var(--ok);color:#03241a}
+
 #view-boot{align-items:center;justify-content:center}
 .boot-logo{display:flex;flex-direction:column;align-items:center;gap:1rem}
 .boot-mark{position:relative;font-size:clamp(2.4rem,6.5vw,5rem);font-weight:700;letter-spacing:.42em;padding-left:.42em;overflow:hidden;color:#f2f7ff;animation:markIn 1.3s cubic-bezier(.16,1,.3,1) both}
@@ -113,6 +119,7 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .boot-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width 2.6s cubic-bezier(.4,0,.2,1)}
 .boot-hint{margin-top:1.4rem;font-size:.72rem;color:var(--muted);opacity:0;animation:fadeIn .6s 1.6s both;padding:.3rem .6rem;border-radius:.4rem}
 .boot-hint.is-focus{color:#fff}
+
 #view-setup{padding:2rem 3.2rem}
 .setup-shell{display:flex;flex-direction:column;height:100%;gap:1rem}
 .setup-step{font-size:.68rem;letter-spacing:.2em;color:var(--accent-soft);font-weight:700}
@@ -126,7 +133,7 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .opt.sel{border-color:var(--accent);background:rgba(47,140,255,.14)}
 .opt.is-focus{transform:translateX(.3rem);background:rgba(255,255,255,.1)}
 .calib{width:100%;height:8rem;border-radius:.6rem;position:relative;border:1px dashed rgba(170,200,255,.35);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.74rem;margin-bottom:.4rem}
-.calib span{position:absolute;inset:.8rem;border:1px solid rgba(170,200,255,.2);border-radius:.4rem}
+
 #view-profiles{align-items:center;justify-content:center;gap:2rem}
 .profiles-title{font-size:1.5rem;font-weight:300;letter-spacing:.1em;color:#e6eefc}
 .profiles-row{display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap;justify-content:center}
@@ -138,57 +145,59 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .profile-card.add .big{display:grid;place-items:center;border:1px dashed rgba(170,200,255,.4);font-size:1.6rem;color:var(--muted)}
 .profile-card.is-focus{transform:translateY(-.3rem);background:rgba(255,255,255,.05)}
 .profile-card.is-focus .big{border-color:#fff}
+
 #view-home{overflow:hidden}
 #heroArt{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center 30%;animation:fadeIn .5s both}
-#heroArt::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#050811 0%,rgba(5,8,17,.55) 40%,rgba(5,8,17,.25) 100%),linear-gradient(90deg,rgba(5,8,17,.5),transparent 60%)}
-.topbar{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem 1.6rem .4rem}
+#heroArt::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#050811 0%,rgba(5,8,17,.65) 40%,rgba(5,8,17,.35) 100%),linear-gradient(90deg,rgba(5,8,17,.55),transparent 65%)}
+.topbar{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 2.2rem .5rem}
 .top-left{display:flex;align-items:center;gap:1.4rem;min-width:0}
 .top-right{display:flex;align-items:center;gap:.5rem}
-.profile-chip{display:flex;align-items:center;gap:.6rem;padding:.2rem .8rem .2rem .25rem;border-radius:99rem;border:1px solid transparent;transition:border-color .2s,background .2s}
+.profile-chip{display:flex;align-items:center;gap:.6rem;padding:.25rem .9rem .25rem .3rem;border-radius:99rem;border:1px solid transparent;transition:border-color .2s,background .2s}
 .profile-chip .avatar{width:2rem;height:2rem}
-.profile-chip.is-focus{background:rgba(255,255,255,.1)}
+.profile-chip.is-focus{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
 .pname{font-size:.82rem;font-weight:600;max-width:10rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .plvl{font-size:.64rem;color:var(--muted)}
-.tabs{display:flex;gap:.2rem}
-.tab{padding:.4rem .95rem;border-radius:99rem;font-size:.8rem;font-weight:600;color:var(--muted);transition:background .2s,color .2s}
-.tab.on{color:#fff;background:rgba(255,255,255,.1)}
+.tabs{display:flex;gap:.15rem;background:rgba(255,255,255,.04);padding:.2rem;border-radius:99rem;border:1px solid var(--line)}
+.tab{padding:.38rem .95rem;border-radius:99rem;font-size:.78rem;font-weight:600;color:var(--muted);transition:background .2s,color .2s}
+.tab.on{color:#fff;background:rgba(255,255,255,.12)}
 .tab.is-focus{background:#fff;color:#0a1220}
-.status{display:flex;align-items:center;gap:.7rem;margin-left:.4rem;color:#d8e4fa;font-size:.74rem}
+.status{display:flex;align-items:center;gap:.7rem;margin-left:.4rem;color:#d8e4fa;font-size:.74rem;padding:.3rem .7rem;border-radius:99rem;background:rgba(255,255,255,.04);border:1px solid var(--line)}
 .status svg{width:1rem;height:1rem}
 #clock{font-variant-numeric:tabular-nums;font-weight:600}
-.hero{position:relative;z-index:5;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 2rem .4rem;pointer-events:none}
+.hero{position:relative;z-index:5;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 2.2rem .4rem;pointer-events:none}
 .hero-text.swap{animation:fadeIn .35s both}
 .hero-kicker{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-soft);font-weight:700}
 .hero-title{font-size:clamp(1.5rem,3.2vw,2.6rem);font-weight:600;margin:.3rem 0 .2rem;line-height:1.1}
 .hero-sub{font-size:.8rem;color:#c5d4ee;margin:0;max-width:56ch;line-height:1.45}
-.rail-label{position:relative;z-index:5;padding:0 2rem;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.rail{position:relative;z-index:5;display:flex;align-items:center;gap:1rem;padding:1.4rem 2rem 1.6rem;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scrollbar-width:none}
+.rail-label{position:relative;z-index:5;padding:0 2.2rem;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.rail{position:relative;z-index:5;display:flex;align-items:center;gap:1.1rem;padding:1.4rem 2.2rem 1.6rem;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scrollbar-width:none}
 .rail::-webkit-scrollbar{display:none}
-.tile{position:relative;flex:none;border-radius:.7rem;height:clamp(8.5rem,40vh,19rem);aspect-ratio:3/4;background:#0c1428;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .2s cubic-bezier(.22,.7,.2,1);animation:tileIn .45s cubic-bezier(.22,.7,.2,1) both;animation-delay:calc(var(--i,0) * 50ms)}
+.tile{position:relative;flex:none;border-radius:.7rem;height:clamp(8.5rem,40vh,19rem);aspect-ratio:3/4;background:#0c1428;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .2s cubic-bezier(.22,.7,.2,1);animation:tileIn .45s cubic-bezier(.22,.7,.2,1) both;animation-delay:calc(var(--i,0) * 50ms);box-shadow:0 6px 20px rgba(0,0,0,.4)}
 .tile .art{position:absolute;inset:0;background-size:cover;background-position:center}
 .tile .art::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,8,17,.92) 2%,rgba(5,8,17,0) 60%)}
 .tile .tmeta{position:relative;z-index:2;padding:.7rem .75rem;display:flex;flex-direction:column;gap:.1rem}
 .tile .tname{font-size:.8rem;font-weight:600;line-height:1.2}
 .tile .tsub{font-size:.6rem;color:#b9c9e6;letter-spacing:.05em;text-transform:uppercase}
 .tile.is-focus{transform:translateY(-.4rem) scale(1.04)}
-.tile.add{display:grid;place-items:center;background:rgba(255,255,255,.04);border:1px dashed rgba(170,200,255,.3)}
+.tile.add{display:grid;place-items:center;background:rgba(255,255,255,.03);border:1px dashed rgba(170,200,255,.3)}
 .tile.add .plus{font-size:2rem;font-weight:200;color:var(--accent-soft);line-height:1}
 .tile.add .label{margin-top:.5rem;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 .8rem}
-.store-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 2rem .3rem;flex-wrap:wrap}
+
+.store-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 2.2rem .3rem;flex-wrap:wrap}
 .store-title{font-size:1.4rem;font-weight:600;margin:0}
 .store-title span{color:var(--accent-soft);font-weight:400}
-.store-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 2rem 1.4rem;scrollbar-width:none;animation:fadeIn .4s both}
+.store-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 2.2rem 1.4rem;scrollbar-width:none;animation:fadeIn .4s both}
 .store-body::-webkit-scrollbar{display:none}
-.hero-banner{position:relative;border-radius:.9rem;overflow:hidden;height:clamp(9rem,32vh,17rem);display:flex;align-items:flex-end;padding:1.2rem 1.4rem;margin:.6rem 0 .8rem;border:1px solid var(--line)}
+.hero-banner{position:relative;border-radius:.9rem;overflow:hidden;height:clamp(9rem,32vh,17rem);display:flex;align-items:flex-end;padding:1.2rem 1.4rem;margin:.6rem 0 .8rem;border:1px solid var(--line);box-shadow:var(--shadow)}
 .hb-art{position:absolute;inset:0;background-size:cover;background-position:center}
 .hb-art::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,8,17,.92) 10%,rgba(5,8,17,.2) 70%)}
 .hb-info{position:relative;z-index:2;display:flex;flex-direction:column;gap:.3rem;max-width:60%}
 .hb-kicker{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-soft);font-weight:700}
 .hb-title{font-size:1.4rem;font-weight:600;margin:0}
 .hb-sub{font-size:.76rem;color:#c5d4ee;margin:0 0 .4rem}
-.store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(8rem,15vw,12.5rem),1fr));gap:.9rem}
+.store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(9rem,16vw,13rem),1fr));gap:1rem}
 .sk{aspect-ratio:3/4}
-.card{border-radius:.6rem;overflow:hidden;background:var(--panel);border:1px solid var(--line);transition:transform .16s}
+.card{border-radius:.7rem;overflow:hidden;background:var(--card);border:1px solid var(--line);transition:transform .16s;box-shadow:0 4px 14px rgba(0,0,0,.35)}
 .c-art{position:relative;aspect-ratio:3/4;background-size:cover;background-position:center}
 .lock{position:absolute;top:.4rem;right:.4rem;font-size:.5rem;letter-spacing:.08em;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(255,77,66,.9);color:#fff}
 .badge-dl{position:absolute;top:.4rem;left:.4rem;font-size:.5rem;letter-spacing:.08em;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(70,227,155,.92);color:#03241a}
@@ -197,15 +206,16 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .c-name{font-size:.76rem;font-weight:600;line-height:1.2}
 .c-tag{font-size:.6rem;color:var(--muted)}
 .card.is-focus{transform:translateY(-.25rem)}
+
 #view-detail{padding:0}
 .detail-wrap{display:flex;flex-direction:column;height:100%;min-height:0}
 .detail-hero{position:relative;height:clamp(8rem,30vh,16rem);flex:none;overflow:hidden}
 .d-art{position:absolute;inset:0;background-size:cover;background-position:center 30%}
 .d-art::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#050811 2%,rgba(5,8,17,.4) 60%,rgba(5,8,17,.7) 100%)}
-.detail-head{position:absolute;left:2rem;right:2rem;bottom:.9rem;z-index:2}
+.detail-head{position:absolute;left:2.2rem;right:2.2rem;bottom:.9rem;z-index:2}
 .detail-title{font-size:clamp(1.3rem,2.6vw,2.1rem);font-weight:600;margin:0}
 .detail-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
-.detail-body{flex:1;min-height:0;overflow-y:auto;padding:1rem 2rem 1.4rem;display:grid;grid-template-columns:1.4fr 1fr;gap:1.8rem;scrollbar-width:none;align-content:start}
+.detail-body{flex:1;min-height:0;overflow-y:auto;padding:1rem 2.2rem 1.4rem;display:grid;grid-template-columns:1.4fr 1fr;gap:1.8rem;scrollbar-width:none;align-content:start}
 .detail-body::-webkit-scrollbar{display:none}
 .detail-desc{font-size:.82rem;line-height:1.6;color:#c5d4ee;margin:0 0 .8rem}
 .trailer{position:relative;border-radius:.6rem;overflow:hidden;aspect-ratio:16/9;border:1px solid var(--line);background-size:cover;background-position:center;margin-bottom:.4rem}
@@ -222,10 +232,11 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .okmsg{font-size:.74rem;font-weight:600;line-height:1.5;color:var(--ok);padding:.6rem .75rem;border-radius:.5rem;background:rgba(70,227,155,.08);border:1px solid rgba(70,227,155,.3)}
 .dlbar{height:.5rem;border-radius:99rem;background:rgba(255,255,255,.1);overflow:hidden;margin:.4rem 0}
 .dlbar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .3s}
+
 #view-game{padding:0}
 .g-art{position:absolute;inset:0;background-size:cover;background-position:center 25%;animation:fadeIn .5s both}
 .g-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,8,17,.96) 8%,rgba(5,8,17,.45) 65%),linear-gradient(0deg,#050811 0%,rgba(5,8,17,0) 55%)}
-.g-wrap{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:.8rem 2.2rem 1rem;min-height:0}
+.g-wrap{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;padding:.9rem 2.2rem 1rem;min-height:0}
 .g-tabs{display:flex;gap:.2rem;justify-content:center;flex:none}
 .g-head{margin-top:auto;flex:none}
 .g-title{font-size:clamp(1.6rem,3.6vw,3rem);font-weight:600;margin:0;line-height:1.05}
@@ -244,11 +255,12 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .trophy-row .tt{flex:1;min-width:0}
 .trophy-row .tn{font-size:.8rem;font-weight:600}
 .trophy-row .td{font-size:.66rem;color:var(--muted)}
-.lib-head{padding:.9rem 2rem .5rem;display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+.lib-head{padding:1rem 2.2rem .5rem;display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .lib-note{font-size:.7rem;color:var(--muted);max-width:60ch;line-height:1.5}
-.lib-grid{flex:1;min-height:0;overflow-y:auto;padding:.4rem 2rem .8rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(11rem,20vw,16rem),1fr));gap:.6rem;align-content:start;scrollbar-width:none}
+.lib-grid{flex:1;min-height:0;overflow-y:auto;padding:.4rem 2.2rem .8rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(11rem,20vw,16rem),1fr));gap:.6rem;align-content:start;scrollbar-width:none}
 .lib-grid::-webkit-scrollbar{display:none}
-.librow{display:flex;align-items:center;gap:.7rem;padding:.55rem .7rem;border-radius:.6rem;background:var(--panel);border:1px solid var(--line);transition:transform .15s,background .15s}
+.librow{display:flex;align-items:center;gap:.7rem;padding:.55rem .7rem;border-radius:.6rem;background:var(--card);border:1px solid var(--line);transition:transform .15s,background .15s}
 .librow.is-focus{background:rgba(255,255,255,.1);transform:translateX(.2rem)}
 .appic{width:2.2rem;height:2.2rem;border-radius:.45rem;flex:none;display:grid;place-items:center;font-size:.84rem;font-weight:700;color:#fff}
 .lname{font-size:.78rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -256,15 +268,16 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .ltxt{min-width:0;flex:1}
 .check{width:1.1rem;height:1.1rem;border-radius:.3rem;border:1px solid rgba(170,200,255,.45);display:grid;place-items:center;font-size:.66rem;color:#0a1220;flex:none}
 .check.on{background:#fff;border-color:#fff}
-.lib-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 2rem 1rem;flex-wrap:wrap}
-.gal-grid{flex:1;min-height:0;overflow-y:auto;padding:.4rem 2rem 1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(8rem,14vw,13rem),1fr));gap:.7rem;align-content:start;scrollbar-width:none}
+.lib-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 2.2rem 1rem;flex-wrap:wrap}
+.gal-grid{flex:1;min-height:0;overflow-y:auto;padding:.4rem 2.2rem 1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(8rem,14vw,13rem),1fr));gap:.7rem;align-content:start;scrollbar-width:none}
 .gal-grid::-webkit-scrollbar{display:none}
 .shot{position:relative;border-radius:.5rem;overflow:hidden;aspect-ratio:16/9;border:1px solid var(--line);transition:transform .16s}
 .s-art{position:absolute;inset:0;background-size:cover;background-position:center}
 .s-cap{position:absolute;left:.45rem;bottom:.4rem;font-size:.6rem;color:#e6eefc;text-shadow:0 0 4px #000}
 .shot.is-focus{transform:scale(1.03)}
+
 #view-settings{padding:0}
-.settings-shell{display:flex;gap:1.2rem;flex:1;min-height:0;padding:1rem 2rem}
+.settings-shell{display:flex;gap:1.2rem;flex:1;min-height:0;padding:1rem 2.2rem}
 .settings-list{width:min(16rem,28%);display:flex;flex-direction:column;gap:.2rem;overflow-y:auto;scrollbar-width:none}
 .settings-list::-webkit-scrollbar{display:none}
 .srow{display:flex;align-items:center;gap:.7rem;padding:.6rem .8rem;border-radius:.5rem;font-size:.82rem;font-weight:600;color:#cfdcf5;transition:background .15s}
@@ -274,6 +287,7 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .settings-pane::-webkit-scrollbar{display:none}
 .pane-title{font-size:1.1rem;font-weight:600;margin:0 0 .15rem}
 .pane-sub{font-size:.72rem;color:var(--muted);margin:0 0 .8rem;line-height:1.5}
+
 #friendsPanel{position:absolute;top:0;right:0;bottom:0;width:min(24rem,44vw);z-index:70;background:rgba(9,15,30,.97);border-left:1px solid var(--line);transform:translateX(102%);transition:transform .3s cubic-bezier(.22,.7,.2,1);display:flex;flex-direction:column}
 #friendsPanel.open{transform:none}
 .panel-head{padding:1.1rem 1.2rem .8rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
@@ -293,9 +307,10 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .fact{font-size:.64rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .panel-foot{padding:.7rem 1rem 1rem}
 .panel-foot .btn{width:100%}
+
 #quickMenu{position:absolute;left:0;right:0;bottom:0;z-index:80;padding:0 1.2rem calc(var(--hints-h) + .3rem);transform:translateY(110%);opacity:0;transition:transform .3s cubic-bezier(.22,.7,.2,1),opacity .25s;pointer-events:none}
 #quickMenu.open{transform:none;opacity:1;pointer-events:auto}
-.qm-inner{border-radius:.8rem;padding:.8rem .9rem;background:rgba(12,19,36,.97);border:1px solid var(--line);display:flex;flex-direction:column;gap:.7rem}
+.qm-inner{border-radius:.8rem;padding:.8rem .9rem;background:rgba(12,19,36,.97);border:1px solid var(--line);display:flex;flex-direction:column;gap:.7rem;box-shadow:var(--shadow)}
 .qm-top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .qm-user{display:flex;align-items:center;gap:.6rem}
 .qm-user .avatar{width:1.8rem;height:1.8rem}
@@ -312,18 +327,42 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .volbar{flex:1;height:.3rem;border-radius:99rem;background:rgba(255,255,255,.14);position:relative}
 .volbar i{position:absolute;left:0;top:0;bottom:0;border-radius:99rem;background:var(--accent)}
 .vlabel{font-size:.62rem;min-width:2.2rem;text-align:right;font-variant-numeric:tabular-nums}
+
 #dialogLayer{position:absolute;inset:0;z-index:90;display:none;align-items:center;justify-content:center;background:rgba(3,5,12,.7);padding:2rem}
 #dialogLayer.open{display:flex;animation:fadeIn .2s both}
-.dialog-card{width:min(32rem,86vw);max-height:80vh;overflow-y:auto;border-radius:.8rem;padding:1.3rem 1.4rem;background:#0d1628;border:1px solid var(--line)}
+.dialog-card{width:min(32rem,86vw);max-height:80vh;overflow-y:auto;border-radius:.8rem;padding:1.3rem 1.4rem;background:#0d1628;border:1px solid var(--line);box-shadow:var(--shadow)}
 .dlg-kicker{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-soft);font-weight:700;margin-bottom:.4rem}
 .dlg-title{font-size:1.1rem;font-weight:600;margin:0 0 .5rem}
 .dlg-body{font-size:.8rem;line-height:1.6;color:#c5d4ee}
 .dlg-actions{display:flex;justify-content:flex-end;gap:.5rem;margin-top:1.1rem;flex-wrap:wrap}
-#toast{position:absolute;left:50%;bottom:calc(var(--hints-h) + 1rem);transform:translate(-50%,.8rem);z-index:95;padding:.55rem 1rem;border-radius:.4rem;font-size:.74rem;font-weight:600;background:#101b33;border:1px solid var(--line);opacity:0;transition:opacity .22s,transform .22s;pointer-events:none;max-width:80vw;text-align:center}
+#toast{position:absolute;left:50%;bottom:calc(var(--hints-h) + 1rem);transform:translate(-50%,.8rem);z-index:95;padding:.55rem 1rem;border-radius:.4rem;font-size:.74rem;font-weight:600;background:#101b33;border:1px solid var(--line);opacity:0;transition:opacity .22s,transform .22s;pointer-events:none;max-width:80vw;text-align:center;box-shadow:var(--shadow)}
 #toast.show{opacity:1;transform:translate(-50%,0)}
+
 #rotate{position:absolute;inset:0;z-index:120;display:none;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;background:#050811;text-align:center;padding:2rem}
 @media (orientation:portrait) and (max-width:900px){#rotate{display:flex}}
 #rotate p{font-size:.8rem;color:var(--muted);max-width:28ch;line-height:1.6;margin:0}
+
+/* ========== GAME HOST ========== */
+#gameHost{position:absolute;inset:0;z-index:100;display:none;background:#000;flex-direction:column}
+#gameHost.open{display:flex}
+#gameCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:#000;touch-action:none}
+#gameTopBar{position:absolute;top:0;left:0;right:0;padding:.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;z-index:5;background:linear-gradient(0deg,transparent,rgba(0,0,0,.7));pointer-events:none}
+#gameTopBar .gt-name{font-size:.9rem;font-weight:600;color:#fff;text-shadow:0 2px 8px #000}
+#gameTopBar .gt-help{font-size:.7rem;color:#b9c9e6;text-shadow:0 2px 8px #000;display:flex;align-items:center;gap:.6rem}
+#gameTopBar .gt-help .key{background:rgba(255,255,255,.18)}
+#gameOverlay{position:absolute;inset:0;z-index:6;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;background:rgba(0,0,0,.65);backdrop-filter:blur(4px)}
+#gameOverlay.open{display:flex}
+#gameOverlay .go-title{font-size:1.6rem;font-weight:700;color:#fff}
+#gameOverlay .go-sub{font-size:.84rem;color:#c5d4ee;max-width:40ch;text-align:center;line-height:1.5}
+#gameOverlay .go-row{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
+#gameOverlay .btn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
+#gameOverlay .btn.primary{background:var(--accent);border-color:transparent;color:#fff}
+#exitHold{position:absolute;left:50%;bottom:2rem;transform:translateX(-50%);z-index:7;display:none;flex-direction:column;align-items:center;gap:.5rem;pointer-events:none}
+#exitHold.show{display:flex}
+#exitHold .eh-ring{width:4rem;height:4rem;border-radius:50%;background:conic-gradient(var(--danger) calc(var(--p,0) * 1%),rgba(255,255,255,.15) 0);display:grid;place-items:center;transition:background .05s linear}
+#exitHold .eh-ring i{width:3.2rem;height:3.2rem;border-radius:50%;background:#050811;display:grid;place-items:center;font-style:normal;font-size:.7rem;font-weight:800;color:#fff;letter-spacing:.05em}
+#exitHold .eh-lbl{font-size:.7rem;color:#fff;text-shadow:0 2px 6px #000;letter-spacing:.05em;text-transform:uppercase;font-weight:700}
+
 @media (max-height:26rem){
   :root{--hints-h:2.1rem}
   .hero-sub{display:none}
@@ -341,7 +380,7 @@ html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!importan
   <section id="view-boot" class="view">
     <div class="boot-logo">
       <div class="boot-mark"><span>NOXURA</span><div class="shine"></div></div>
-      <div class="boot-os">NOXURAFLUXOS <b>8.6</b></div>
+      <div class="boot-os">NOXURAFLUXOS <b>8.7</b></div>
       <div class="boot-bar"><i id="bootBar"></i></div>
       <div class="boot-hint" id="bootHint" data-f data-action="boot-skip"></div>
     </div>
@@ -506,6 +545,21 @@ html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!importan
     <div class="hgroup" id="hintR"></div>
   </div>
 
+  <!-- GAME HOST -->
+  <div id="gameHost">
+    <canvas id="gameCanvas"></canvas>
+    <div id="gameTopBar">
+      <div class="gt-name" id="gtName"></div>
+      <div class="gt-help"><span class="key">B</span>gedrückt halten zum Verlassen</div>
+    </div>
+    <div id="gameOverlay">
+      <div class="go-title" id="goTitle"></div>
+      <div class="go-sub" id="goSub"></div>
+      <div class="go-row" id="goRow"></div>
+    </div>
+    <div id="exitHold"><div class="eh-ring"><i>B</i></div><div class="eh-lbl">Verlassen …</div></div>
+  </div>
+
   <div id="rotate"><p>Bitte halte dein Gerät im Querformat. NoxuraFluxOS ist für Landscape und Samsung DeX optimiert.</p></div>
   <div id="toast"></div>
 </div>
@@ -521,15 +575,15 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const uid = () => Math.random().toString(36).slice(2, 9);
 const hash = s => [...s].reduce((a, c) => a + c.charCodeAt(0), 0);
-const KEY = 'noxura.fluxos.86';
+const KEY = 'noxura.fluxos.87';
 const ACCENTS = ['#2f8cff', '#5ad8ff', '#46e39b', '#ffd479', '#ff7a3d', '#ff4fa3', '#a77bff'];
 const TROPHIES = ['Erster Start', 'Zehn Minuten', 'Eine Stunde', 'Entdecker', 'Meisterschaft'];
 const fmtTime = min => { const h = Math.floor(min / 60), m = min % 60; return h ? `${h} h ${m} min` : `${m} min`; };
 
 const T = {
-  de: { games: 'Spiele', media: 'Medien', store: 'Store', gallery: 'Galerie', library: 'Bibliothek', settings: 'Einstellungen', friends: 'Freunde', back: 'Zurück', next: 'Weiter', finish: 'Fertig', play: 'Spielen', unavailable: 'Nicht verfügbar', home: 'Start', who: 'Wer spielt?', hintMove: 'Navigieren', hintOk: 'Auswählen', hintBack: 'Zurück', hintMenu: 'Schnellmenü', hintSearch: 'Suche', hintTabs: 'Bereiche', press: 'Drücke A oder eine Taste', props: 'Eigenschaften', trophies: 'Trophäen', saves: 'Speicherdaten', overview: 'Übersicht', addGame: 'Spiel hinzufügen', storeLoading: 'Store wird geladen …', download: 'Herunterladen', downloading: 'Wird heruntergeladen …', installed: 'Installiert', owned: 'Im Besitz', searchUpdate: 'Nach Update suchen', updateNet: 'Über Internet suchen', updateMedia: 'Über Speichermedium suchen', updateLatest: 'Es ist bereits das neuste Softwareupdate installiert.' },
-  en: { games: 'Games', media: 'Media', store: 'Store', gallery: 'Gallery', library: 'Library', settings: 'Settings', friends: 'Friends', back: 'Back', next: 'Next', finish: 'Done', play: 'Play', unavailable: 'Unavailable', home: 'Home', who: 'Who is playing?', hintMove: 'Navigate', hintOk: 'Select', hintBack: 'Back', hintMenu: 'Quick menu', hintSearch: 'Search', hintTabs: 'Sections', press: 'Press A or any key', props: 'Properties', trophies: 'Trophies', saves: 'Save data', overview: 'Overview', addGame: 'Add game', storeLoading: 'Loading store …', download: 'Download', downloading: 'Downloading …', installed: 'Installed', owned: 'Owned', searchUpdate: 'Check for update', updateNet: 'Check via internet', updateMedia: 'Check via storage media', updateLatest: 'The latest system software is already installed.' },
-  tr: { games: 'Oyunlar', media: 'Medya', store: 'Mağaza', gallery: 'Galeri', library: 'Kitaplık', settings: 'Ayarlar', friends: 'Arkadaşlar', back: 'Geri', next: 'İleri', finish: 'Bitir', play: 'Oyna', unavailable: 'Kullanılamıyor', home: 'Ana sayfa', who: 'Bugün kim oynuyor?', hintMove: 'Gezin', hintOk: 'Seç', hintBack: 'Geri', hintMenu: 'Hızlı menü', hintSearch: 'Ara', hintTabs: 'Sekmeler', press: 'Devam için A veya bir tuşa basın', props: 'Özellikler', trophies: 'Kupalar', saves: 'Kayıt verileri', overview: 'Genel', addGame: 'Oyun ekle', storeLoading: 'Mağaza yükleniyor …', download: 'İndir', downloading: 'İndiriliyor …', installed: 'Yüklü', owned: 'Sahip', searchUpdate: 'Güncelleme ara', updateNet: 'İnternet üzerinden ara', updateMedia: 'Depolama ortamı üzerinden ara', updateLatest: 'En son sistem yazılımı zaten yüklü.' }
+  de: { games: 'Spiele', media: 'Medien', store: 'Store', gallery: 'Galerie', library: 'Bibliothek', settings: 'Einstellungen', friends: 'Freunde', back: 'Zurück', next: 'Weiter', finish: 'Fertig', play: 'Spielen', unavailable: 'Nicht verfügbar', home: 'Start', who: 'Wer spielt?', hintMove: 'Navigieren', hintOk: 'Auswählen', hintBack: 'Zurück', hintMenu: 'Schnellmenü', hintSearch: 'Suche', hintTabs: 'Bereiche', press: 'Drücke A oder eine Taste', props: 'Eigenschaften', trophies: 'Trophäen', saves: 'Speicherdaten', overview: 'Übersicht', addGame: 'Spiel hinzufügen', storeLoading: 'Store wird geladen …', download: 'Herunterladen', downloading: 'Wird heruntergeladen …', installed: 'Installiert', owned: 'Im Besitz', searchUpdate: 'Nach Update suchen', updateNet: 'Über Internet suchen', updateMedia: 'Über Speichermedium suchen', updateLatest: 'Es ist bereits das neuste Softwareupdate installiert.', exitGame: 'Spiel verlassen', holdExit: 'B gedrückt halten zum Verlassen' },
+  en: { games: 'Games', media: 'Media', store: 'Store', gallery: 'Gallery', library: 'Library', settings: 'Settings', friends: 'Friends', back: 'Back', next: 'Next', finish: 'Done', play: 'Play', unavailable: 'Unavailable', home: 'Home', who: 'Who is playing?', hintMove: 'Navigate', hintOk: 'Select', hintBack: 'Back', hintMenu: 'Quick menu', hintSearch: 'Search', hintTabs: 'Sections', press: 'Press A or any key', props: 'Properties', trophies: 'Trophies', saves: 'Save data', overview: 'Overview', addGame: 'Add game', storeLoading: 'Loading store …', download: 'Download', downloading: 'Downloading …', installed: 'Installed', owned: 'Owned', searchUpdate: 'Check for update', updateNet: 'Check via internet', updateMedia: 'Check via storage media', updateLatest: 'The latest system software is already installed.', exitGame: 'Exit game', holdExit: 'Hold B to exit' },
+  tr: { games: 'Oyunlar', media: 'Medya', store: 'Mağaza', gallery: 'Galeri', library: 'Kitaplık', settings: 'Ayarlar', friends: 'Arkadaşlar', back: 'Geri', next: 'İleri', finish: 'Bitir', play: 'Oyna', unavailable: 'Kullanılamıyor', home: 'Ana sayfa', who: 'Bugün kim oynuyor?', hintMove: 'Gezin', hintOk: 'Seç', hintBack: 'Geri', hintMenu: 'Hızlı menü', hintSearch: 'Ara', hintTabs: 'Sekmeler', press: 'Devam için A veya bir tuşa basın', props: 'Özellikler', trophies: 'Kupalar', saves: 'Kayıt verileri', overview: 'Genel', addGame: 'Oyun ekle', storeLoading: 'Mağaza yükleniyor …', download: 'İndir', downloading: 'İndiriliyor …', installed: 'Yüklü', owned: 'Sahip', searchUpdate: 'Güncelleme ara', updateNet: 'İnternet üzerinden ara', updateMedia: 'Depolama ortamı üzerinden ara', updateLatest: 'En son sistem yazılımı zaten yüklü.', exitGame: 'Oyundan çık', holdExit: 'Çıkmak için B basılı tut' }
 };
 const t = k => (T[S.prefs.lang] || T.de)[k] || T.de[k] || k;
 
@@ -564,17 +618,23 @@ const activeProfile = () => S.profiles.find(p => p.id === S.active) || S.profile
 /* ================= catalog ================= */
 const rq = (cpu, gpu, ram, disk) => ({ cpu, gpu, ram, disk });
 const CATALOG = {
-  nova: { name: 'Nova Drift', genre: 'Shooter', demo: true, desc: 'Schnelle Raumschlachten im Schwarm. Steuere ein wendiges Schiff durch dichte Asteroidenfelder und sammle Energiezellen für Upgrades.', art: 'radial-gradient(70% 80% at 75% 30%,#ff7a3d 0,transparent 60%),linear-gradient(160deg,#1a0f3d,#05071a)', meta: { dev: 'Halcyon Lab', ver: '1.2.0', size: '3,4 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 2,8 GHz', '4 GB VRAM', '8 GB', '4 GB') },
-  pixel: { name: 'Pixel Harbor', genre: 'Aufbau', demo: true, desc: 'Baue deinen eigenen Hafen auf kleinen Inseln und verwalte Handelsrouten zwischen den Pixel-Küsten.', art: 'radial-gradient(60% 70% at 30% 70%,#46e39b 0,transparent 60%),linear-gradient(160deg,#0a2b3d,#03121c)', meta: { dev: 'Tidewell', ver: '2.0.1', size: '1,1 GB', age: 'USK 0', rel: '2024' }, req: rq('2 Kerne, 2,4 GHz', '2 GB VRAM', '4 GB', '1 GB') },
-  skyline: { name: 'Skyline Tactics', genre: 'Strategie', demo: true, desc: 'Taktische Gefechte über den Wolkenkratzern einer Megastadt.', art: 'radial-gradient(60% 60% at 60% 20%,#9db0ff 0,transparent 60%),linear-gradient(160deg,#1b1f45,#060818)', meta: { dev: 'Grayline', ver: '1.0.4', size: '5,2 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 3,0 GHz', '4 GB VRAM', '8 GB', '6 GB') },
-  echoes: { name: 'Echoes of Eternity', genre: 'RPG', store: true, price: '59,99 €', desc: 'Eine epische Reise durch ein zerbrechendes Reich, in der jede Entscheidung die Welt verändert.', art: 'radial-gradient(60% 70% at 50% 25%,#ffd479 0,transparent 55%),linear-gradient(160deg,#2a1450,#0b0520)', meta: { dev: 'Lumen Forge', ver: '1.0.0', size: '62 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,6 GHz', '16 GB VRAM (RTX 4070 Klasse)', '32 GB', '90 GB SSD') },
-  cyberdrift: { name: 'CyberDrift: Neo Istanbul', genre: 'Racing', store: true, price: '49,99 €', desc: 'Hochgeschwindigkeitsrennen durch eine neonbeleuchtete Metropole.', art: 'radial-gradient(60% 60% at 80% 30%,#ff4fa3 0,transparent 55%),linear-gradient(160deg,#0a1f3a,#02060f)', meta: { dev: 'Kairos Studio', ver: '1.0.0', size: '48 GB', age: 'USK 6', rel: '2026' }, req: rq('6 Kerne, 3,4 GHz', '8 GB VRAM (RX 6600 Klasse)', '16 GB', '60 GB SSD') },
-  aether: { name: 'Aether Protocol', genre: 'Strategie', store: true, price: '39,99 €', desc: 'Kontrolliere Flotten in einem Netz aus Sternen.', art: 'radial-gradient(60% 70% at 40% 30%,#5ad8ff 0,transparent 55%),linear-gradient(160deg,#071a2e,#02060f)', meta: { dev: 'Orbital Works', ver: '1.1.0', size: '22 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 3,0 GHz', '6 GB VRAM (GTX 1660 Klasse)', '16 GB', '40 GB SSD') },
-  apex: { name: 'Project Apex: Horizon', genre: 'Shooter', store: true, price: '69,99 €', desc: 'Taktische Missionen am Rand des bekannten Raums.', art: 'radial-gradient(60% 60% at 60% 35%,#ff7a3d 0,transparent 55%),linear-gradient(160deg,#1a1028,#03040a)', meta: { dev: 'Vantage Games', ver: '1.0.0', size: '74 GB', age: 'USK 18', rel: '2026' }, req: rq('8 Kerne, 3,8 GHz', '12 GB VRAM (RTX 3070 Klasse)', '32 GB', '110 GB SSD') },
-  elden: { name: 'Elden Veil', genre: 'RPG', store: true, downloadable: true, price: '69,99 €', size: '85 GB', desc: 'Ein düsteres Open-World-Rollenspiel in einer zerfallenden Welt. Erkunde verfluchte Königreiche, bezwinge gewaltige Bosse und forme dein Schicksal in einer atemberaubenden Grafik-Engine mit dynamischem Licht, volumetrischem Nebel und nahtlosen Ladezeiten.', art: 'radial-gradient(70% 80% at 60% 30%,#b8862e 0,transparent 55%),radial-gradient(50% 60% at 20% 70%,#5a1e1e 0,transparent 60%),linear-gradient(160deg,#1a1208,#03040a)', meta: { dev: 'FromSoftworks', ver: '1.0.0', size: '85 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,5 GHz', '12 GB VRAM (RTX 3060 Klasse)', '16 GB', '90 GB SSD') },
-  neon: { name: 'Neon Requiem', genre: 'Action', store: true, downloadable: true, price: '59,99 €', size: '62 GB', desc: 'Ein Cyberpunk-Action-Epos in einer neonüberfluteten Megastadt. Kämpfe dich durch Konzerne, hacke Drohnen und erlebe eine filmreife Story mit Raytracing-Spiegelungen und 60 FPS Performance-Modus.', art: 'radial-gradient(60% 70% at 70% 30%,#ff4fa3 0,transparent 55%),radial-gradient(50% 60% at 30% 80%,#5ad8ff 0,transparent 60%),linear-gradient(160deg,#0a0f2e,#02040c)', meta: { dev: 'Neon Forge', ver: '1.2.0', size: '62 GB', age: 'USK 18', rel: '2026' }, req: rq('8 Kerne, 3,6 GHz', '10 GB VRAM (RTX 3070 Klasse)', '16 GB', '70 GB SSD') },
-  starfall: { name: 'Starfall Odyssey', genre: 'Abenteuer', store: true, downloadable: true, price: '64,99 €', size: '71 GB', desc: 'Ein cineastisches Weltraum-Abenteuer mit atemberaubenden Planetenlandschaften, nahtlosen Übergängen von Oberfläche zu Orbit und einer orchestralen Filmmusik. Erforsche ein Sonnensystem voller Geheimnisse.', art: 'radial-gradient(60% 70% at 40% 30%,#5ad8ff 0,transparent 55%),radial-gradient(50% 60% at 80% 70%,#a77bff 0,transparent 60%),linear-gradient(160deg,#0a1a3a,#02060f)', meta: { dev: 'Orbital Dreams', ver: '1.0.0', size: '71 GB', age: 'USK 12', rel: '2026' }, req: rq('6 Kerne, 3,4 GHz', '10 GB VRAM (RX 6700 Klasse)', '16 GB', '80 GB SSD') },
-  abyss: { name: 'Abyss Chronicles', genre: 'Horror', store: true, downloadable: true, price: '54,99 €', size: '58 GB', desc: 'Ein atmosphärisches Survival-Horror-Erlebnis in einer versunkenen Tiefseestation. Realistische Wassersimulation, dynamische Beleuchtung und eine beklemmende Soundkulisse sorgen für Gänsehaut pur.', art: 'radial-gradient(60% 70% at 50% 40%,#2a6b8a 0,transparent 55%),radial-gradient(50% 60% at 20% 80%,#0a2a3a 0,transparent 60%),linear-gradient(160deg,#03121c,#010308)', meta: { dev: 'Deepwell', ver: '1.1.0', size: '58 GB', age: 'USK 18', rel: '2026' }, req: rq('6 Kerne, 3,2 GHz', '8 GB VRAM (GTX 2060 Klasse)', '16 GB', '65 GB SSD') }
+  nova: { name: 'Nova Drift', genre: 'Shooter', demo: true, play: 'shooter', desc: 'Schnelle Raumschlachten im Schwarm. Steuere ein wendiges Schiff durch dichte Asteroidenfelder.', art: 'radial-gradient(70% 80% at 75% 30%,#ff7a3d 0,transparent 60%),linear-gradient(160deg,#1a0f3d,#05071a)', meta: { dev: 'Halcyon Lab', ver: '1.2.0', size: '3,4 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 2,8 GHz', '4 GB VRAM', '8 GB', '4 GB') },
+  pixel: { name: 'Pixel Harbor', genre: 'Aufbau', demo: true, play: 'memory', desc: 'Baue deinen eigenen Hafen und trainiere dein Gedächtnis mit Kartenpaaren.', art: 'radial-gradient(60% 70% at 30% 70%,#46e39b 0,transparent 60%),linear-gradient(160deg,#0a2b3d,#03121c)', meta: { dev: 'Tidewell', ver: '2.0.1', size: '1,1 GB', age: 'USK 0', rel: '2024' }, req: rq('2 Kerne, 2,4 GHz', '2 GB VRAM', '4 GB', '1 GB') },
+  skyline: { name: 'Skyline Tactics', genre: 'Strategie', demo: true, play: 'breakout', desc: 'Taktisches Breakout über den Wolkenkratzern einer Megastadt.', art: 'radial-gradient(60% 60% at 60% 20%,#9db0ff 0,transparent 60%),linear-gradient(160deg,#1b1f45,#060818)', meta: { dev: 'Grayline', ver: '1.0.4', size: '5,2 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 3,0 GHz', '4 GB VRAM', '8 GB', '6 GB') },
+  echoes: { name: 'Echoes of Eternity', genre: 'RPG', store: true, price: '59,99 €', desc: 'Eine epische Reise durch ein zerbrechendes Reich.', art: 'radial-gradient(60% 70% at 50% 25%,#ffd479 0,transparent 55%),linear-gradient(160deg,#2a1450,#0b0520)', meta: { dev: 'Lumen Forge', ver: '1.0.0', size: '62 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,6 GHz', '16 GB VRAM', '32 GB', '90 GB SSD') },
+  cyberdrift: { name: 'CyberDrift: Neo Istanbul', genre: 'Racing', store: true, price: '49,99 €', desc: 'Hochgeschwindigkeitsrennen durch eine neonbeleuchtete Metropole.', art: 'radial-gradient(60% 60% at 80% 30%,#ff4fa3 0,transparent 55%),linear-gradient(160deg,#0a1f3a,#02060f)', meta: { dev: 'Kairos Studio', ver: '1.0.0', size: '48 GB', age: 'USK 6', rel: '2026' }, req: rq('6 Kerne, 3,4 GHz', '8 GB VRAM', '16 GB', '60 GB SSD') },
+  aether: { name: 'Aether Protocol', genre: 'Strategie', store: true, price: '39,99 €', desc: 'Kontrolliere Flotten in einem Netz aus Sternen.', art: 'radial-gradient(60% 70% at 40% 30%,#5ad8ff 0,transparent 55%),linear-gradient(160deg,#071a2e,#02060f)', meta: { dev: 'Orbital Works', ver: '1.1.0', size: '22 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 3,0 GHz', '6 GB VRAM', '16 GB', '40 GB SSD') },
+  apex: { name: 'Project Apex: Horizon', genre: 'Shooter', store: true, price: '69,99 €', desc: 'Taktische Missionen am Rand des bekannten Raums.', art: 'radial-gradient(60% 60% at 60% 35%,#ff7a3d 0,transparent 55%),linear-gradient(160deg,#1a1028,#03040a)', meta: { dev: 'Vantage Games', ver: '1.0.0', size: '74 GB', age: 'USK 18', rel: '2026' }, req: rq('8 Kerne, 3,8 GHz', '12 GB VRAM', '32 GB', '110 GB SSD') },
+  elden: { name: 'Elden Veil', genre: 'RPG', store: true, downloadable: true, price: '69,99 €', size: '85 GB', play: 'shooter', desc: 'Ein düsteres Open-World-Rollenspiel in einer zerfallenden Welt. Erkunde verfluchte Königreiche und bezwinge gewaltige Bosse.', art: 'radial-gradient(70% 80% at 60% 30%,#b8862e 0,transparent 55%),radial-gradient(50% 60% at 20% 70%,#5a1e1e 0,transparent 60%),linear-gradient(160deg,#1a1208,#03040a)', meta: { dev: 'FromSoftworks', ver: '1.0.0', size: '85 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,5 GHz', '12 GB VRAM', '16 GB', '90 GB SSD') },
+  neon: { name: 'Neon Requiem', genre: 'Action', store: true, downloadable: true, price: '59,99 €', size: '62 GB', play: 'pong', desc: 'Ein Cyberpunk-Action-Epos in einer neonüberfluteten Megastadt.', art: 'radial-gradient(60% 70% at 70% 30%,#ff4fa3 0,transparent 55%),radial-gradient(50% 60% at 30% 80%,#5ad8ff 0,transparent 60%),linear-gradient(160deg,#0a0f2e,#02040c)', meta: { dev: 'Neon Forge', ver: '1.2.0', size: '62 GB', age: 'USK 18', rel: '2026' }, req: rq('8 Kerne, 3,6 GHz', '10 GB VRAM', '16 GB', '70 GB SSD') },
+  starfall: { name: 'Starfall Odyssey', genre: 'Abenteuer', store: true, downloadable: true, price: '64,99 €', size: '71 GB', play: 'snake', desc: 'Ein cineastisches Weltraum-Abenteuer mit atemberaubenden Planetenlandschaften.', art: 'radial-gradient(60% 70% at 40% 30%,#5ad8ff 0,transparent 55%),radial-gradient(50% 60% at 80% 70%,#a77bff 0,transparent 60%),linear-gradient(160deg,#0a1a3a,#02060f)', meta: { dev: 'Orbital Dreams', ver: '1.0.0', size: '71 GB', age: 'USK 12', rel: '2026' }, req: rq('6 Kerne, 3,4 GHz', '10 GB VRAM', '16 GB', '80 GB SSD') },
+  abyss: { name: 'Abyss Chronicles', genre: 'Horror', store: true, downloadable: true, price: '54,99 €', size: '58 GB', play: 'breakout', desc: 'Ein atmosphärisches Survival-Horror-Erlebnis in einer versunkenen Tiefseestation.', art: 'radial-gradient(60% 70% at 50% 40%,#2a6b8a 0,transparent 55%),radial-gradient(50% 60% at 20% 80%,#0a2a3a 0,transparent 60%),linear-gradient(160deg,#03121c,#010308)', meta: { dev: 'Deepwell', ver: '1.1.0', size: '58 GB', age: 'USK 18', rel: '2026' }, req: rq('6 Kerne, 3,2 GHz', '8 GB VRAM', '16 GB', '65 GB SSD') },
+  velocity: { name: 'Velocity Rush', genre: 'Racing', store: true, downloadable: true, price: '44,99 €', size: '38 GB', play: 'reaction', desc: 'Ein rasanter Arcade-Racer mit atemberaubenden Strecken und Reaktionstests.', art: 'radial-gradient(60% 70% at 70% 30%,#ffd479 0,transparent 55%),linear-gradient(160deg,#2a1f08,#05040a)', meta: { dev: 'Turbine Games', ver: '1.0.0', size: '38 GB', age: 'USK 6', rel: '2026' }, req: rq('4 Kerne, 3,2 GHz', '6 GB VRAM', '12 GB', '45 GB SSD') },
+  mystica: { name: 'Mystica Realms', genre: 'RPG', store: true, downloadable: true, price: '49,99 €', size: '55 GB', play: 'memory', desc: 'Ein bezauberndes Fantasy-RPG mit Memory-Rätseln und magischen Welten.', art: 'radial-gradient(60% 70% at 40% 40%,#a77bff 0,transparent 55%),radial-gradient(50% 60% at 70% 70%,#46e39b 0,transparent 60%),linear-gradient(160deg,#1a0f3d,#04020a)', meta: { dev: 'Arcane Studio', ver: '1.0.0', size: '55 GB', age: 'USK 12', rel: '2026' }, req: rq('6 Kerne, 3,3 GHz', '8 GB VRAM', '16 GB', '60 GB SSD') },
+  titanfall2: { name: 'Titanfall: Vanguard', genre: 'Shooter', store: true, downloadable: true, price: '59,99 €', size: '68 GB', play: 'shooter', desc: 'Mech-Shooter mit atemberaubender Geschwindigkeit und vertikalen Kämpfen.', art: 'radial-gradient(60% 70% at 60% 30%,#ff4d42 0,transparent 55%),linear-gradient(160deg,#1a0808,#03040a)', meta: { dev: 'Respawn-like', ver: '1.0.0', size: '68 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,4 GHz', '10 GB VRAM', '16 GB', '75 GB SSD') },
+  gothic: { name: 'Gothic Reborn', genre: 'RPG', store: true, downloadable: true, price: '54,99 €', size: '47 GB', play: 'shooter', desc: 'Ein düsteres Mittelalter-RPG mit taktischen Kämpfen.', art: 'radial-gradient(60% 70% at 40% 30%,#7a5a2e 0,transparent 55%),linear-gradient(160deg,#1a1208,#03040a)', meta: { dev: 'Piranha Bytes', ver: '1.0.0', size: '47 GB', age: 'USK 16', rel: '2026' }, req: rq('4 Kerne, 3,3 GHz', '8 GB VRAM', '16 GB', '50 GB SSD') },
+  cosmic: { name: 'Cosmic Pong', genre: 'Arcade', store: true, downloadable: true, price: '9,99 €', size: '2 GB', play: 'pong', desc: 'Der Klassiker in neuem Gewand: Pong mit kosmischen Effekten.', art: 'radial-gradient(60% 70% at 50% 30%,#5ad8ff 0,transparent 55%),linear-gradient(160deg,#0a1f3a,#02060f)', meta: { dev: 'Retro Works', ver: '1.0.0', size: '2 GB', age: 'USK 0', rel: '2026' }, req: rq('2 Kerne, 2,0 GHz', '2 GB VRAM', '4 GB', '2 GB') },
+  neonvibes: { name: 'Neon Vibes', genre: 'Arcade', store: true, downloadable: true, price: '14,99 €', size: '3 GB', play: 'reaction', desc: 'Reaktionstest im Neon-Style. Wie schnell bist du?', art: 'radial-gradient(60% 70% at 50% 50%,#ff4fa3 0,transparent 55%),linear-gradient(160deg,#2a0a2a,#02040a)', meta: { dev: 'Pulse', ver: '1.0.0', size: '3 GB', age: 'USK 0', rel: '2026' }, req: rq('2 Kerne, 2,0 GHz', '2 GB VRAM', '4 GB', '3 GB') }
 };
 Object.assign(CATALOG, S.custom);
 const SYS_ART = {
@@ -677,22 +737,22 @@ function resizeBG() {
   W = bg.width = Math.round(innerWidth * DPR);
   H = bg.height = Math.round(innerHeight * DPR);
 }
-const parts = Array.from({ length: 48 }, () => ({ x: Math.random(), y: Math.random(), s: Math.random() * .6 + .2, v: Math.random() * .0003 + .00005 }));
+const parts = Array.from({ length: 32 }, () => ({ x: Math.random(), y: Math.random(), s: Math.random() * .5 + .15, v: Math.random() * .0002 + .00004 }));
 function drawBG(now) {
   const anim = S.prefs.anim;
   const tt = anim ? now : 0;
   bctx.clearRect(0, 0, W, H);
-  for (let w = 0; w < 3; w++) {
+  for (let w = 0; w < 2; w++) {
     bctx.beginPath();
-    for (let x = 0; x <= W; x += 14 * DPR) {
-      const y = H * (.66 + w * .07)
-        + Math.sin(x / W * 5 + tt * .0004 + w) * H * .03
-        + Math.sin(x / W * 11 - tt * .0006 + w * 2) * H * .01;
+    for (let x = 0; x <= W; x += 20 * DPR) {
+      const y = H * (.72 + w * .08)
+        + Math.sin(x / W * 4 + tt * .0003 + w) * H * .02
+        + Math.sin(x / W * 9 - tt * .0005 + w * 2) * H * .008;
       x === 0 ? bctx.moveTo(x, y) : bctx.lineTo(x, y);
     }
     bctx.lineTo(W, H); bctx.lineTo(0, H); bctx.closePath();
-    const g = bctx.createLinearGradient(0, H * .55, 0, H);
-    g.addColorStop(0, `rgba(47,140,255,${.08 - w * .02})`);
+    const g = bctx.createLinearGradient(0, H * .6, 0, H);
+    g.addColorStop(0, `rgba(47,140,255,${.06 - w * .02})`);
     g.addColorStop(1, 'rgba(5,8,17,0)');
     bctx.fillStyle = g; bctx.fill();
   }
@@ -700,7 +760,7 @@ function drawBG(now) {
     parts.forEach(p => {
       p.y -= p.v * (1 + p.s);
       if (p.y < 0) { p.y = 1; p.x = Math.random(); }
-      bctx.fillStyle = `rgba(150,210,255,${.12 + p.s * .3})`;
+      bctx.fillStyle = `rgba(150,210,255,${.1 + p.s * .25})`;
       bctx.beginPath();
       bctx.arc(p.x * W, p.y * H, p.s * 2 * DPR, 0, Math.PI * 2);
       bctx.fill();
@@ -832,19 +892,33 @@ function closeOverlay() {
 
 /* ================= hints ================= */
 const KCLS = { A: 'x', B: 'o', Y: 't', X: 'x' };
-function controllerCount() { return navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean).length : 0; }
+let padCount = 0, padPollTimer = null;
+function controllerCount() { return padCount; }
+function pollGamepads() {
+  const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+  let n = 0;
+  if (pads) for (const p of pads) if (p && p.connected) n++;
+  if (n !== padCount) {
+    padCount = n;
+    updateHints();
+    const padState = $('#padState');
+    if (padState) padState.textContent = n ? n + ' Controller verbunden – drücke eine Taste' : 'Kein Controller erkannt – Tastatur funktioniert ebenfalls';
+  }
+}
+window.addEventListener('gamepadconnected', e => { pollGamepads(); toast('Controller verbunden: ' + (e.gamepad.id || '').slice(0, 30)); sfx('ok'); });
+window.addEventListener('gamepaddisconnected', e => { pollGamepads(); toast('Controller getrennt'); sfx('back'); });
 function updateHints() {
   const ok = ['A', t('hintOk')], mv = ['↑↓←→', t('hintMove')], bk = ['B', t('hintBack')];
   let items;
   if (overlayOpen()) items = [mv, ok, bk];
   else if (curView === 'boot') items = [['A', t('press')]];
-  else if (curView === 'home') items = [mv, ok, ['X', t('hintSearch')], ['LB/RB', t('hintTabs')], ['↓', t('overview')], ['Y', t('hintMenu')]];
+  else if (curView === 'home') items = [mv, ok, ['X', t('hintSearch')], ['Y', t('hintMenu')]];
   else if (curView === 'game') items = [mv, ok, bk, ['Y', t('hintMenu')]];
   else if (curView === 'setup') items = [mv, ok, bk];
   else items = [mv, ok, bk, ['Y', t('hintMenu')]];
   $('#hintL').innerHTML = items.map(([k, l]) => `<span class="hitem"><span class="key ${KCLS[k] || ''}">${k}</span>${esc(l)}</span>`).join('');
   const n = controllerCount();
-  $('#hintR').innerHTML = `<span class="hitem">${n ? n + ' Controller verbunden' : 'Tastatur'}</span>`;
+  $('#hintR').innerHTML = `<span class="hitem">${n ? n + ' Controller verbunden' : 'Tastatur / Touch'}</span>`;
 }
 
 /* ================= hero ================= */
@@ -1009,14 +1083,14 @@ function openStore() {
   storeTimer = setTimeout(() => {
     storeLoading = false;
     if (curView === 'store') rerender(renderStore);
-  }, 1200);
+  }, 900);
 }
 
 /* ================= store ================= */
 function renderStore() {
   $('#storeBack').textContent = t('back');
   $('#storeTitle').innerHTML = `NoxuraGames <span>${esc(t('store'))}</span>`;
-  const cats = ['Alle', 'RPG', 'Racing', 'Strategie', 'Shooter', 'Action', 'Abenteuer', 'Horror'];
+  const cats = ['Alle', 'RPG', 'Racing', 'Strategie', 'Shooter', 'Action', 'Abenteuer', 'Horror', 'Arcade'];
   if (storeLoading) {
     $('#storeCats').innerHTML = '';
     $('#storeBody').innerHTML = `<div class="loading"><div class="spin"></div>${esc(t('storeLoading'))}</div>
@@ -1113,8 +1187,8 @@ function startDownload(id) {
   S.downloads[id] = 0; save();
   toast(`${CATALOG[id].name} wird heruntergeladen …`);
   const iv = setInterval(() => {
-    if (!S.downloads[id] && S.downloads[id] !== 0) { clearInterval(iv); return; }
-    S.downloads[id] = Math.min(100, (S.downloads[id] || 0) + Math.random() * 12 + 4);
+    if (S.downloads[id] === undefined) { clearInterval(iv); return; }
+    S.downloads[id] = Math.min(100, (S.downloads[id] || 0) + Math.random() * 14 + 6);
     save();
     if (curView === 'detail' && detailId === id) rerender(renderDetail);
     if (curView === 'store') rerender(renderStore);
@@ -1124,12 +1198,12 @@ function startDownload(id) {
       if (!S.library.includes(id)) S.library.push(id);
       save();
       sfx('ok');
-      toast(`${CATALOG[id].name} installiert`);
+      toast(`${CATALOG[id].name} installiert – bereit zum Spielen`);
       if (curView === 'detail' && detailId === id) rerender(renderDetail);
       if (curView === 'store') rerender(renderStore);
       if (curView === 'home') rerender(renderHome);
     }
-  }, 600);
+  }, 500);
 }
 
 /* ================= game page ================= */
@@ -1184,15 +1258,447 @@ function renderGame() {
   }
   $('#gPanel').innerHTML = body;
 }
-function launchGame(id) {
-  const g = CATALOG[id];
-  if (!g) return;
-  if (!g.demo && !S.owned.includes(id)) { sfx('err'); return toast(t('unavailable')); }
-  S.play[id] = (S.play[id] || 0) + 5;
-  S.last[id] = Date.now();
-  save(); sfx('ok');
-  toast(`${g.name} wird gestartet`);
-  if (curView === 'game') rerender(renderGame);
+
+/* ================= GAMES ENGINE ================= */
+const Game = {
+  running: false, id: null, play: null, state: null, raf: null, last: 0, keys: {},
+  canvas: null, ctx: null, W: 0, H: 0, dpr: 1,
+  exitHoldStart: null, exitHoldActive: false,
+  padIndex: null,
+  init() {
+    this.canvas = $('#gameCanvas');
+    this.ctx = this.canvas.getContext('2d');
+    this.resize();
+    window.addEventListener('resize', () => this.resize());
+    window.addEventListener('gamepadconnected', e => { this.padIndex = e.gamepad.index; });
+    window.addEventListener('gamepaddisconnected', () => { this.padIndex = null; });
+    // keyboard
+    window.addEventListener('keydown', e => {
+      if (!this.running) return;
+      this.keys[e.key.toLowerCase()] = true;
+      if (e.key === 'Escape' || e.key === 'Backspace' || e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        this.startExitHold();
+      }
+    });
+    window.addEventListener('keyup', e => {
+      this.keys[e.key.toLowerCase()] = false;
+      if (e.key === 'Escape' || e.key === 'Backspace' || e.key.toLowerCase() === 'b') {
+        this.endExitHold();
+      }
+    });
+    // touch canvas
+    this.canvas.addEventListener('pointerdown', e => { if (this.play && this.play.onPointer) this.play.onPointer('down', e); });
+    this.canvas.addEventListener('pointermove', e => { if (this.play && this.play.onPointer) this.play.onPointer('move', e); });
+    this.canvas.addEventListener('pointerup', e => { if (this.play && this.play.onPointer) this.play.onPointer('up', e); });
+  },
+  resize() {
+    this.dpr = Math.min(2, window.devicePixelRatio || 1);
+    this.W = this.canvas.clientWidth;
+    this.H = this.canvas.clientHeight;
+    this.canvas.width = Math.round(this.W * this.dpr);
+    this.canvas.height = Math.round(this.H * this.dpr);
+    if (this.play && this.play.onResize) this.play.onResize(this.W, this.H);
+  },
+  start(id) {
+    const g = CATALOG[id]; if (!g || !g.play) { toast('Dieses Spiel ist nicht spielbar'); return; }
+    if (!g.demo && !S.owned.includes(id)) { toast('Spiel nicht installiert'); return; }
+    if (!GAMES[g.play]) { toast('Spielmodul fehlt'); return; }
+    this.id = id; this.play = GAMES[g.play]; this.state = null;
+    this.running = true;
+    $('#gameHost').classList.add('open');
+    $('#gtName').textContent = g.name;
+    $('#gameOverlay').classList.remove('open');
+    $('#exitHold').classList.remove('show');
+    this.resize();
+    S.play[id] = (S.play[id] || 0) + 1;
+    S.last[id] = Date.now();
+    save();
+    this.state = this.play.create(this.W, this.H);
+    this.last = performance.now();
+    this.loop(performance.now());
+    sfx('ok');
+  },
+  loop(now) {
+    if (!this.running) return;
+    const dt = Math.min(0.05, (now - this.last) / 1000);
+    this.last = now;
+    const pad = this.readPad();
+    this.ctx.save();
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.scale(this.dpr, this.dpr);
+    this.play.update(this.state, dt, { keys: this.keys, pad, W: this.W, H: this.H });
+    this.play.draw(this.ctx, this.state, this.W, this.H);
+    this.ctx.restore();
+    // exit hold
+    if (this.exitHoldStart !== null) {
+      const held = (now - this.exitHoldStart) / 1000;
+      const pct = clamp(held / 4 * 100, 0, 100);
+      $('#exitHold').classList.add('show');
+      $('#exitHold .eh-ring').style.setProperty('--p', pct);
+      if (held >= 4) { this.stop(); return; }
+    } else {
+      $('#exitHold').classList.remove('show');
+    }
+    this.raf = requestAnimationFrame(t => this.loop(t));
+  },
+  readPad() {
+    const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+    if (!pads) return null;
+    let p = this.padIndex !== null ? pads[this.padIndex] : null;
+    if (!p || !p.connected) for (const q of pads) if (q && q.connected) { p = q; this.padIndex = q.index; break; }
+    if (!p) return null;
+    // exit hold via circle/B button (button 1 = B/Circle on standard mapping)
+    const bBtn = p.buttons[1] || p.buttons[0];
+    if (bBtn && bBtn.pressed) this.startExitHold();
+    else this.endExitHold();
+    return {
+      lx: p.axes[0] || 0, ly: p.axes[1] || 0,
+      a: !!(p.buttons[0] && p.buttons[0].pressed),
+      b: !!(p.buttons[1] && p.buttons[1].pressed),
+      up: !!(p.buttons[12] && p.buttons[12].pressed) || (p.axes[1] < -0.5),
+      down: !!(p.buttons[13] && p.buttons[13].pressed) || (p.axes[1] > 0.5),
+      left: !!(p.buttons[14] && p.buttons[14].pressed) || (p.axes[0] < -0.5),
+      right: !!(p.buttons[15] && p.buttons[15].pressed) || (p.axes[0] > 0.5)
+    };
+  },
+  startExitHold() {
+    if (this.exitHoldStart === null) this.exitHoldStart = performance.now();
+  },
+  endExitHold() {
+    this.exitHoldStart = null;
+    $('#exitHold').classList.remove('show');
+  },
+  stop() {
+    this.running = false;
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = null;
+    this.exitHoldStart = null;
+    $('#gameHost').classList.remove('open');
+    $('#gameOverlay').classList.remove('open');
+    $('#exitHold').classList.remove('show');
+    const id = this.id;
+    if (id) {
+      S.last[id] = Date.now();
+      save();
+    }
+    sfx('back');
+    toast('Spiel beendet');
+    if (curView === 'game') rerender(renderGame);
+    if (curView === 'home') rerender(renderHome);
+  }
+};
+
+/* ================= MINIGAMES ================= */
+const GAMES = {
+  snake: {
+    create(W, H) {
+      const cell = 20;
+      const cols = Math.floor(W / cell), rows = Math.floor(H / cell);
+      return { cell, cols, rows, snake: [{x: Math.floor(cols/2), y: Math.floor(rows/2)}], dir: {x:1,y:0}, food: {x:5,y:5}, acc: 0, score: 0, over: false };
+    },
+    onResize(W, H) {
+      if (!Game.state) return;
+      const cell = 20;
+      Game.state.cols = Math.floor(W / cell);
+      Game.state.rows = Math.floor(H / cell);
+    },
+    update(s, dt, inp) {
+      if (s.over) {
+        if (inp.pad && inp.pad.a) { Object.assign(s, GAMES.snake.create(inp.W, inp.H)); s.over = false; }
+        if (inp.keys['enter'] || inp.keys[' ']) { Object.assign(s, GAMES.snake.create(inp.W, inp.H)); s.over = false; }
+        return;
+      }
+      s.acc += dt;
+      const step = 0.12;
+      let ndx = s.dir.x, ndy = s.dir.y;
+      if (inp.keys['arrowleft'] || inp.keys['a'] || (inp.pad && inp.pad.left)) { ndx = -1; ndy = 0; }
+      else if (inp.keys['arrowright'] || inp.keys['d'] || (inp.pad && inp.pad.right)) { ndx = 1; ndy = 0; }
+      else if (inp.keys['arrowup'] || inp.keys['w'] || (inp.pad && inp.pad.up)) { ndx = 0; ndy = -1; }
+      else if (inp.keys['arrowdown'] || inp.keys['s'] || (inp.pad && inp.pad.down)) { ndx = 0; ndy = 1; }
+      if (ndx !== -s.dir.x || ndy !== -s.dir.y) { s.dir = {x:ndx,y:ndy}; }
+      if (s.acc >= step) {
+        s.acc = 0;
+        const head = {x: s.snake[0].x + s.dir.x, y: s.snake[0].y + s.dir.y};
+        if (head.x < 0 || head.y < 0 || head.x >= s.cols || head.y >= s.rows || s.snake.some(p => p.x===head.x && p.y===head.y)) { s.over = true; return; }
+        s.snake.unshift(head);
+        if (head.x === s.food.x && head.y === s.food.y) {
+          s.score++;
+          s.food = {x: Math.floor(Math.random()*s.cols), y: Math.floor(Math.random()*s.rows)};
+        } else s.snake.pop();
+      }
+    },
+    draw(ctx, s, W, H) {
+      ctx.fillStyle = '#050811'; ctx.fillRect(0,0,W,H);
+      ctx.strokeStyle = 'rgba(47,140,255,.08)';
+      for (let x=0;x<W;x+=s.cell) { ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke(); }
+      for (let y=0;y<H;y+=s.cell) { ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke(); }
+      ctx.fillStyle = '#ff4d42';
+      ctx.fillRect(s.food.x*s.cell+2, s.food.y*s.cell+2, s.cell-4, s.cell-4);
+      s.snake.forEach((p,i) => {
+        ctx.fillStyle = i===0 ? '#5ad8ff' : '#2f8cff';
+        ctx.fillRect(p.x*s.cell+1, p.y*s.cell+1, s.cell-2, s.cell-2);
+      });
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 20px sans-serif';
+      ctx.fillText('Score: ' + s.score, 20, 40);
+      if (s.over) {
+        ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(0,0,W,H);
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 32px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Game Over', W/2, H/2 - 20);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
+        ctx.fillText('A oder Enter zum Neustart', W/2, H/2 + 20);
+        ctx.textAlign = 'left';
+      }
+    }
+  },
+  pong: {
+    create(W, H) { return { W, H, ball:{x:W/2,y:H/2,vx:300,vy:200,r:10}, left:{x:20,y:H/2-40,w:10,h:80}, right:{x:W-30,y:H/2-40,w:10,h:80}, score:{l:0,r:0}, over:false }; },
+    onResize(W, H) { if (!Game.state) return; Game.state.W = W; Game.state.H = H; },
+    update(s, dt, inp) {
+      if (s.over) { if (inp.keys['enter']||inp.keys[' ']||(inp.pad&&inp.pad.a)) { Object.assign(s, GAMES.pong.create(inp.W,inp.H)); s.over=false; } return; }
+      const speed = 500;
+      if (inp.keys['arrowup']||inp.keys['w']||(inp.pad&&inp.pad.up)) s.left.y -= speed*dt;
+      if (inp.keys['arrowdown']||inp.keys['s']||(inp.pad&&inp.pad.down)) s.left.y += speed*dt;
+      s.left.y = clamp(s.left.y, 0, s.H-s.left.h);
+      // simple AI right
+      const target = s.ball.y - s.right.h/2;
+      s.right.y += clamp(target - s.right.y, -300*dt, 300*dt);
+      s.right.y = clamp(s.right.y, 0, s.H-s.right.h);
+      s.ball.x += s.ball.vx*dt; s.ball.y += s.ball.vy*dt;
+      if (s.ball.y < s.ball.r || s.ball.y > s.H-s.ball.r) s.ball.vy *= -1;
+      if (s.ball.x < s.left.x+s.left.w && s.ball.y > s.left.y && s.ball.y < s.left.y+s.left.h && s.ball.vx < 0) { s.ball.vx *= -1.05; s.ball.x = s.left.x+s.left.w+1; }
+      if (s.ball.x > s.right.x && s.ball.y > s.right.y && s.ball.y < s.right.y+s.right.h && s.ball.vx > 0) { s.ball.vx *= -1.05; s.ball.x = s.right.x-1; }
+      if (s.ball.x < 0) { s.score.r++; s.ball = {x:s.W/2,y:s.H/2,vx:300,vy:200,r:10}; }
+      if (s.ball.x > s.W) { s.score.l++; s.ball = {x:s.W/2,y:s.H/2,vx:-300,vy:200,r:10}; }
+      if (s.score.l >= 5 || s.score.r >= 5) s.over = true;
+    },
+    draw(ctx, s, W, H) {
+      ctx.fillStyle = '#050811'; ctx.fillRect(0,0,W,H);
+      ctx.strokeStyle = 'rgba(47,140,255,.3)'; ctx.setLineDash([10,10]); ctx.beginPath(); ctx.moveTo(W/2,0); ctx.lineTo(W/2,H); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#5ad8ff'; ctx.fillRect(s.left.x, s.left.y, s.left.w, s.left.h);
+      ctx.fillStyle = '#ff4fa3'; ctx.fillRect(s.right.x, s.right.y, s.right.w, s.right.h);
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.ball.x, s.ball.y, s.ball.r, 0, Math.PI*2); ctx.fill();
+      ctx.font = 'bold 36px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#5ad8ff'; ctx.fillText(s.score.l, W/2-60, 60);
+      ctx.fillStyle = '#ff4fa3'; ctx.fillText(s.score.r, W/2+60, 60);
+      ctx.textAlign = 'left';
+      if (s.over) {
+        ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(0,0,W,H);
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 32px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText(s.score.l > s.score.r ? 'Du gewinnst!' : 'Du verlierst', W/2, H/2-20);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
+        ctx.fillText('A oder Enter zum Neustart', W/2, H/2+20);
+        ctx.textAlign = 'left';
+      }
+    }
+  },
+  breakout: {
+    create(W, H) {
+      const bricks = [];
+      const cols = 8, rows = 5, bw = (W-40)/cols, bh = 20;
+      for (let r=0;r<rows;r++) for (let c=0;c<cols;c++) bricks.push({x:20+c*bw, y:80+r*(bh+6), w:bw-4, h:bh, alive:true, hue: (r/rows)*280});
+      return { W,H, paddle:{x:W/2-50,y:H-40,w:100,h:12}, ball:{x:W/2,y:H/2,vx:250,vy:-300,r:8}, bricks, score:0, lives:3, over:false };
+    },
+    onResize(W,H){ if(!Game.state)return; Game.state.W=W; Game.state.H=H; Game.state.paddle.y=H-40; },
+    update(s, dt, inp) {
+      if (s.over) { if (inp.keys['enter']||inp.keys[' ']||(inp.pad&&inp.pad.a)) { Object.assign(s, GAMES.breakout.create(inp.W,inp.H)); s.over=false; } return; }
+      const sp = 600;
+      if (inp.keys['arrowleft']||inp.keys['a']||(inp.pad&&inp.pad.left)) s.paddle.x -= sp*dt;
+      if (inp.keys['arrowright']||inp.keys['d']||(inp.pad&&inp.pad.right)) s.paddle.x += sp*dt;
+      s.paddle.x = clamp(s.paddle.x, 0, s.W-s.paddle.w);
+      s.ball.x += s.ball.vx*dt; s.ball.y += s.ball.vy*dt;
+      if (s.ball.x < s.ball.r || s.ball.x > s.W-s.ball.r) s.ball.vx *= -1;
+      if (s.ball.y < s.ball.r) s.ball.vy *= -1;
+      if (s.ball.y > s.paddle.y && s.ball.y < s.paddle.y+s.paddle.h && s.ball.x > s.paddle.x && s.ball.x < s.paddle.x+s.paddle.w && s.ball.vy > 0) {
+        s.ball.vy *= -1;
+        s.ball.vx += (s.ball.x - (s.paddle.x+s.paddle.w/2)) * 5;
+      }
+      for (const b of s.bricks) {
+        if (!b.alive) continue;
+        if (s.ball.x > b.x && s.ball.x < b.x+b.w && s.ball.y > b.y && s.ball.y < b.y+b.h) {
+          b.alive = false; s.score += 10;
+          s.ball.vy *= -1; break;
+        }
+      }
+      if (s.ball.y > s.H) { s.lives--; if (s.lives <= 0) s.over = true; else s.ball = {x:s.W/2,y:s.H/2,vx:250,vy:-300,r:8}; }
+      if (s.bricks.every(b=>!b.alive)) s.over = true;
+    },
+    draw(ctx, s, W, H) {
+      ctx.fillStyle = '#050811'; ctx.fillRect(0,0,W,H);
+      s.bricks.forEach(b => { if (b.alive) { ctx.fillStyle = `hsl(${b.hue},70%,55%)`; ctx.fillRect(b.x,b.y,b.w,b.h); } });
+      ctx.fillStyle = '#5ad8ff'; ctx.fillRect(s.paddle.x, s.paddle.y, s.paddle.w, s.paddle.h);
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.ball.x, s.ball.y, s.ball.r, 0, Math.PI*2); ctx.fill();
+      ctx.font = 'bold 18px sans-serif'; ctx.fillStyle = '#fff';
+      ctx.fillText('Score: ' + s.score + '   Leben: ' + s.lives, 20, 32);
+      if (s.over) {
+        ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(0,0,W,H);
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 32px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText(s.bricks.every(b=>!b.alive) ? 'Gewonnen!' : 'Game Over', W/2, H/2-20);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
+        ctx.fillText('A oder Enter zum Neustart', W/2, H/2+20);
+        ctx.textAlign = 'left';
+      }
+    }
+  },
+  shooter: {
+    create(W, H) { return { W,H, player:{x:W/2, y:H-60, w:30, h:24, cd:0}, bullets:[], enemies:[], acc:0, score:0, over:false, hp:3 }; },
+    onResize(W,H){ if(!Game.state)return; Game.state.W=W; Game.state.H=H; Game.state.player.y=H-60; },
+    update(s, dt, inp) {
+      if (s.over) { if (inp.keys['enter']||inp.keys[' ']||(inp.pad&&inp.pad.a)) { Object.assign(s, GAMES.shooter.create(inp.W,inp.H)); s.over=false; } return; }
+      const sp = 400;
+      if (inp.keys['arrowleft']||inp.keys['a']||(inp.pad&&inp.pad.left)) s.player.x -= sp*dt;
+      if (inp.keys['arrowright']||inp.keys['d']||(inp.pad&&inp.pad.right)) s.player.x += sp*dt;
+      s.player.x = clamp(s.player.x, s.player.w/2, s.W-s.player.w/2);
+      s.player.cd -= dt;
+      const fire = inp.keys[' '] || (inp.pad && inp.pad.a);
+      if (fire && s.player.cd <= 0) { s.bullets.push({x:s.player.x, y:s.player.y-15, vy:-500}); s.player.cd = 0.18; }
+      s.acc += dt;
+      if (s.acc > 0.7) { s.acc = 0; s.enemies.push({x:Math.random()*(s.W-40)+20, y:-20, vy:120+Math.random()*80, w:30, h:30}); }
+      s.bullets.forEach(b => b.y += b.vy*dt);
+      s.bullets = s.bullets.filter(b => b.y > -20);
+      s.enemies.forEach(e => e.y += e.vy*dt);
+      for (const e of s.enemies) {
+        for (const b of s.bullets) {
+          if (b.x > e.x-e.w/2 && b.x < e.x+e.w/2 && b.y > e.y-e.h/2 && b.y < e.y+e.h/2) {
+            e.dead = true; b.dead = true; s.score += 10;
+          }
+        }
+      }
+      s.bullets = s.bullets.filter(b => !b.dead);
+      s.enemies = s.enemies.filter(e => !e.dead && e.y < s.H+40);
+      for (const e of s.enemies) {
+        if (Math.abs(e.x - s.player.x) < 20 && Math.abs(e.y - s.player.y) < 20) { s.hp--; e.dead = true; if (s.hp <= 0) s.over = true; }
+      }
+      s.enemies = s.enemies.filter(e => !e.dead);
+      if (s.score >= 300) s.over = true;
+    },
+    draw(ctx, s, W, H) {
+      const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0a0f2e'); g.addColorStop(1,'#02040c');
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+      for (let i=0;i<50;i++) { const x=(i*137)%W, y=(i*89+performance.now()/20)%H; ctx.fillStyle='rgba(255,255,255,.3)'; ctx.fillRect(x,y,1.5,1.5); }
+      ctx.fillStyle = '#5ad8ff';
+      ctx.beginPath();
+      ctx.moveTo(s.player.x, s.player.y - s.player.h/2);
+      ctx.lineTo(s.player.x - s.player.w/2, s.player.y + s.player.h/2);
+      ctx.lineTo(s.player.x + s.player.w/2, s.player.y + s.player.h/2);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#ffd479';
+      s.bullets.forEach(b => ctx.fillRect(b.x-2, b.y-8, 4, 12));
+      s.enemies.forEach(e => { ctx.fillStyle = '#ff4d42'; ctx.fillRect(e.x-e.w/2, e.y-e.h/2, e.w, e.h); });
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('Score: ' + s.score + '   HP: ' + s.hp, 20, 32);
+      if (s.over) {
+        ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(0,0,W,H);
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 32px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Game Over', W/2, H/2-20);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
+        ctx.fillText('A oder Enter zum Neustart', W/2, H/2+20);
+        ctx.textAlign = 'left';
+      }
+    }
+  },
+  memory: {
+    create(W, H) {
+      const n = 12; const cards = [];
+      for (let i=0;i<n/2;i++) { cards.push({v:i, open:false, done:false}); cards.push({v:i, open:false, done:false}); }
+      for (let i=cards.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [cards[i],cards[j]]=[cards[j],cards[i]]; }
+      return { W,H, cards, first:null, second:null, timer:0, moves:0, over:false, cols:4 };
+    },
+    onResize(W,H){ if(!Game.state)return; Game.state.W=W; Game.state.H=H; },
+    update(s, dt, inp) {
+      if (s.over) { if (inp.keys['enter']||inp.keys[' ']||(inp.pad&&inp.pad.a)) { Object.assign(s, GAMES.memory.create(inp.W,inp.H)); s.over=false; } return; }
+      if (s.first && s.second) { s.timer += dt; if (s.timer > 0.7) {
+        if (s.cards[s.first].v !== s.cards[s.second].v) { s.cards[s.first].open=false; s.cards[s.second].open=false; }
+        else { s.cards[s.first].done=true; s.cards[s.second].done=true; }
+        s.first=null; s.second=null; s.timer=0;
+        if (s.cards.every(c=>c.done)) s.over = true;
+      }}
+    },
+    onPointer(t, e) {
+      const s = Game.state; if (!s || s.over) return;
+      if (t !== 'down') return;
+      const r = Game.canvas.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      const margin = 40, gap = 10;
+      const cw = (Game.W - margin*2 - gap*(s.cols-1))/s.cols;
+      const ch = cw * 1.3;
+      const rows = Math.ceil(s.cards.length/s.cols);
+      const startY = (Game.H - (ch*rows + gap*(rows-1)))/2;
+      for (let i=0;i<s.cards.length;i++) {
+        const cx = margin + (i%s.cols)*(cw+gap);
+        const cy = startY + Math.floor(i/s.cols)*(ch+gap);
+        if (x > cx && x < cx+cw && y > cy && y < cy+ch) {
+          if (s.cards[i].open || s.cards[i].done) return;
+          s.cards[i].open = true;
+          if (s.first === null) s.first = i;
+          else if (s.second === null && i !== s.first) { s.second = i; s.moves++; }
+          return;
+        }
+      }
+    },
+    draw(ctx, s, W, H) {
+      ctx.fillStyle = '#050811'; ctx.fillRect(0,0,W,H);
+      const margin = 40, gap = 10;
+      const cw = (W - margin*2 - gap*(s.cols-1))/s.cols;
+      const ch = cw * 1.3;
+      const rows = Math.ceil(s.cards.length/s.cols);
+      const startY = (H - (ch*rows + gap*(rows-1)))/2;
+      s.cards.forEach((c, i) => {
+        const cx = margin + (i%s.cols)*(cw+gap);
+        const cy = startY + Math.floor(i/s.cols)*(ch+gap);
+        ctx.fillStyle = c.open || c.done ? '#2f8cff' : 'rgba(255,255,255,.08)';
+        ctx.beginPath(); ctx.roundRect(cx, cy, cw, ch, 8); ctx.fill();
+        if (c.open || c.done) {
+          ctx.fillStyle = '#fff'; ctx.font = 'bold ' + Math.round(cw*0.4) + 'px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+          ctx.fillText('★'.repeat(0) + String.fromCharCode(65 + c.v), cx+cw/2, cy+ch/2);
+          ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+        }
+      });
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('Züge: ' + s.moves, 20, 32);
+      if (s.over) {
+        ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(0,0,W,H);
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 32px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText('Geschafft!', W/2, H/2-20);
+        ctx.font = '16px sans-serif'; ctx.fillStyle = '#93a6c8';
+        ctx.fillText('A oder Enter zum Neustart', W/2, H/2+20);
+        ctx.textAlign = 'left';
+      }
+    }
+  },
+  reaction: {
+    create(W, H) { return { W,H, state:'wait', t:0, best:null, last:null, score:0 }; },
+    onResize(W,H){ if(!Game.state)return; Game.state.W=W; Game.state.H=H; },
+    update(s, dt, inp) {
+      if (s.state === 'wait') { s.t += dt; if (s.t > 1 + Math.random()*2) { s.state = 'go'; s.t = 0; } }
+      else if (s.state === 'go') { s.t += dt; }
+      if (inp.keys[' '] || (inp.pad && inp.pad.a)) {
+        if (s.state === 'wait') { s.state = 'tooearly'; s.t = 0; }
+        else if (s.state === 'go') { s.last = s.t * 1000; if (!s.best || s.last < s.best) s.best = s.last; s.score++; s.state = 'result'; s.t = 0; }
+      }
+      if (s.state === 'tooearly' || s.state === 'result') {
+        if ((inp.keys[' '] || (inp.pad && inp.pad.a))) { if (s.t > 0.5) { s.state = 'wait'; s.t = 0; } }
+      }
+    },
+    draw(ctx, s, W, H) {
+      const col = s.state === 'wait' ? '#1a1028' : s.state === 'go' ? '#46e39b' : s.state === 'tooearly' ? '#ff4d42' : '#5ad8ff';
+      ctx.fillStyle = col; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 40px sans-serif'; ctx.textAlign='center';
+      const msg = s.state === 'wait' ? 'Warte auf Grün …' : s.state === 'go' ? 'JETZT!' : s.state === 'tooearly' ? 'Zu früh!' : 'Reaktion: ' + Math.round(s.last) + ' ms';
+      ctx.fillText(msg, W/2, H/2);
+      ctx.font = '18px sans-serif';
+      ctx.fillText('Bestwert: ' + (s.best ? Math.round(s.best) + ' ms' : '–'), W/2, H/2+50);
+      ctx.fillText('A / Leertaste', W/2, H/2+80);
+      ctx.textAlign='left';
+    }
+  }
+};
+// keep pad polling running
+setInterval(() => Game.readPad && Game.readPad(), 100);
+// roundRect polyfill
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r) { this.beginPath(); this.moveTo(x+r,y); this.arcTo(x+w,y,x+w,y+h,r); this.arcTo(x+w,y+h,x,y+h,r); this.arcTo(x,y+h,x,y,r); this.arcTo(x,y,x+w,y,r); this.closePath(); return this; };
 }
 
 /* ================= library ================= */
@@ -1231,7 +1737,7 @@ function takeShot() {
   x.drawImage(bg, 0, 0, 640, 360);
   x.fillStyle = 'rgba(0,0,0,.45)'; x.fillRect(0, 324, 640, 36);
   x.fillStyle = '#e6eefc'; x.font = '14px sans-serif';
-  x.fillText('NoxuraFluxOS 8.6 · ' + new Date().toLocaleString('de-DE'), 16, 347);
+  x.fillText('NoxuraFluxOS 8.7 · ' + new Date().toLocaleString('de-DE'), 16, 347);
   const d = c.toDataURL('image/jpeg', .75);
   S.captures.unshift({ d, t: new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) });
   S.captures = S.captures.slice(0, 12);
@@ -1254,7 +1760,7 @@ function paneHTML(sec) {
       <div class="sbar"><i style="width:${pct}%"></i></div>
       <div class="slegend"><span>Genutzt</span><span>5 MB Limit</span></div>
       <div class="sec-title">Über das System</div>
-      <div class="kv"><b>Version</b><span>NoxuraFluxOS 8.6</span></div>
+      <div class="kv"><b>Version</b><span>NoxuraFluxOS 8.7</span></div>
       <div class="kv"><b>Profile</b><span>${S.profiles.length}</span></div>
       <div class="kv"><b>Aktives Profil</b><span>${esc(p.name)}</span></div>`;
   }
@@ -1269,15 +1775,15 @@ function paneHTML(sec) {
   if (sec === 'controller') {
     const n = controllerCount();
     return `<h2 class="pane-title">Controller</h2><p class="pane-sub">Verbindung, Vibration und Eingabe.</p>
-      <div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">${n ? n + ' verbunden' : 'Kein Controller erkannt'}</div><div class="pad-state" id="padState">Keine Eingabe</div></div><span class="pill ${n ? '' : 'off'}">${n ? 'Verbunden' : 'Keiner'}</span></div>
+      <div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">${n ? n + ' verbunden' : 'Kein Controller erkannt'}</div><div class="pad-state" id="padState">${n ? 'Drücke eine Taste zum Testen' : 'Schließe einen Controller an und drücke eine Taste'}</div></div><span class="pill ${n ? '' : 'off'}">${n ? 'Verbunden' : 'Keiner'}</span></div>
       ${toggleEl('vib', 'Vibration', 'Rückmeldung bei Eingaben und Fehlern')}
       ${row('Totzone Analog-Stick', segEl('dz', [[10, 'Klein'], [20, 'Mittel'], [30, 'Groß']]), 'Wie weit der Stick bewegt werden muss')}
-      <div class="actions" style="margin:.8rem 0 1rem"><button class="btn" data-f data-action="pad-vibrate">Vibration testen</button></div>
+      <div class="actions" style="margin:.8rem 0 1rem"><button class="btn" data-f data-action="pad-vibrate">Vibration testen</button><button class="btn ghost" data-f data-action="pad-refresh">Erneut suchen</button></div>
       <div class="sec-title">Belegung</div>
-      <div class="kv"><b>A</b><span>Auswählen</span></div>
-      <div class="kv"><b>B</b><span>Zurück</span></div>
-      <div class="kv"><b>Y</b><span>Schnellmenü</span></div>
-      <div class="kv"><b>X</b><span>Suche (Start)</span></div>
+      <div class="kv"><b>A / ✕</b><span>Auswählen</span></div>
+      <div class="kv"><b>B / ○</b><span>Zurück / Spiel verlassen (4s halten)</span></div>
+      <div class="kv"><b>Y / △</b><span>Schnellmenü</span></div>
+      <div class="kv"><b>X / □</b><span>Suche (Start)</span></div>
       <div class="kv"><b>LB / RB</b><span>Bereiche wechseln</span></div>`;
   }
   if (sec === 'sound') {
@@ -1290,7 +1796,7 @@ function paneHTML(sec) {
   }
   if (sec === 'update') {
     return `<h2 class="pane-title">Softwareupdate</h2><p class="pane-sub">Suche nach Systemupdates über Internet oder ein Speichermedium.</p>
-      <div class="kv"><b>Aktuelle Version</b><span>NoxuraFluxOS 8.6</span></div>
+      <div class="kv"><b>Aktuelle Version</b><span>NoxuraFluxOS 8.7</span></div>
       <div class="kv"><b>Installiert am</b><span>${new Date().toLocaleDateString('de-DE')}</span></div>
       <div class="sec-title">Update suchen</div>
       <div class="actions" style="flex-wrap:wrap">
@@ -1300,9 +1806,9 @@ function paneHTML(sec) {
       <div class="sec-title">Automatische Updates</div>
       ${toggleEl('autoUpdate', 'Automatisch nach Updates suchen', 'Im Hintergrund nach neuen Versionen suchen')}
       <div class="sec-title">Verlauf</div>
-      <div class="kv"><b>8.6</b><span>Aktuell</span></div>
-      <div class="kv"><b>8.5</b><span>Installiert</span></div>
-      <div class="kv"><b>8.4</b><span>Installiert</span></div>`;
+      <div class="kv"><b>8.7</b><span>Aktuell</span></div>
+      <div class="kv"><b>8.6</b><span>Installiert</span></div>
+      <div class="kv"><b>8.5</b><span>Installiert</span></div>`;
   }
   if (sec === 'profile') {
     return `<h2 class="pane-title">Profil & Reset</h2><p class="pane-sub">Profil anpassen oder das Gerät zurücksetzen.</p>
@@ -1350,7 +1856,7 @@ function renderQuick() {
   const p = activeProfile();
   $('#quickInner').innerHTML = `
     <div class="qm-top">
-      <div class="qm-user"><div class="avatar">${avatarSVG(p.avatar, p.accent)}</div><div><div class="qm-name">${esc(p.name)}</div><div class="qm-sub">NoxuraFluxOS 8.6</div></div></div>
+      <div class="qm-user"><div class="avatar">${avatarSVG(p.avatar, p.accent)}</div><div><div class="qm-name">${esc(p.name)}</div><div class="qm-sub">NoxuraFluxOS 8.7</div></div></div>
       <div class="qm-sub" id="qmClock"></div>
     </div>
     <div class="qm-row">
@@ -1405,14 +1911,8 @@ function toggleFS() {
   } catch (e) { toast('Vollbild nicht verfügbar'); }
 }
 
-/* ================= range helper ================= */
-function rangeAdjust(el, dir) {
-  const max = +el.max || 100, step = +el.step || 1;
-  el.value = clamp(+el.value + dir * step, +el.min || 0, max);
-  el.dispatchEvent(new Event('input', { bubbles: true }));
-}
-
 /* ================= actions ================= */
+function coerce(v) { if (v === 'true') return true; if (v === 'false') return false; if (v !== '' && !isNaN(v)) return +v; return v; }
 const ACT = {
   'boot-skip': () => skipBoot(),
   choose(el) {
@@ -1445,7 +1945,14 @@ const ACT = {
     if (setupIdx < setupSeq.length - 1) { setupIdx++; sfx('nav'); rerender(renderSetup); }
     else finishSetup();
   },
-  'pad-vibrate': () => { sfx('ok'); if (S.prefs.vib) toast('Vibration ausgelöst'); },
+  'pad-vibrate': () => {
+    const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+    let did = false;
+    if (pads) for (const p of pads) if (p && p.connected && p.vibrationActuator) { p.vibrationActuator.playEffect('dual-rumble', { duration: 300, strongMagnitude: 1, weakMagnitude: 1 }).catch(()=>{}); did = true; }
+    if (!did) { if (navigator.vibrate) navigator.vibrate([200,80,200]); }
+    sfx('ok'); toast(did ? 'Vibration gesendet' : 'Vibration ausgelöst');
+  },
+  'pad-refresh': () => { pollGamepads(); toast(controllerCount() ? controllerCount() + ' Controller gefunden' : 'Kein Controller gefunden'); },
   'toast-net': () => toast(navigator.onLine ? 'Internetverbindung OK' : 'Keine Verbindung'),
   'rename-draft': () => askName(n => { if (n) { setupDraft.name = n; rerender(renderSetup); } }),
   'set-avatar': el => { setupDraft.avatar = +el.dataset.val; rerender(renderSetup); },
@@ -1474,17 +1981,17 @@ const ACT = {
   'trailer': () => toast('Trailer folgt in einem Update'),
   'noop': () => {},
   'download-game': el => startDownload(el.dataset.id),
-  'launch-owned': el => launchGame(el.dataset.id),
+  'launch-owned': el => Game.start(el.dataset.id),
   'open-game': el => go('game', { id: el.dataset.id }),
   'game-tab': el => { S.gameTab = el.dataset.val; save(); rerender(renderGame); },
-  'launch': el => launchGame(el.dataset.id),
+  'launch': el => Game.start(el.dataset.id),
   'game-add': el => { const id = el.dataset.id; if (!S.library.includes(id)) S.library.push(id); save(); sfx('ok'); toast('Hinzugefügt'); rerender(renderGame); },
   'game-remove': el => { S.library = S.library.filter(x => x !== el.dataset.id); save(); sfx('back'); rerender(renderGame); },
   'saves-clear': el => openDialog({ kicker: 'Speicherdaten', title: 'Speicherdaten löschen?', body: 'Diese Aktion kann nicht rückgängig gemacht werden.', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Löschen', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { toast('Speicherdaten gelöscht'); } } }),
   'lib-toggle': el => { const id = el.dataset.id; if (libDraft.includes(id)) libDraft = libDraft.filter(x => x !== id); else libDraft.push(id); rerender(renderLibrary); },
   'lib-apply': () => { S.library = [...libDraft]; save(); sfx('ok'); toast('Bibliothek aktualisiert'); goBack(); },
   'lib-cancel': () => goBack(),
-  'lib-test': () => { const id = libDraft[0]; if (id) launchGame(id); },
+  'lib-test': () => { const id = libDraft[0]; if (id) Game.start(id); },
   'lib-custom': () => askName(n => { if (!n) return; const id = 'custom_' + uid(); S.custom[id] = { name: n, genre: 'Eigenes', demo: true, desc: 'Benutzerdefiniertes Spiel.', art: SYS_ART.add, meta: { dev: 'Benutzer', ver: '1.0', size: '–', age: '–', rel: '2026' }, req: rq('–', '–', '–', '–') }; CATALOG[id] = S.custom[id]; S.library.push(id); save(); toast('Spiel hinzugefügt'); rerender(renderLibrary); }),
   'shot-take': () => { takeShot(); rerender(renderGallery); },
   'shot-open': el => { const i = +el.dataset.val; openDialog({ kicker: 'Capture', title: S.captures[i].t, body: `<img src="${S.captures[i].d}" style="width:100%;border-radius:.4rem">`, buttons: [{ label: 'Schließen', cls: 'ghost' }, { label: 'Löschen', cls: 'danger' }], def: 0, cb: r => { if (r === 1) { S.captures.splice(i, 1); save(); rerender(renderGallery); } } }); },
@@ -1495,8 +2002,8 @@ const ACT = {
   'rename-profile': () => askName(n => { if (!n) return; const p = activeProfile(); p.name = n.slice(0, 16); save(); rerender(renderSettings); }),
   'profile-switch': () => go('profiles'),
   'reset-all': () => openDialog({ kicker: 'Werkseinstellungen', title: 'Alles zurücksetzen?', body: 'Profile, Einstellungen, Bibliothek und Captures werden gelöscht.', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Zurücksetzen', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { localStorage.removeItem(KEY); S = load(); applyPrefs(); toast('Zurückgesetzt'); go('boot', { reset: true }); startBoot(); } } }),
-  'update-net': () => showUpdateResult(),
-  'update-media': () => showUpdateResult(),
+  'update-net': () => showUpdateResult('Internet'),
+  'update-media': () => showUpdateResult('Speichermedium'),
   'dlg-result': el => closeDialog(+el.dataset.val),
   'qm-home': () => { closeQuick(); go('home', { reset: true }); },
   'qm-friends': () => { closeQuick(); openFriends(); },
@@ -1506,7 +2013,6 @@ const ACT = {
   'friend-invite': el => { const id = el.dataset.id; if (S.party.includes(id)) S.party = S.party.filter(x => x !== id); else if (S.party.length < 3) S.party.push(id); save(); sfx('ok'); rerender(renderFriends); },
   'friend-add': () => askName(n => { if (!n) return; S.friends.push({ id: uid(), n: n.slice(0, 14), on: false, g: '' }); save(); rerender(renderFriends); })
 };
-function coerce(v) { if (v === 'true') return true; if (v === 'false') return false; if (v !== '' && !isNaN(v)) return +v; return v; }
 function refresh() {
   if (curView === 'setup') renderSetup();
   else if (curView === 'settings') renderSettings();
@@ -1518,21 +2024,22 @@ function refresh() {
   else if (curView === 'game') renderGame();
   else if (curView === 'gallery') renderGallery();
 }
-function showUpdateResult() {
+function showUpdateResult(source) {
   openDialog({
-    kicker: 'Softwareupdate',
+    kicker: 'Softwareupdate · ' + (source || ''),
     title: 'Update-Prüfung',
-    body: `<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem"><div class="spin"></div><span>Suche läuft …</span></div>`,
+    body: `<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem"><div class="spin"></div><span>Suche über ${source} …</span></div>`,
     buttons: [],
     def: 0
   });
   setTimeout(() => {
     $('#dlgBody').innerHTML = `<div class="okmsg">${esc(t('updateLatest'))}</div>
-      <div class="kv" style="margin-top:.6rem"><b>Version</b><span>NoxuraFluxOS 8.6</span></div>
+      <div class="kv" style="margin-top:.6rem"><b>Version</b><span>NoxuraFluxOS 8.7</span></div>
+      <div class="kv"><b>Quelle</b><span>${esc(source || '–')}</span></div>
       <div class="kv"><b>Status</b><span>Aktuell</span></div>`;
     $('#dlgActions').innerHTML = `<button class="btn primary" data-f data-default data-action="dlg-result" data-val="-1">OK</button>`;
     placeFocus();
-  }, 1500);
+  }, 1400);
 }
 function askName(cb) {
   const inp = document.createElement('input');
@@ -1563,16 +2070,9 @@ const R = {
 };
 
 /* ================= input ================= */
-function clickAction(el, ev) {
-  const a = el.dataset.action;
-  if (!a) return;
-  primeAudio();
-  if (ACT[a]) { try { ACT[a](el, ev); } catch (e) { console.error(e); } }
-  if (el.dataset.key === 'vol' || el.dataset.action === 'range') {}
-}
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-f]');
-  if (el) { e.preventDefault(); clickAction(el, e); }
+  if (el) { e.preventDefault(); primeAudio(); if (ACT[el.dataset.action]) { try { ACT[el.dataset.action](el, e); } catch (err) { console.error(err); } } }
 });
 document.addEventListener('input', e => {
   const el = e.target;
@@ -1587,14 +2087,16 @@ document.addEventListener('input', e => {
     if (k === 'ui' || k === 'frame') applyPrefs();
   }
 });
-let lastKeyT = 0;
+
+/* ================= keyboard + gamepad global ================= */
 document.addEventListener('keydown', e => {
   primeAudio();
+  if (Game.running) return; // games handle keys themselves
   if (e.key === 'Escape') { e.preventDefault(); if (dialogOpen()) closeDialog(-1); else if (qmOpen()) closeQuick(); else if (friendsOpen()) closeFriends(); else goBack(); return; }
   if (dialogOpen()) {
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); moveSeq(-1); }
     else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); moveSeq(1); }
-    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (focusEl) clickAction(focusEl, e); }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (focusEl) ACT[focusEl.dataset.action] && ACT[focusEl.dataset.action](focusEl, e); }
     return;
   }
   if (qmOpen() || friendsOpen()) {
@@ -1602,7 +2104,7 @@ document.addEventListener('keydown', e => {
     else if (e.key === 'ArrowRight') { e.preventDefault(); move('right'); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); move('up'); }
     else if (e.key === 'ArrowDown') { e.preventDefault(); move('down'); }
-    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (focusEl) clickAction(focusEl, e); }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (focusEl && ACT[focusEl.dataset.action]) ACT[focusEl.dataset.action](focusEl, e); }
     return;
   }
   if (curView === 'boot') { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); skipBoot(); } return; }
@@ -1610,25 +2112,61 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowRight') { e.preventDefault(); move('right'); }
   else if (e.key === 'ArrowUp') { e.preventDefault(); move('up'); }
   else if (e.key === 'ArrowDown') { e.preventDefault(); move('down'); }
-  else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (focusEl) clickAction(focusEl, e); }
+  else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (focusEl && ACT[focusEl.dataset.action]) ACT[focusEl.dataset.action](focusEl, e); }
   else if (e.key === 'Backspace') { e.preventDefault(); goBack(); }
   else if (e.key.toLowerCase() === 'y') { e.preventDefault(); if (qmOpen()) closeQuick(); else openQuick(); }
   else if (e.key.toLowerCase() === 'q' || e.key === 'PageUp') { e.preventDefault(); moveSeq(-1); }
   else if (e.key.toLowerCase() === 'e' || e.key === 'PageDown') { e.preventDefault(); moveSeq(1); }
 });
 
+/* gamepad navigation outside games */
+function gamepadNavLoop() {
+  if (Game.running) { requestAnimationFrame(gamepadNavLoop); return; }
+  const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+  if (pads) for (const p of pads) {
+    if (!p || !p.connected) continue;
+    const now = performance.now();
+    if (!p._lastNav) p._lastNav = 0;
+    if (now - p._lastNav > 200) {
+      const ax = p.axes[0] || 0, ay = p.axes[1] || 0;
+      let dir = null;
+      if (ax < -0.6 || (p.buttons[14] && p.buttons[14].pressed)) dir = 'left';
+      else if (ax > 0.6 || (p.buttons[15] && p.buttons[15].pressed)) dir = 'right';
+      else if (ay < -0.6 || (p.buttons[12] && p.buttons[12].pressed)) dir = 'up';
+      else if (ay > 0.6 || (p.buttons[13] && p.buttons[13].pressed)) dir = 'down';
+      if (dir) { move(dir); p._lastNav = now; }
+    }
+    if (p.buttons[0] && p.buttons[0].pressed && now - (p._lastA || 0) > 250) {
+      p._lastA = now;
+      if (focusEl && ACT[focusEl.dataset.action]) { try { ACT[focusEl.dataset.action](focusEl, { type: 'gamepad' }); } catch (err) {} }
+    }
+    if (p.buttons[1] && p.buttons[1].pressed && now - (p._lastB || 0) > 300) {
+      p._lastB = now;
+      if (dialogOpen()) closeDialog(-1);
+      else if (qmOpen()) closeQuick();
+      else if (friendsOpen()) closeFriends();
+      else if (curView !== 'home' && curView !== 'boot' && curView !== 'setup') goBack();
+    }
+    if (p.buttons[3] && p.buttons[3].pressed && now - (p._lastY || 0) > 300) {
+      p._lastY = now;
+      if (qmOpen()) closeQuick(); else openQuick();
+    }
+  }
+  requestAnimationFrame(gamepadNavLoop);
+}
+
 /* ================= boot loop / init ================= */
 function loop(now) { drawBG(now); requestAnimationFrame(loop); }
-window.addEventListener('resize', () => { resizeBG(); });
-window.addEventListener('orientationchange', () => setTimeout(resizeBG, 300));
+window.addEventListener('resize', () => { resizeBG(); if (Game.running) Game.resize(); });
+window.addEventListener('orientationchange', () => setTimeout(() => { resizeBG(); if (Game.running) Game.resize(); }, 300));
 setInterval(tickClock, 1000);
-setInterval(() => {
-  let lvl = 100;
-  if (navigator.getBattery) navigator.getBattery().then(b => { $('#batPct').textContent = Math.round(b.level * 100) + '%'; }).catch(() => {});
-}, 30000);
-if (navigator.getBattery) navigator.getBattery().then(b => { const upd = () => $('#batPct').textContent = Math.round(b.level * 100) + '%'; upd(); b.addEventListener('levelchange', upd); }).catch(() => {});
+if (navigator.getBattery) navigator.getBattery().then(b => { const upd = () => { const el = $('#batPct'); if (el) el.textContent = Math.round(b.level * 100) + '%'; }; upd(); b.addEventListener('levelchange', upd); }).catch(() => {});
 applyPrefs(); resizeBG(); tickClock();
+Game.init();
+pollGamepads();
+setInterval(pollGamepads, 1000);
 requestAnimationFrame(loop);
+requestAnimationFrame(gamepadNavLoop);
 startBoot();
 })();
 </script>
