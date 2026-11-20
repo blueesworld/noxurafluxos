@@ -26,8 +26,6 @@ svg{display:block}
 #app{position:fixed;inset:var(--frame);overflow:hidden;background:#050811}
 #bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 #shade{position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(5,8,17,.15),rgba(5,8,17,.9))}
-
-/* ---------- views ---------- */
 .view{position:absolute;left:0;right:0;top:0;bottom:var(--hints-h);display:none;flex-direction:column;min-width:0;z-index:5;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
 .view.active{display:flex;animation:viewIn .34s cubic-bezier(.22,.7,.2,1) both}
 @keyframes viewIn{from{opacity:0;transform:translateY(.6rem)}to{opacity:1;transform:none}}
@@ -37,8 +35,6 @@ svg{display:block}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes markIn{from{opacity:0;letter-spacing:.7em}to{opacity:1;letter-spacing:.42em}}
 @keyframes shine{0%{left:-60%}60%,100%{left:120%}}
-
-/* ---------- focus ---------- */
 [data-f]{position:relative;outline:none}
 [data-f].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140,255,.55);z-index:3}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.6rem 1.3rem;border-radius:.5rem;font-size:.84rem;font-weight:600;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--text);transition:transform .15s,background .15s,box-shadow .15s}
@@ -73,8 +69,6 @@ svg{display:block}
 .skeleton{background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.1) 37%,rgba(255,255,255,.04) 63%);background-size:200% 100%;animation:shimmer 1.4s linear infinite;border-radius:.7rem}
 .loading{display:flex;align-items:center;gap:.9rem;color:var(--muted);font-size:.8rem;padding:1rem 0}
 .spin{width:1.4rem;height:1.4rem;border-radius:50%;border:.18rem solid rgba(255,255,255,.14);border-top-color:var(--accent);animation:spin .8s linear infinite}
-
-/* ---------- settings controls ---------- */
 .setrow{display:flex;justify-content:space-between;align-items:center;gap:1.2rem;padding:.75rem .2rem;border-bottom:1px solid var(--line)}
 .setrow .tl{font-size:.82rem;font-weight:600}
 .setrow .ts{font-size:.7rem;color:var(--muted);margin-top:.2rem;line-height:1.45}
@@ -105,14 +99,10 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .av.is-focus{transform:scale(1.1)}
 .pad-state{font-family:ui-monospace,Consolas,monospace;font-size:.72rem;color:var(--accent-soft);margin-top:.4rem;min-height:1.1rem}
 .controller-vis{display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;border-radius:.6rem;background:var(--panel);border:1px solid var(--line);margin-bottom:.8rem}
-
-/* ---------- hints ---------- */
 #hints{position:absolute;left:0;right:0;bottom:0;height:var(--hints-h);display:flex;align-items:center;justify-content:space-between;padding:0 1.6rem;font-size:.7rem;color:var(--muted);pointer-events:none;z-index:60;background:linear-gradient(0deg,rgba(3,5,12,.92),rgba(3,5,12,0))}
 #hints .hgroup{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
 .hitem{display:inline-flex;align-items:center;white-space:nowrap}
 .key{display:inline-flex;align-items:center;justify-content:center;min-width:1.4rem;height:1.4rem;padding:0 .3rem;margin-right:.4rem;border-radius:.35rem;background:rgba(255,255,255,.1);font-size:.66rem;font-weight:800;color:#fff}
-
-/* ---------- boot ---------- */
 #view-boot{align-items:center;justify-content:center}
 .boot-logo{display:flex;flex-direction:column;align-items:center;gap:1rem}
 .boot-mark{position:relative;font-size:clamp(2.4rem,6.5vw,5rem);font-weight:700;letter-spacing:.42em;padding-left:.42em;overflow:hidden;color:#f2f7ff;animation:markIn 1.3s cubic-bezier(.16,1,.3,1) both}
@@ -123,8 +113,6 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .boot-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width 2.6s cubic-bezier(.4,0,.2,1)}
 .boot-hint{margin-top:1.4rem;font-size:.72rem;color:var(--muted);opacity:0;animation:fadeIn .6s 1.6s both;padding:.3rem .6rem;border-radius:.4rem}
 .boot-hint.is-focus{color:#fff}
-
-/* ---------- setup ---------- */
 #view-setup{padding:2rem 3.2rem}
 .setup-shell{display:flex;flex-direction:column;height:100%;gap:1rem}
 .setup-step{font-size:.68rem;letter-spacing:.2em;color:var(--accent-soft);font-weight:700}
@@ -139,8 +127,6 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .opt.is-focus{transform:translateX(.3rem);background:rgba(255,255,255,.1)}
 .calib{width:100%;height:8rem;border-radius:.6rem;position:relative;border:1px dashed rgba(170,200,255,.35);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.74rem;margin-bottom:.4rem}
 .calib span{position:absolute;inset:.8rem;border:1px solid rgba(170,200,255,.2);border-radius:.4rem}
-
-/* ---------- profiles ---------- */
 #view-profiles{align-items:center;justify-content:center;gap:2rem}
 .profiles-title{font-size:1.5rem;font-weight:300;letter-spacing:.1em;color:#e6eefc}
 .profiles-row{display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap;justify-content:center}
@@ -152,8 +138,6 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .profile-card.add .big{display:grid;place-items:center;border:1px dashed rgba(170,200,255,.4);font-size:1.6rem;color:var(--muted)}
 .profile-card.is-focus{transform:translateY(-.3rem);background:rgba(255,255,255,.05)}
 .profile-card.is-focus .big{border-color:#fff}
-
-/* ---------- home ---------- */
 #view-home{overflow:hidden}
 #heroArt{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center 30%;animation:fadeIn .5s both}
 #heroArt::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#050811 0%,rgba(5,8,17,.55) 40%,rgba(5,8,17,.25) 100%),linear-gradient(90deg,rgba(5,8,17,.5),transparent 60%)}
@@ -190,8 +174,6 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .tile.add{display:grid;place-items:center;background:rgba(255,255,255,.04);border:1px dashed rgba(170,200,255,.3)}
 .tile.add .plus{font-size:2rem;font-weight:200;color:var(--accent-soft);line-height:1}
 .tile.add .label{margin-top:.5rem;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 .8rem}
-
-/* ---------- store ---------- */
 .store-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 2rem .3rem;flex-wrap:wrap}
 .store-title{font-size:1.4rem;font-weight:600;margin:0}
 .store-title span{color:var(--accent-soft);font-weight:400}
@@ -209,12 +191,12 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .card{border-radius:.6rem;overflow:hidden;background:var(--panel);border:1px solid var(--line);transition:transform .16s}
 .c-art{position:relative;aspect-ratio:3/4;background-size:cover;background-position:center}
 .lock{position:absolute;top:.4rem;right:.4rem;font-size:.5rem;letter-spacing:.08em;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(255,77,66,.9);color:#fff}
+.badge-dl{position:absolute;top:.4rem;left:.4rem;font-size:.5rem;letter-spacing:.08em;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(70,227,155,.92);color:#03241a}
+.badge-own{position:absolute;top:.4rem;left:.4rem;font-size:.5rem;letter-spacing:.08em;font-weight:700;padding:.15rem .35rem;border-radius:.25rem;background:rgba(47,140,255,.92);color:#fff}
 .c-meta{padding:.55rem .6rem .65rem;display:flex;flex-direction:column;gap:.15rem}
 .c-name{font-size:.76rem;font-weight:600;line-height:1.2}
 .c-tag{font-size:.6rem;color:var(--muted)}
 .card.is-focus{transform:translateY(-.25rem)}
-
-/* ---------- store detail ---------- */
 #view-detail{padding:0}
 .detail-wrap{display:flex;flex-direction:column;height:100%;min-height:0}
 .detail-hero{position:relative;height:clamp(8rem,30vh,16rem);flex:none;overflow:hidden}
@@ -237,8 +219,9 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .buybtn-off{width:100%;padding:.8rem 1.2rem;border-radius:.5rem;font-weight:700;font-size:.86rem;background:rgba(255,255,255,.05);color:#6f7f99;border:1px solid var(--line);cursor:not-allowed}
 .buybtn-off.is-focus{background:rgba(255,77,66,.1);color:#ffb2ac;border-color:rgba(255,77,66,.5)}
 .warn{font-size:.74rem;font-weight:600;line-height:1.5;color:var(--danger);padding:.6rem .75rem;border-radius:.5rem;background:rgba(255,77,66,.08);border:1px solid rgba(255,77,66,.3)}
-
-/* ---------- game page ---------- */
+.okmsg{font-size:.74rem;font-weight:600;line-height:1.5;color:var(--ok);padding:.6rem .75rem;border-radius:.5rem;background:rgba(70,227,155,.08);border:1px solid rgba(70,227,155,.3)}
+.dlbar{height:.5rem;border-radius:99rem;background:rgba(255,255,255,.1);overflow:hidden;margin:.4rem 0}
+.dlbar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .3s}
 #view-game{padding:0}
 .g-art{position:absolute;inset:0;background-size:cover;background-position:center 25%;animation:fadeIn .5s both}
 .g-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,8,17,.96) 8%,rgba(5,8,17,.45) 65%),linear-gradient(0deg,#050811 0%,rgba(5,8,17,0) 55%)}
@@ -261,8 +244,6 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .trophy-row .tt{flex:1;min-width:0}
 .trophy-row .tn{font-size:.8rem;font-weight:600}
 .trophy-row .td{font-size:.66rem;color:var(--muted)}
-
-/* ---------- library / gallery ---------- */
 .lib-head{padding:.9rem 2rem .5rem;display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .lib-note{font-size:.7rem;color:var(--muted);max-width:60ch;line-height:1.5}
 .lib-grid{flex:1;min-height:0;overflow-y:auto;padding:.4rem 2rem .8rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(11rem,20vw,16rem),1fr));gap:.6rem;align-content:start;scrollbar-width:none}
@@ -282,8 +263,6 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .s-art{position:absolute;inset:0;background-size:cover;background-position:center}
 .s-cap{position:absolute;left:.45rem;bottom:.4rem;font-size:.6rem;color:#e6eefc;text-shadow:0 0 4px #000}
 .shot.is-focus{transform:scale(1.03)}
-
-/* ---------- settings ---------- */
 #view-settings{padding:0}
 .settings-shell{display:flex;gap:1.2rem;flex:1;min-height:0;padding:1rem 2rem}
 .settings-list{width:min(16rem,28%);display:flex;flex-direction:column;gap:.2rem;overflow-y:auto;scrollbar-width:none}
@@ -295,8 +274,6 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .settings-pane::-webkit-scrollbar{display:none}
 .pane-title{font-size:1.1rem;font-weight:600;margin:0 0 .15rem}
 .pane-sub{font-size:.72rem;color:var(--muted);margin:0 0 .8rem;line-height:1.5}
-
-/* ---------- friends panel ---------- */
 #friendsPanel{position:absolute;top:0;right:0;bottom:0;width:min(24rem,44vw);z-index:70;background:rgba(9,15,30,.97);border-left:1px solid var(--line);transform:translateX(102%);transition:transform .3s cubic-bezier(.22,.7,.2,1);display:flex;flex-direction:column}
 #friendsPanel.open{transform:none}
 .panel-head{padding:1.1rem 1.2rem .8rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
@@ -316,8 +293,6 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .fact{font-size:.64rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .panel-foot{padding:.7rem 1rem 1rem}
 .panel-foot .btn{width:100%}
-
-/* ---------- quick menu ---------- */
 #quickMenu{position:absolute;left:0;right:0;bottom:0;z-index:80;padding:0 1.2rem calc(var(--hints-h) + .3rem);transform:translateY(110%);opacity:0;transition:transform .3s cubic-bezier(.22,.7,.2,1),opacity .25s;pointer-events:none}
 #quickMenu.open{transform:none;opacity:1;pointer-events:auto}
 .qm-inner{border-radius:.8rem;padding:.8rem .9rem;background:rgba(12,19,36,.97);border:1px solid var(--line);display:flex;flex-direction:column;gap:.7rem}
@@ -337,8 +312,6 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .volbar{flex:1;height:.3rem;border-radius:99rem;background:rgba(255,255,255,.14);position:relative}
 .volbar i{position:absolute;left:0;top:0;bottom:0;border-radius:99rem;background:var(--accent)}
 .vlabel{font-size:.62rem;min-width:2.2rem;text-align:right;font-variant-numeric:tabular-nums}
-
-/* ---------- dialog / toast ---------- */
 #dialogLayer{position:absolute;inset:0;z-index:90;display:none;align-items:center;justify-content:center;background:rgba(3,5,12,.7);padding:2rem}
 #dialogLayer.open{display:flex;animation:fadeIn .2s both}
 .dialog-card{width:min(32rem,86vw);max-height:80vh;overflow-y:auto;border-radius:.8rem;padding:1.3rem 1.4rem;background:#0d1628;border:1px solid var(--line)}
@@ -348,12 +321,9 @@ input[type=range].is-focus{box-shadow:0 0 0 .16rem #fff,0 0 0 .32rem rgba(47,140
 .dlg-actions{display:flex;justify-content:flex-end;gap:.5rem;margin-top:1.1rem;flex-wrap:wrap}
 #toast{position:absolute;left:50%;bottom:calc(var(--hints-h) + 1rem);transform:translate(-50%,.8rem);z-index:95;padding:.55rem 1rem;border-radius:.4rem;font-size:.74rem;font-weight:600;background:#101b33;border:1px solid var(--line);opacity:0;transition:opacity .22s,transform .22s;pointer-events:none;max-width:80vw;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
-
-/* ---------- rotate ---------- */
 #rotate{position:absolute;inset:0;z-index:120;display:none;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;background:#050811;text-align:center;padding:2rem}
 @media (orientation:portrait) and (max-width:900px){#rotate{display:flex}}
 #rotate p{font-size:.8rem;color:var(--muted);max-width:28ch;line-height:1.6;margin:0}
-
 @media (max-height:26rem){
   :root{--hints-h:2.1rem}
   .hero-sub{display:none}
@@ -557,19 +527,20 @@ const TROPHIES = ['Erster Start', 'Zehn Minuten', 'Eine Stunde', 'Entdecker', 'M
 const fmtTime = min => { const h = Math.floor(min / 60), m = min % 60; return h ? `${h} h ${m} min` : `${m} min`; };
 
 const T = {
-  de: { games: 'Spiele', media: 'Medien', store: 'Store', gallery: 'Galerie', library: 'Bibliothek', settings: 'Einstellungen', friends: 'Freunde', back: 'Zurück', next: 'Weiter', finish: 'Fertig', play: 'Spielen', unavailable: 'Nicht verfügbar', home: 'Start', who: 'Wer spielt?', hintMove: 'Navigieren', hintOk: 'Auswählen', hintBack: 'Zurück', hintMenu: 'Schnellmenü', hintSearch: 'Suche', hintTabs: 'Bereiche', press: 'Drücke A oder eine Taste', props: 'Eigenschaften', trophies: 'Trophäen', saves: 'Speicherdaten', overview: 'Übersicht', addGame: 'Spiel hinzufügen', storeLoading: 'Store wird geladen …' },
-  en: { games: 'Games', media: 'Media', store: 'Store', gallery: 'Gallery', library: 'Library', settings: 'Settings', friends: 'Friends', back: 'Back', next: 'Next', finish: 'Done', play: 'Play', unavailable: 'Unavailable', home: 'Home', who: 'Who is playing?', hintMove: 'Navigate', hintOk: 'Select', hintBack: 'Back', hintMenu: 'Quick menu', hintSearch: 'Search', hintTabs: 'Sections', press: 'Press A or any key', props: 'Properties', trophies: 'Trophies', saves: 'Save data', overview: 'Overview', addGame: 'Add game', storeLoading: 'Loading store …' },
-  tr: { games: 'Oyunlar', media: 'Medya', store: 'Mağaza', gallery: 'Galeri', library: 'Kitaplık', settings: 'Ayarlar', friends: 'Arkadaşlar', back: 'Geri', next: 'İleri', finish: 'Bitir', play: 'Oyna', unavailable: 'Kullanılamıyor', home: 'Ana sayfa', who: 'Bugün kim oynuyor?', hintMove: 'Gezin', hintOk: 'Seç', hintBack: 'Geri', hintMenu: 'Hızlı menü', hintSearch: 'Ara', hintTabs: 'Sekmeler', press: 'Devam için A veya bir tuşa basın', props: 'Özellikler', trophies: 'Kupalar', saves: 'Kayıt verileri', overview: 'Genel', addGame: 'Oyun ekle', storeLoading: 'Mağaza yükleniyor …' }
+  de: { games: 'Spiele', media: 'Medien', store: 'Store', gallery: 'Galerie', library: 'Bibliothek', settings: 'Einstellungen', friends: 'Freunde', back: 'Zurück', next: 'Weiter', finish: 'Fertig', play: 'Spielen', unavailable: 'Nicht verfügbar', home: 'Start', who: 'Wer spielt?', hintMove: 'Navigieren', hintOk: 'Auswählen', hintBack: 'Zurück', hintMenu: 'Schnellmenü', hintSearch: 'Suche', hintTabs: 'Bereiche', press: 'Drücke A oder eine Taste', props: 'Eigenschaften', trophies: 'Trophäen', saves: 'Speicherdaten', overview: 'Übersicht', addGame: 'Spiel hinzufügen', storeLoading: 'Store wird geladen …', download: 'Herunterladen', downloading: 'Wird heruntergeladen …', installed: 'Installiert', owned: 'Im Besitz', searchUpdate: 'Nach Update suchen', updateNet: 'Über Internet suchen', updateMedia: 'Über Speichermedium suchen', updateLatest: 'Es ist bereits das neuste Softwareupdate installiert.' },
+  en: { games: 'Games', media: 'Media', store: 'Store', gallery: 'Gallery', library: 'Library', settings: 'Settings', friends: 'Friends', back: 'Back', next: 'Next', finish: 'Done', play: 'Play', unavailable: 'Unavailable', home: 'Home', who: 'Who is playing?', hintMove: 'Navigate', hintOk: 'Select', hintBack: 'Back', hintMenu: 'Quick menu', hintSearch: 'Search', hintTabs: 'Sections', press: 'Press A or any key', props: 'Properties', trophies: 'Trophies', saves: 'Save data', overview: 'Overview', addGame: 'Add game', storeLoading: 'Loading store …', download: 'Download', downloading: 'Downloading …', installed: 'Installed', owned: 'Owned', searchUpdate: 'Check for update', updateNet: 'Check via internet', updateMedia: 'Check via storage media', updateLatest: 'The latest system software is already installed.' },
+  tr: { games: 'Oyunlar', media: 'Medya', store: 'Mağaza', gallery: 'Galeri', library: 'Kitaplık', settings: 'Ayarlar', friends: 'Arkadaşlar', back: 'Geri', next: 'İleri', finish: 'Bitir', play: 'Oyna', unavailable: 'Kullanılamıyor', home: 'Ana sayfa', who: 'Bugün kim oynuyor?', hintMove: 'Gezin', hintOk: 'Seç', hintBack: 'Geri', hintMenu: 'Hızlı menü', hintSearch: 'Ara', hintTabs: 'Sekmeler', press: 'Devam için A veya bir tuşa basın', props: 'Özellikler', trophies: 'Kupalar', saves: 'Kayıt verileri', overview: 'Genel', addGame: 'Oyun ekle', storeLoading: 'Mağaza yükleniyor …', download: 'İndir', downloading: 'İndiriliyor …', installed: 'Yüklü', owned: 'Sahip', searchUpdate: 'Güncelleme ara', updateNet: 'İnternet üzerinden ara', updateMedia: 'Depolama ortamı üzerinden ara', updateLatest: 'En son sistem yazılımı zaten yüklü.' }
 };
 const t = k => (T[S.prefs.lang] || T.de)[k] || T.de[k] || k;
 
 /* ================= state ================= */
 const DEFAULTS = {
   setup: { done: false },
-  prefs: { lang: 'de', ui: 1, frame: 0, anim: true, hc: false, h24: true, vib: true, dz: 20, sfxNav: true, sfxOk: true },
+  prefs: { lang: 'de', ui: 1, frame: 0, anim: true, hc: false, h24: true, vib: true, dz: 20, sfxNav: true, sfxOk: true, telemetry: false, autoUpdate: true },
   profiles: [], active: null,
   library: ['nova', 'pixel', 'skyline'],
   custom: {}, captures: [], play: {}, last: {},
+  owned: [], downloads: {},
   friends: [
     { id: 'f1', n: 'Ayla', on: true, g: 'Echoes of Eternity' },
     { id: 'f2', n: 'Mert', on: false, g: '' },
@@ -582,7 +553,7 @@ function load() {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
     if (!raw) return base;
-    return { ...base, ...raw, setup: { ...base.setup, ...(raw.setup || {}) }, prefs: { ...base.prefs, ...(raw.prefs || {}) } };
+    return { ...base, ...raw, setup: { ...base.setup, ...(raw.setup || {}) }, prefs: { ...base.prefs, ...(raw.prefs || {}) }, owned: raw.owned || [], downloads: raw.downloads || {} };
   } catch (e) { return base; }
 }
 let S = load();
@@ -599,7 +570,11 @@ const CATALOG = {
   echoes: { name: 'Echoes of Eternity', genre: 'RPG', store: true, price: '59,99 €', desc: 'Eine epische Reise durch ein zerbrechendes Reich, in der jede Entscheidung die Welt verändert.', art: 'radial-gradient(60% 70% at 50% 25%,#ffd479 0,transparent 55%),linear-gradient(160deg,#2a1450,#0b0520)', meta: { dev: 'Lumen Forge', ver: '1.0.0', size: '62 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,6 GHz', '16 GB VRAM (RTX 4070 Klasse)', '32 GB', '90 GB SSD') },
   cyberdrift: { name: 'CyberDrift: Neo Istanbul', genre: 'Racing', store: true, price: '49,99 €', desc: 'Hochgeschwindigkeitsrennen durch eine neonbeleuchtete Metropole.', art: 'radial-gradient(60% 60% at 80% 30%,#ff4fa3 0,transparent 55%),linear-gradient(160deg,#0a1f3a,#02060f)', meta: { dev: 'Kairos Studio', ver: '1.0.0', size: '48 GB', age: 'USK 6', rel: '2026' }, req: rq('6 Kerne, 3,4 GHz', '8 GB VRAM (RX 6600 Klasse)', '16 GB', '60 GB SSD') },
   aether: { name: 'Aether Protocol', genre: 'Strategie', store: true, price: '39,99 €', desc: 'Kontrolliere Flotten in einem Netz aus Sternen.', art: 'radial-gradient(60% 70% at 40% 30%,#5ad8ff 0,transparent 55%),linear-gradient(160deg,#071a2e,#02060f)', meta: { dev: 'Orbital Works', ver: '1.1.0', size: '22 GB', age: 'USK 12', rel: '2025' }, req: rq('4 Kerne, 3,0 GHz', '6 GB VRAM (GTX 1660 Klasse)', '16 GB', '40 GB SSD') },
-  apex: { name: 'Project Apex: Horizon', genre: 'Shooter', store: true, price: '69,99 €', desc: 'Taktische Missionen am Rand des bekannten Raums.', art: 'radial-gradient(60% 60% at 60% 35%,#ff7a3d 0,transparent 55%),linear-gradient(160deg,#1a1028,#03040a)', meta: { dev: 'Vantage Games', ver: '1.0.0', size: '74 GB', age: 'USK 18', rel: '2026' }, req: rq('8 Kerne, 3,8 GHz', '12 GB VRAM (RTX 3070 Klasse)', '32 GB', '110 GB SSD') }
+  apex: { name: 'Project Apex: Horizon', genre: 'Shooter', store: true, price: '69,99 €', desc: 'Taktische Missionen am Rand des bekannten Raums.', art: 'radial-gradient(60% 60% at 60% 35%,#ff7a3d 0,transparent 55%),linear-gradient(160deg,#1a1028,#03040a)', meta: { dev: 'Vantage Games', ver: '1.0.0', size: '74 GB', age: 'USK 18', rel: '2026' }, req: rq('8 Kerne, 3,8 GHz', '12 GB VRAM (RTX 3070 Klasse)', '32 GB', '110 GB SSD') },
+  elden: { name: 'Elden Veil', genre: 'RPG', store: true, downloadable: true, price: '69,99 €', size: '85 GB', desc: 'Ein düsteres Open-World-Rollenspiel in einer zerfallenden Welt. Erkunde verfluchte Königreiche, bezwinge gewaltige Bosse und forme dein Schicksal in einer atemberaubenden Grafik-Engine mit dynamischem Licht, volumetrischem Nebel und nahtlosen Ladezeiten.', art: 'radial-gradient(70% 80% at 60% 30%,#b8862e 0,transparent 55%),radial-gradient(50% 60% at 20% 70%,#5a1e1e 0,transparent 60%),linear-gradient(160deg,#1a1208,#03040a)', meta: { dev: 'FromSoftworks', ver: '1.0.0', size: '85 GB', age: 'USK 16', rel: '2026' }, req: rq('8 Kerne, 3,5 GHz', '12 GB VRAM (RTX 3060 Klasse)', '16 GB', '90 GB SSD') },
+  neon: { name: 'Neon Requiem', genre: 'Action', store: true, downloadable: true, price: '59,99 €', size: '62 GB', desc: 'Ein Cyberpunk-Action-Epos in einer neonüberfluteten Megastadt. Kämpfe dich durch Konzerne, hacke Drohnen und erlebe eine filmreife Story mit Raytracing-Spiegelungen und 60 FPS Performance-Modus.', art: 'radial-gradient(60% 70% at 70% 30%,#ff4fa3 0,transparent 55%),radial-gradient(50% 60% at 30% 80%,#5ad8ff 0,transparent 60%),linear-gradient(160deg,#0a0f2e,#02040c)', meta: { dev: 'Neon Forge', ver: '1.2.0', size: '62 GB', age: 'USK 18', rel: '2026' }, req: rq('8 Kerne, 3,6 GHz', '10 GB VRAM (RTX 3070 Klasse)', '16 GB', '70 GB SSD') },
+  starfall: { name: 'Starfall Odyssey', genre: 'Abenteuer', store: true, downloadable: true, price: '64,99 €', size: '71 GB', desc: 'Ein cineastisches Weltraum-Abenteuer mit atemberaubenden Planetenlandschaften, nahtlosen Übergängen von Oberfläche zu Orbit und einer orchestralen Filmmusik. Erforsche ein Sonnensystem voller Geheimnisse.', art: 'radial-gradient(60% 70% at 40% 30%,#5ad8ff 0,transparent 55%),radial-gradient(50% 60% at 80% 70%,#a77bff 0,transparent 60%),linear-gradient(160deg,#0a1a3a,#02060f)', meta: { dev: 'Orbital Dreams', ver: '1.0.0', size: '71 GB', age: 'USK 12', rel: '2026' }, req: rq('6 Kerne, 3,4 GHz', '10 GB VRAM (RX 6700 Klasse)', '16 GB', '80 GB SSD') },
+  abyss: { name: 'Abyss Chronicles', genre: 'Horror', store: true, downloadable: true, price: '54,99 €', size: '58 GB', desc: 'Ein atmosphärisches Survival-Horror-Erlebnis in einer versunkenen Tiefseestation. Realistische Wassersimulation, dynamische Beleuchtung und eine beklemmende Soundkulisse sorgen für Gänsehaut pur.', art: 'radial-gradient(60% 70% at 50% 40%,#2a6b8a 0,transparent 55%),radial-gradient(50% 60% at 20% 80%,#0a2a3a 0,transparent 60%),linear-gradient(160deg,#03121c,#010308)', meta: { dev: 'Deepwell', ver: '1.1.0', size: '58 GB', age: 'USK 18', rel: '2026' }, req: rq('6 Kerne, 3,2 GHz', '8 GB VRAM (GTX 2060 Klasse)', '16 GB', '65 GB SSD') }
 };
 Object.assign(CATALOG, S.custom);
 const SYS_ART = {
@@ -613,7 +588,7 @@ const MEDIA_ART = [
   'radial-gradient(60% 60% at 50% 30%,#ffd479 0,transparent 60%),linear-gradient(160deg,#241a3a,#03050e)'
 ];
 let storeLoading = false, storeTimer = null;
-let gameId = null, detailId = null, setupSeq = [0, 1, 2, 3], setupIdx = 0, setupDraft = null, libDraft = null;
+let gameId = null, detailId = null, setupSeq = [0, 1, 2, 3, 4, 5, 6], setupIdx = 0, setupDraft = null, libDraft = null;
 
 /* ================= avatars ================= */
 function avatarSVG(i, c) {
@@ -691,7 +666,7 @@ function sfx(n) {
 let toastT = null;
 function toast(m) {
   const el = $('#toast'); el.textContent = m; el.classList.add('show');
-  clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 2000);
+  clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 2200);
 }
 
 /* ================= background ================= */
@@ -846,12 +821,7 @@ function goBack() {
   if (curView === 'game' && p === 'home') restoreSel = { action: 'open-game', id: gameId };
   go(p, { noPush: true });
 }
-function openOverlay(fn) {
-  returnEl = focusEl;
-  fn();
-  focusFirstOverlay();
-}
-function focusFirstOverlay() { placeFocus(); }
+function openOverlay(fn) { returnEl = focusEl; fn(); placeFocus(); }
 function closeOverlay() {
   clearFocus();
   if (returnEl && scopeRoot().contains(returnEl) && returnEl.getClientRects().length) setFocus(returnEl, true);
@@ -874,7 +844,7 @@ function updateHints() {
   else items = [mv, ok, bk, ['Y', t('hintMenu')]];
   $('#hintL').innerHTML = items.map(([k, l]) => `<span class="hitem"><span class="key ${KCLS[k] || ''}">${k}</span>${esc(l)}</span>`).join('');
   const n = controllerCount();
-  $('#hintR').innerHTML = `<span class="hitem">${n ? n + (n > 1 ? ' Controller verbunden' : ' Controller verbunden') : 'Tastatur'}</span>`;
+  $('#hintR').innerHTML = `<span class="hitem">${n ? n + ' Controller verbunden' : 'Tastatur'}</span>`;
 }
 
 /* ================= hero ================= */
@@ -930,7 +900,7 @@ function primeAudio() {
 
 /* ================= setup ================= */
 function startSetup(full) {
-  setupSeq = full ? [0, 1, 2, 3] : [3];
+  setupSeq = full ? [0, 1, 2, 3, 4, 5, 6] : [6];
   setupIdx = 0;
   setupDraft = { name: '', avatar: 0, accent: S.profiles.length ? activeProfile().accent : '#2f8cff' };
   go('setup', { replace: true });
@@ -949,7 +919,10 @@ function renderSetup() {
     0: ['Sprache', 'Wähle die Sprache für Menüs und Hinweise.'],
     1: ['Anzeige', 'Passe Größe und Rahmen an deinen Bildschirm an.'],
     2: ['Controller', 'Drücke Tasten auf deinem Controller und teste die Vibration.'],
-    3: ['Profil erstellen', 'Name, Avatar und Akzentfarbe festlegen.']
+    3: ['Netzwerk', 'Verbinde deine Konsole mit dem Internet.'],
+    4: ['Datenschutz', 'Wähle, welche Daten geteilt werden dürfen.'],
+    5: ['Profil erstellen', 'Name, Avatar und Akzentfarbe festlegen.'],
+    6: ['Abschluss', 'Alles bereit. Willkommen bei NoxuraFluxOS.']
   }[step];
   $('#setupStep').textContent = `SCHRITT ${setupIdx + 1} VON ${setupSeq.length}`;
   $('#setupTitle').textContent = info[0];
@@ -962,18 +935,22 @@ function renderSetup() {
     + row('Bildschirmrahmen', rangeEl('frame', 0, 40, 1, 'px'), 'Bis der Rahmen am Bildschirmrand anliegt.');
   if (step === 2) h = `<div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">Status</div><div class="pad-state" id="padState">${controllerCount() ? 'Verbunden – drücke eine Taste' : 'Kein Controller erkannt – Tastatur funktioniert ebenfalls'}</div></div><span class="pill ${controllerCount() ? '' : 'off'}">${controllerCount() ? 'Verbunden' : 'Keiner'}</span></div>
     <div class="actions"><button class="btn" data-f data-default data-action="pad-vibrate">Vibration testen</button></div>`;
-  if (step === 3) h = `<div style="display:flex;flex-direction:column;gap:.9rem;width:100%">
+  if (step === 3) h = `<div class="controller-vis"><div style="flex:1"><div class="tl" style="font-weight:600;font-size:.82rem">Netzwerkstatus</div><div class="pad-state">${navigator.onLine ? 'Verbunden mit dem Internet' : 'Offline – einige Funktionen sind eingeschränkt'}</div></div><span class="pill ${navigator.onLine ? '' : 'off'}">${navigator.onLine ? 'Online' : 'Offline'}</span></div>
+    <div class="actions"><button class="btn" data-f data-default data-action="toast-net">Verbindung testen</button></div>`;
+  if (step === 4) h = toggleEl('telemetry', 'Diagnosedaten senden', 'Hilft, Fehler zu finden. Keine persönlichen Daten.') + toggleEl('autoUpdate', 'Automatische Updates', 'Systemupdates im Hintergrund herunterladen.');
+  if (step === 5) h = `<div style="display:flex;flex-direction:column;gap:.9rem;width:100%">
     <div><button class="btn" data-f data-default data-action="rename-draft">Name: ${esc(d.name || 'Spieler')}</button></div>
     <div class="avatars">${[0, 1, 2, 3, 4, 5].map(i => `<button class="av${d.avatar === i ? ' sel' : ''}" data-f data-action="set-avatar" data-val="${i}">${avatarSVG(i, d.accent)}</button>`).join('')}</div>
     <div class="swatches">${ACCENTS.map(c => `<button class="sw${d.accent === c ? ' sel' : ''}" data-f data-action="set-accent" data-val="${c}" style="background:${c}"></button>`).join('')}</div>
   </div>`;
+  if (step === 6) h = `<div class="okmsg" style="width:100%">Einrichtung abgeschlossen. Du kannst jetzt Spiele, den Store, Galerie und Einstellungen nutzen.</div>`;
   $('#setupBody').innerHTML = h;
-  $('#setupBack').style.visibility = (setupIdx === 0 && setupSeq.length === 4) ? 'hidden' : 'visible';
+  $('#setupBack').style.visibility = (setupIdx === 0 && setupSeq.length === 7) ? 'hidden' : 'visible';
   $('#setupBack').textContent = t('back');
   $('#setupNext').textContent = last ? t('finish') : t('next');
 }
 function finishSetup() {
-  const d = setupDraft, full = setupSeq.length === 4;
+  const d = setupDraft, full = setupSeq.length === 7;
   const p = { id: uid(), name: (d.name || 'Spieler').slice(0, 16), avatar: d.avatar, accent: d.accent, trophies: 0 };
   S.profiles.push(p); S.active = p.id;
   if (full) S.setup.done = true;
@@ -1032,14 +1009,14 @@ function openStore() {
   storeTimer = setTimeout(() => {
     storeLoading = false;
     if (curView === 'store') rerender(renderStore);
-  }, 1400);
+  }, 1200);
 }
 
 /* ================= store ================= */
 function renderStore() {
   $('#storeBack').textContent = t('back');
   $('#storeTitle').innerHTML = `NoxuraGames <span>${esc(t('store'))}</span>`;
-  const cats = ['Alle', 'RPG', 'Racing', 'Strategie', 'Shooter'];
+  const cats = ['Alle', 'RPG', 'Racing', 'Strategie', 'Shooter', 'Action', 'Abenteuer', 'Horror'];
   if (storeLoading) {
     $('#storeCats').innerHTML = '';
     $('#storeBody').innerHTML = `<div class="loading"><div class="spin"></div>${esc(t('storeLoading'))}</div>
@@ -1048,7 +1025,7 @@ function renderStore() {
   }
   $('#storeCats').innerHTML = cats.map(c => `<button class="chip${S.storeCat === c ? ' on' : ''}" data-f data-action="store-cat" data-val="${c}">${c}</button>`).join('');
   const list = Object.entries(CATALOG).filter(([, g]) => g.store && (S.storeCat === 'Alle' || g.genre === S.storeCat));
-  const feat = CATALOG.echoes;
+  const feat = CATALOG.elden;
   $('#storeBody').innerHTML = `
     <div class="hero-banner">
       <div class="hb-art" style="background:${feat.art}"></div>
@@ -1056,15 +1033,22 @@ function renderStore() {
         <div class="hb-kicker">Empfohlen</div>
         <div class="hb-title">${esc(feat.name)}</div>
         <div class="hb-sub">${esc(feat.desc)}</div>
-        <div class="actions"><button class="btn primary" data-f data-default data-action="open-detail" data-id="echoes">Details ansehen · ${feat.price}</button></div>
+        <div class="actions"><button class="btn primary" data-f data-default data-action="open-detail" data-id="elden">Details ansehen · ${feat.price}</button></div>
       </div>
     </div>
     <div class="sec-title">Im Angebot</div>
-    <div class="store-grid">${list.map(([id, g]) => `
+    <div class="store-grid">${list.map(([id, g]) => {
+      const owned = S.owned.includes(id);
+      const dl = S.downloads[id];
+      const badge = g.downloadable
+        ? (owned ? `<span class="badge-own">${t('installed')}</span>` : dl !== undefined && dl < 100 ? `<span class="badge-dl">${Math.round(dl)}%</span>` : `<span class="badge-dl">${t('download')}</span>`)
+        : `<span class="lock">NICHT VERFÜGBAR</span>`;
+      return `
       <div class="card" data-f data-action="open-detail" data-id="${id}">
-        <div class="c-art" style="background:${g.art}"><span class="lock">NICHT VERFÜGBAR</span></div>
-        <div class="c-meta"><div class="c-name">${esc(g.name)}</div><div class="c-tag">${esc(g.genre)} · ${g.price}</div></div>
-      </div>`).join('') || '<div class="empty">Keine Spiele in dieser Kategorie</div>'}
+        <div class="c-art" style="background:${g.art}">${badge}</div>
+        <div class="c-meta"><div class="c-name">${esc(g.name)}</div><div class="c-tag">${esc(g.genre)} · ${g.price || ''}</div></div>
+      </div>`;
+    }).join('') || '<div class="empty">Keine Spiele in dieser Kategorie</div>'}
     </div>`;
 }
 
@@ -1074,12 +1058,33 @@ function renderDetail() {
   if (!g) return goBack();
   const r = g.req || rq('—', '—', '—', '—');
   const m = g.meta || {};
+  const owned = S.owned.includes(id);
+  const dl = S.downloads[id];
+  const downloadable = !!g.downloadable;
+  let actionHTML = '';
+  if (downloadable) {
+    if (owned) {
+      actionHTML = `<button class="btn primary" data-f data-default data-action="launch-owned" data-id="${id}">${esc(t('play'))}</button>
+        <div class="okmsg">${esc(t('installed'))} · ${esc(g.size || m.size || '')}</div>`;
+    } else if (dl !== undefined && dl < 100) {
+      actionHTML = `<div class="okmsg">${esc(t('downloading'))}</div>
+        <div class="dlbar"><i style="width:${dl}%"></i></div>
+        <div class="slegend"><span>${Math.round(dl)}%</span><span>${esc(g.size || '')}</span></div>`;
+    } else {
+      actionHTML = `<button class="btn primary" data-f data-default data-action="download-game" data-id="${id}">${esc(t('download'))} · ${esc(g.price)}</button>
+        <div class="kv"><b>Größe</b><span>${esc(g.size || m.size || '–')}</span></div>
+        <div class="okmsg">Dieses Spiel ist mit deiner Konsole kompatibel und kann heruntergeladen werden.</div>`;
+    }
+  } else {
+    actionHTML = `<button class="buybtn-off" data-f data-default data-action="noop">${esc(t('unavailable'))}</button>
+      <div class="warn">Dieses Gerät unterstützt die Hardware-Anforderungen von diesem Spiel nicht.</div>`;
+  }
   $('#detailWrap').innerHTML = `
     <div class="detail-hero">
       <div class="d-art" style="background:${g.art}"></div>
       <div class="detail-head">
         <h1 class="detail-title">${esc(g.name)}</h1>
-        <div class="detail-tags"><span class="chip">${esc(g.genre)}</span>${g.price ? `<span class="chip">${g.price}</span>` : ''}</div>
+        <div class="detail-tags"><span class="chip">${esc(g.genre)}</span>${g.price ? `<span class="chip">${g.price}</span>` : ''}${owned ? `<span class="chip on">${t('owned')}</span>` : ''}</div>
       </div>
     </div>
     <div class="detail-body">
@@ -1096,12 +1101,35 @@ function renderDetail() {
         <div class="drow"><b>Arbeitsspeicher</b><span>${esc(r.ram)}</span></div>
         <div class="drow"><b>Speicher</b><span>${esc(r.disk)}</span></div>
       </div>
-      <div class="buybox">
-        <button class="buybtn-off" data-f data-default data-action="noop">${esc(t('unavailable'))}</button>
-        <div class="warn">Dieses Gerät unterstützt die Hardware-Anforderungen von diesem Spiel nicht.</div>
+      <div class="buybox">${actionHTML}
         <button class="btn ghost" data-f data-action="back">${esc(t('back'))}</button>
       </div>
     </div>`;
+}
+function startDownload(id) {
+  if (!CATALOG[id] || !CATALOG[id].downloadable) return;
+  if (S.owned.includes(id)) return;
+  if (S.downloads[id] !== undefined && S.downloads[id] < 100) return;
+  S.downloads[id] = 0; save();
+  toast(`${CATALOG[id].name} wird heruntergeladen …`);
+  const iv = setInterval(() => {
+    if (!S.downloads[id] && S.downloads[id] !== 0) { clearInterval(iv); return; }
+    S.downloads[id] = Math.min(100, (S.downloads[id] || 0) + Math.random() * 12 + 4);
+    save();
+    if (curView === 'detail' && detailId === id) rerender(renderDetail);
+    if (curView === 'store') rerender(renderStore);
+    if (S.downloads[id] >= 100) {
+      clearInterval(iv);
+      S.owned.push(id);
+      if (!S.library.includes(id)) S.library.push(id);
+      save();
+      sfx('ok');
+      toast(`${CATALOG[id].name} installiert`);
+      if (curView === 'detail' && detailId === id) rerender(renderDetail);
+      if (curView === 'store') rerender(renderStore);
+      if (curView === 'home') rerender(renderHome);
+    }
+  }, 600);
 }
 
 /* ================= game page ================= */
@@ -1159,7 +1187,7 @@ function renderGame() {
 function launchGame(id) {
   const g = CATALOG[id];
   if (!g) return;
-  if (!g.demo) { sfx('err'); return toast(t('unavailable')); }
+  if (!g.demo && !S.owned.includes(id)) { sfx('err'); return toast(t('unavailable')); }
   S.play[id] = (S.play[id] || 0) + 5;
   S.last[id] = Date.now();
   save(); sfx('ok');
@@ -1171,12 +1199,12 @@ function launchGame(id) {
 function renderLibrary() {
   if (!libDraft) libDraft = [...S.library];
   $('#libTitle').textContent = t('library');
-  $('#libNote').textContent = 'Wähle die Spiele für deinen Homescreen. Änderungen werden mit „Übernehmen“ gespeichert.';
+  $('#libNote').textContent = 'Wähle die Spiele für deinen Homescreen. Änderungen werden mit „Übernehmen" gespeichert.';
   $('#libCustom').textContent = 'Eigenes Spiel hinzufügen';
   $('#libTest').textContent = 'Test-Start';
   $('#libCancel').textContent = t('back');
   $('#libApply').textContent = 'Übernehmen';
-  const ids = Object.keys(CATALOG).filter(id => CATALOG[id].demo);
+  const ids = Object.keys(CATALOG).filter(id => CATALOG[id].demo || S.owned.includes(id));
   $('#libGrid').innerHTML = ids.map((id, i) => {
     const g = CATALOG[id], on = libDraft.includes(id);
     return `<div class="librow" data-f data-action="lib-toggle" data-id="${id}"${i === 0 ? ' data-default' : ''}>
@@ -1211,7 +1239,7 @@ function takeShot() {
 }
 
 /* ================= settings ================= */
-const SECTIONS = [['system', 'System'], ['display', 'Anzeige'], ['controller', 'Controller'], ['sound', 'Sound'], ['profile', 'Profil & Reset']];
+const SECTIONS = [['system', 'System'], ['display', 'Anzeige'], ['controller', 'Controller'], ['sound', 'Sound'], ['update', 'Softwareupdate'], ['profile', 'Profil & Reset']];
 function paneHTML(sec) {
   const p = activeProfile();
   const pct = clamp(usedKB() / 5120 * 100, 1, 100);
@@ -1259,6 +1287,22 @@ function paneHTML(sec) {
       ${toggleEl('sfxNav', 'Navigationstöne', 'Kurzer Ton beim Fokuswechsel')}
       ${toggleEl('sfxOk', 'Bestätigungstöne', 'Ton beim Auswählen')}
       <div class="actions" style="margin-top:1rem"><button class="btn" data-f data-action="sound-test">Testton abspielen</button></div>`;
+  }
+  if (sec === 'update') {
+    return `<h2 class="pane-title">Softwareupdate</h2><p class="pane-sub">Suche nach Systemupdates über Internet oder ein Speichermedium.</p>
+      <div class="kv"><b>Aktuelle Version</b><span>NoxuraFluxOS 8.6</span></div>
+      <div class="kv"><b>Installiert am</b><span>${new Date().toLocaleDateString('de-DE')}</span></div>
+      <div class="sec-title">Update suchen</div>
+      <div class="actions" style="flex-wrap:wrap">
+        <button class="btn primary" data-f data-default data-action="update-net">${t('updateNet')}</button>
+        <button class="btn" data-f data-action="update-media">${t('updateMedia')}</button>
+      </div>
+      <div class="sec-title">Automatische Updates</div>
+      ${toggleEl('autoUpdate', 'Automatisch nach Updates suchen', 'Im Hintergrund nach neuen Versionen suchen')}
+      <div class="sec-title">Verlauf</div>
+      <div class="kv"><b>8.6</b><span>Aktuell</span></div>
+      <div class="kv"><b>8.5</b><span>Installiert</span></div>
+      <div class="kv"><b>8.4</b><span>Installiert</span></div>`;
   }
   if (sec === 'profile') {
     return `<h2 class="pane-title">Profil & Reset</h2><p class="pane-sub">Profil anpassen oder das Gerät zurücksetzen.</p>
@@ -1388,296 +1432,204 @@ const ACT = {
     const k = el.dataset.key, o = holder(k);
     o[k] = +el.value;
     el.style.setProperty('--p', ((el.value - el.min) / (el.max - el.min) * 100) + '%');
-    const lbl = $(`[data-lbl="${k}"]`);
+    const lbl = $('[data-lbl="' + k + '"]', el.parentElement);
     if (lbl) lbl.textContent = el.value + (el.dataset.unit || '');
-    if (k === 'vol') { updateVolUI(); }
     save(); applyPrefs();
+    if (k === 'vol') updateVolUI();
   },
-  'pad-vibrate': () => {
-    if (!S.prefs.vib) return toast('Vibration ist deaktiviert');
-    const gp = navigator.getGamepads ? [...navigator.getGamepads()].find(Boolean) : null;
-    const va = gp && gp.vibrationActuator;
-    if (!va) return toast('Vibration wird nicht unterstützt');
-    va.playEffect('dual-rumble', { startDelay: 0, duration: 380, weakMagnitude: .5, strongMagnitude: .9 }).catch(() => {});
+  'setup-back': () => {
+    if (setupIdx > 0) { setupIdx--; sfx('back'); rerender(renderSetup); }
+    else if (setupSeq.length === 1) go('profiles', { noPush: true });
   },
-  'sound-test': () => { sfx('nav'); setTimeout(() => sfx('ok'), 230); setTimeout(() => sfx('back'), 460); },
-  'rename-draft': () => {
-    const n = prompt('Profilname', setupDraft.name || '');
-    if (n !== null) { setupDraft.name = n.trim().slice(0, 16); rerender(renderSetup); }
+  'setup-next': () => {
+    if (setupIdx < setupSeq.length - 1) { setupIdx++; sfx('nav'); rerender(renderSetup); }
+    else finishSetup();
   },
+  'pad-vibrate': () => { sfx('ok'); if (S.prefs.vib) toast('Vibration ausgelöst'); },
+  'toast-net': () => toast(navigator.onLine ? 'Internetverbindung OK' : 'Keine Verbindung'),
+  'rename-draft': () => askName(n => { if (n) { setupDraft.name = n; rerender(renderSetup); } }),
   'set-avatar': el => { setupDraft.avatar = +el.dataset.val; rerender(renderSetup); },
   'set-accent': el => {
     const c = el.dataset.val;
-    if (curView === 'setup') { setupDraft.accent = c; applyAccent(c); rerender(renderSetup); }
-    else { const p = activeProfile(); if (p.id) { p.accent = c; save(); applyAccent(c); rerender(refresh); } }
+    if (curView === 'setup' && setupDraft) { setupDraft.accent = c; rerender(renderSetup); }
+    else { const p = activeProfile(); p.accent = c; save(); applyAccent(c); rerender(refresh); }
   },
-  'setup-back': () => {
-    if (setupIdx > 0) { setupIdx--; rerender(renderSetup); }
-    else if (setupSeq.length === 4) sfx('err');
-    else goBack();
+  'select-profile': el => {
+    const p = S.profiles.find(x => x.id === el.dataset.id);
+    if (p) { S.active = p.id; save(); applyAccent(p.accent); go('home', { reset: true }); }
   },
-  'setup-next': () => {
-    if (setupIdx < setupSeq.length - 1) { setupIdx++; rerender(renderSetup); }
-    else finishSetup();
-  },
-  'select-profile': el => { S.active = el.dataset.id; save(); go('home', { reset: true }); },
-  'profiles-add': () => startSetup(false),
+  'profiles-add': () => { setupSeq = [5]; setupIdx = 0; setupDraft = { name: '', avatar: 0, accent: '#2f8cff' }; go('setup', { replace: true }); },
   'open-profiles': () => go('profiles'),
-  'profile-switch': () => go('profiles'),
-  tab: el => {
-    S.tab = el.dataset.val; save();
-    rerender(renderHome);
-  },
+  'tab': el => { S.tab = el.dataset.val; save(); rerender(renderHome); },
   'open-store': () => openStore(),
   'open-gallery': () => go('gallery'),
-  'open-library': () => { libDraft = null; go('library'); },
+  'open-library': () => { libDraft = [...S.library]; go('library'); },
   'open-settings': () => go('settings'),
   'open-friends': () => openFriends(),
-  'open-search': () => {
-    const q = prompt('Spiel suchen');
-    if (!q || !q.trim()) return;
-    const id = Object.keys(CATALOG).find(k => CATALOG[k].name.toLowerCase().includes(q.trim().toLowerCase()));
-    if (id && S.library.includes(id)) go('game', { id });
-    else if (id) go('detail', { id });
-    else toast('Keine Treffer');
-  },
+  'close-friends': () => closeFriends(),
+  'open-search': () => toast('Suche folgt in einem Update'),
+  'back': () => goBack(),
   'store-cat': el => { S.storeCat = el.dataset.val; save(); rerender(renderStore); },
   'open-detail': el => go('detail', { id: el.dataset.id }),
+  'trailer': () => toast('Trailer folgt in einem Update'),
+  'noop': () => {},
+  'download-game': el => startDownload(el.dataset.id),
+  'launch-owned': el => launchGame(el.dataset.id),
   'open-game': el => go('game', { id: el.dataset.id }),
   'game-tab': el => { S.gameTab = el.dataset.val; save(); rerender(renderGame); },
-  launch: el => launchGame(el.dataset.id),
-  'game-add': el => {
-    if (!S.library.includes(el.dataset.id)) S.library.push(el.dataset.id);
-    save(); toast('Zum Homescreen hinzugefügt');
-    rerender(renderGame);
-  },
-  'game-remove': el => {
-    S.library = S.library.filter(x => x !== el.dataset.id);
-    save(); toast('Vom Homescreen entfernt');
-    goBack();
-  },
-  'saves-clear': el => openDialog({
-    kicker: 'Speicherdaten', title: 'Speicherdaten löschen?', body: 'Alle Spielstände dieses Spiels werden dauerhaft entfernt.', def: 1,
-    buttons: [{ label: 'Löschen', cls: 'danger' }, { label: t('back') }],
-    cb: i => { if (i === 0) { delete S.last[el.dataset.id]; S.play[el.dataset.id] = 0; save(); toast('Speicherdaten gelöscht'); rerender(renderGame); } }
-  }),
-  trailer: () => toast('Trailer ist in dieser Vorschau nicht verfügbar'),
-  noop: () => { sfx('err'); toast(t('unavailable')); },
-  back: () => goBack(),
-  'toast-media': () => toast('Medien-Apps folgen in einem Update'),
-  'lib-toggle': el => {
-    const id = el.dataset.id, i = libDraft.indexOf(id);
-    i >= 0 ? libDraft.splice(i, 1) : libDraft.push(id);
-    rerender(renderLibrary);
-  },
-  'lib-custom': () => {
-    const n = prompt('Name des Spiels');
-    if (!n || !n.trim()) return;
-    const id = 'custom-' + uid();
-    const hue = Math.floor(Math.random() * 360);
-    CATALOG[id] = { name: n.trim().slice(0, 32), genre: 'Eigen', demo: true, desc: 'Eigener Eintrag ohne Beschreibung.', art: `radial-gradient(60% 60% at 50% 30%,hsl(${hue} 70% 60%) 0,transparent 60%),linear-gradient(160deg,#0b1430,#03050e)`, meta: { dev: 'Eigen', ver: '–', size: '–', age: '–', rel: '–' }, req: rq('–', '–', '–', '–') };
-    S.custom[id] = CATALOG[id];
-    libDraft.push(id); save();
-    rerender(renderLibrary);
-  },
-  'lib-test': () => { sfx('ok'); toast('Test-Start erfolgreich'); },
-  'lib-cancel': () => { libDraft = null; goBack(); },
-  'lib-apply': () => { S.library = [...libDraft]; libDraft = null; save(); go('home', { reset: true }); toast('Homescreen aktualisiert'); },
+  'launch': el => launchGame(el.dataset.id),
+  'game-add': el => { const id = el.dataset.id; if (!S.library.includes(id)) S.library.push(id); save(); sfx('ok'); toast('Hinzugefügt'); rerender(renderGame); },
+  'game-remove': el => { S.library = S.library.filter(x => x !== el.dataset.id); save(); sfx('back'); rerender(renderGame); },
+  'saves-clear': el => openDialog({ kicker: 'Speicherdaten', title: 'Speicherdaten löschen?', body: 'Diese Aktion kann nicht rückgängig gemacht werden.', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Löschen', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { toast('Speicherdaten gelöscht'); } } }),
+  'lib-toggle': el => { const id = el.dataset.id; if (libDraft.includes(id)) libDraft = libDraft.filter(x => x !== id); else libDraft.push(id); rerender(renderLibrary); },
+  'lib-apply': () => { S.library = [...libDraft]; save(); sfx('ok'); toast('Bibliothek aktualisiert'); goBack(); },
+  'lib-cancel': () => goBack(),
+  'lib-test': () => { const id = libDraft[0]; if (id) launchGame(id); },
+  'lib-custom': () => askName(n => { if (!n) return; const id = 'custom_' + uid(); S.custom[id] = { name: n, genre: 'Eigenes', demo: true, desc: 'Benutzerdefiniertes Spiel.', art: SYS_ART.add, meta: { dev: 'Benutzer', ver: '1.0', size: '–', age: '–', rel: '2026' }, req: rq('–', '–', '–', '–') }; CATALOG[id] = S.custom[id]; S.library.push(id); save(); toast('Spiel hinzugefügt'); rerender(renderLibrary); }),
   'shot-take': () => { takeShot(); rerender(renderGallery); },
-  'shot-open': el => {
-    const idx = +el.dataset.val;
-    openDialog({
-      kicker: 'Capture', title: 'Screenshot löschen?', body: 'Dieser Capture wird dauerhaft entfernt.', def: 1,
-      buttons: [{ label: 'Löschen', cls: 'danger' }, { label: t('back') }],
-      cb: i => { if (i === 0) { S.captures.splice(idx, 1); save(); rerender(renderGallery); } }
-    });
-  },
+  'shot-open': el => { const i = +el.dataset.val; openDialog({ kicker: 'Capture', title: S.captures[i].t, body: `<img src="${S.captures[i].d}" style="width:100%;border-radius:.4rem">`, buttons: [{ label: 'Schließen', cls: 'ghost' }, { label: 'Löschen', cls: 'danger' }], def: 0, cb: r => { if (r === 1) { S.captures.splice(i, 1); save(); rerender(renderGallery); } } }); },
+  'toast-media': () => toast('Medien-Apps folgen in einem Update'),
   'set-section': el => { S.section = el.dataset.val; save(); rerender(renderSettings); },
-  fullscreen: () => toggleFS(),
-  'rename-profile': () => {
-    const p = activeProfile(); if (!p.id) return;
-    const n = prompt('Profilname', p.name);
-    if (n && n.trim()) { p.name = n.trim().slice(0, 16); save(); rerender(refresh); }
-  },
-  'reset-all': () => openDialog({
-    kicker: 'Reset', title: 'Alles zurücksetzen?', body: 'Profile, Einstellungen, Bibliothek und Captures werden entfernt.', def: 1,
-    buttons: [{ label: 'Zurücksetzen', cls: 'danger' }, { label: t('back') }],
-    cb: i => { if (i === 0) { try { localStorage.removeItem(KEY); } catch (e) {} location.reload(); } }
-  }),
+  'fullscreen': () => toggleFS(),
+  'sound-test': () => { sfx('ok'); },
+  'rename-profile': () => askName(n => { if (!n) return; const p = activeProfile(); p.name = n.slice(0, 16); save(); rerender(renderSettings); }),
+  'profile-switch': () => go('profiles'),
+  'reset-all': () => openDialog({ kicker: 'Werkseinstellungen', title: 'Alles zurücksetzen?', body: 'Profile, Einstellungen, Bibliothek und Captures werden gelöscht.', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Zurücksetzen', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { localStorage.removeItem(KEY); S = load(); applyPrefs(); toast('Zurückgesetzt'); go('boot', { reset: true }); startBoot(); } } }),
+  'update-net': () => showUpdateResult(),
+  'update-media': () => showUpdateResult(),
+  'dlg-result': el => closeDialog(+el.dataset.val),
   'qm-home': () => { closeQuick(); go('home', { reset: true }); },
   'qm-friends': () => { closeQuick(); openFriends(); },
   'qm-settings': () => { closeQuick(); go('settings'); },
   'qm-full': () => { closeQuick(); toggleFS(); },
-  'qm-reset': () => {
-    closeQuick();
-    openDialog({
-      kicker: 'System', title: 'Neu starten?', body: 'Die Oberfläche wird neu geladen.', def: 1,
-      buttons: [{ label: 'Neustart', cls: 'danger' }, { label: t('back') }],
-      cb: i => { if (i === 0) location.reload(); }
-    });
-  },
-  'friend-add': () => {
-    const n = prompt('Name des Freundes');
-    if (!n || !n.trim()) return;
-    S.friends.push({ id: uid(), n: n.trim().slice(0, 16), on: Math.random() > .5, g: '' });
-    save(); rerender(renderFriends);
-  },
-  'friend-invite': el => {
-    const id = el.dataset.id;
-    if (S.party.includes(id)) S.party = S.party.filter(x => x !== id);
-    else if (S.party.length >= 3) return toast('Party ist voll (max. 4)');
-    else S.party.push(id);
-    save(); rerender(renderFriends);
-  },
-  'close-friends': () => closeFriends(),
-  'dlg-result': el => closeDialog(+el.dataset.val)
+  'qm-reset': () => { closeQuick(); openDialog({ kicker: 'Neustart', title: 'Konsole neu starten?', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'Neustart', cls: 'danger' }], def: 0, cb: i => { if (i === 1) { go('boot', { reset: true }); startBoot(); } } }); },
+  'friend-invite': el => { const id = el.dataset.id; if (S.party.includes(id)) S.party = S.party.filter(x => x !== id); else if (S.party.length < 3) S.party.push(id); save(); sfx('ok'); rerender(renderFriends); },
+  'friend-add': () => askName(n => { if (!n) return; S.friends.push({ id: uid(), n: n.slice(0, 14), on: false, g: '' }); save(); rerender(renderFriends); })
 };
-function coerce(v) {
-  if (v === 'true') return true;
-  if (v === 'false') return false;
-  if (v !== '' && !isNaN(+v)) return +v;
-  return v;
+function coerce(v) { if (v === 'true') return true; if (v === 'false') return false; if (v !== '' && !isNaN(v)) return +v; return v; }
+function refresh() {
+  if (curView === 'setup') renderSetup();
+  else if (curView === 'settings') renderSettings();
+  else if (curView === 'home') renderHome();
+  else if (curView === 'profiles') renderProfiles();
+  else if (curView === 'library') renderLibrary();
+  else if (curView === 'store') renderStore();
+  else if (curView === 'detail') renderDetail();
+  else if (curView === 'game') renderGame();
+  else if (curView === 'gallery') renderGallery();
 }
-function refresh() { applyPrefs(); if (R[curView]) R[curView]({}); }
-function activate(el) {
-  const a = el.dataset.action;
-  if (!a || !ACT[a]) return;
-  if (a !== 'noop' && a !== 'range') sfx('ok');
-  ACT[a](el);
+function showUpdateResult() {
+  openDialog({
+    kicker: 'Softwareupdate',
+    title: 'Update-Prüfung',
+    body: `<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem"><div class="spin"></div><span>Suche läuft …</span></div>`,
+    buttons: [],
+    def: 0
+  });
+  setTimeout(() => {
+    $('#dlgBody').innerHTML = `<div class="okmsg">${esc(t('updateLatest'))}</div>
+      <div class="kv" style="margin-top:.6rem"><b>Version</b><span>NoxuraFluxOS 8.6</span></div>
+      <div class="kv"><b>Status</b><span>Aktuell</span></div>`;
+    $('#dlgActions').innerHTML = `<button class="btn primary" data-f data-default data-action="dlg-result" data-val="-1">OK</button>`;
+    placeFocus();
+  }, 1500);
 }
+function askName(cb) {
+  const inp = document.createElement('input');
+  inp.type = 'text'; inp.value = '';
+  inp.style.cssText = 'width:100%;padding:.6rem .8rem;border-radius:.4rem;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);font-size:.86rem';
+  openDialog({
+    kicker: 'Eingabe', title: 'Name eingeben',
+    body: '', buttons: [{ label: 'Abbrechen', cls: 'ghost' }, { label: 'OK', cls: 'primary' }], def: 1,
+    cb: i => { if (i === 1) cb(inp.value.trim()); }
+  });
+  $('#dlgBody').appendChild(inp);
+  setTimeout(() => inp.focus(), 60);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); closeDialog(1); } });
+}
+
+/* ================= R renderers map ================= */
 const R = {
-  boot: () => {}, setup: renderSetup, profiles: renderProfiles, home: renderHome, store: renderStore,
-  detail: renderDetail, game: renderGame, library: renderLibrary, gallery: renderGallery, settings: renderSettings
+  boot: () => {},
+  setup: () => renderSetup(),
+  profiles: () => renderProfiles(),
+  home: () => renderHome(),
+  store: () => renderStore(),
+  detail: () => renderDetail(),
+  game: () => renderGame(),
+  library: () => renderLibrary(),
+  gallery: () => renderGallery(),
+  settings: () => renderSettings()
 };
 
-/* ================= input: keyboard ================= */
-const KEYMAP = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right', Enter: 'a', ' ': 'a', Escape: 'b', Backspace: 'b', x: 'x', X: 'x', y: 'y', Y: 'y', Home: 'start', m: 'start', M: 'start' };
-document.addEventListener('keydown', e => {
+/* ================= input ================= */
+function clickAction(el, ev) {
+  const a = el.dataset.action;
+  if (!a) return;
   primeAudio();
-  if (e.key === 'Tab') { e.preventDefault(); moveSeq(e.shiftKey ? -1 : 1); return; }
-  const b = KEYMAP[e.key];
-  if (!b) { if (curView === 'boot') skipBoot(); return; }
-  if (e.target && e.target.type === 'range' && (b === 'left' || b === 'right')) { e.preventDefault(); rangeAdjust(e.target, b === 'right' ? 1 : -1); return; }
-  e.preventDefault();
-  handleBtn(b);
-});
-document.addEventListener('keyup', e => { if (e.key === ' ') e.preventDefault(); });
-document.addEventListener('pointerdown', primeAudio, { once: false });
-
-/* ================= input: gamepad ================= */
-const BTN = { 0: 'a', 1: 'b', 2: 'x', 3: 'y', 4: 'lb', 5: 'rb', 8: 'select', 9: 'start', 16: 'home' };
-const BTN_LABEL = { 0: 'A', 1: 'B', 2: 'X', 3: 'Y', 4: 'LB', 5: 'RB', 8: 'Select', 9: 'Start', 12: 'Oben', 13: 'Unten', 14: 'Links', 15: 'Rechts', 16: 'Home' };
-const DIRMAP = [[12, 'up'], [13, 'down'], [14, 'left'], [15, 'right']];
-const prevPad = {}, repeatAt = {};
-let lastPad = '';
-function pollPads() {
-  const now = performance.now();
-  const gps = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [];
-  const names = [];
-  const thr = (S.prefs.dz || 20) / 100 + .3;
-  for (const gp of gps) {
-    const prev = prevPad[gp.index] || { btn: [], dir: {} };
-    const btn = gp.buttons.map(b => b.pressed);
-    const dir = {};
-    DIRMAP.forEach(([i, d]) => { if (gp.buttons[i] && gp.buttons[i].pressed) dir[d] = true; });
-    const ax = gp.axes || [];
-    if ((ax[0] || 0) > thr) dir.right = true;
-    if ((ax[0] || 0) < -thr) dir.left = true;
-    if ((ax[1] || 0) > thr) dir.down = true;
-    if ((ax[1] || 0) < -thr) dir.up = true;
-    btn.forEach((p, i) => {
-      if (p) names.push(BTN_LABEL[i] || String(i));
-      if (p && !prev.btn[i] && BTN[i]) { primeAudio(); handleBtn(BTN[i]); }
-    });
-    ['up', 'down', 'left', 'right'].forEach(d => {
-      const k = gp.index + d;
-      if (dir[d]) {
-        if (!prev.dir[d]) { handleBtn(d); repeatAt[k] = now + 350; }
-        else if (now >= (repeatAt[k] || 0)) { handleBtn(d); repeatAt[k] = now + 130; }
-      }
-    });
-    prevPad[gp.index] = { btn, dir };
-  }
-  const txt = names.length ? names.join(' + ') : 'Keine Eingabe';
-  if (txt !== lastPad) { lastPad = txt; const ps = $('#padState'); if (ps) ps.textContent = txt; }
+  if (ACT[a]) { try { ACT[a](el, ev); } catch (e) { console.error(e); } }
+  if (el.dataset.key === 'vol' || el.dataset.action === 'range') {}
 }
-window.addEventListener('gamepadconnected', e => { primeAudio(); sfx('ok'); toast('Controller verbunden'); updateHints(); });
-window.addEventListener('gamepaddisconnected', () => { toast('Controller getrennt'); updateHints(); });
-
-/* ================= input: pointer ================= */
 document.addEventListener('click', e => {
-  const el = e.target.closest('[data-f],[data-action]');
-  if (!el || el.tagName === 'INPUT') return;
-  if (!scopeRoot().contains(el)) return;
-  if (el.hasAttribute('data-f')) setFocus(el, true);
-  if (el.dataset.action) activate(el);
+  const el = e.target.closest('[data-f]');
+  if (el) { e.preventDefault(); clickAction(el, e); }
 });
 document.addEventListener('input', e => {
   const el = e.target;
-  if (el.tagName === 'INPUT' && el.type === 'range' && el.dataset.action && ACT[el.dataset.action]) ACT[el.dataset.action](el);
+  if (el.matches('input[type=range][data-f]')) {
+    const k = el.dataset.key, o = holder(k);
+    o[k] = +el.value;
+    el.style.setProperty('--p', ((el.value - el.min) / (el.max - el.min) * 100) + '%');
+    const lbl = $('[data-lbl="' + k + '"]', el.parentElement);
+    if (lbl) lbl.textContent = el.value + (el.dataset.unit || '');
+    save();
+    if (k === 'vol') updateVolUI();
+    if (k === 'ui' || k === 'frame') applyPrefs();
+  }
+});
+let lastKeyT = 0;
+document.addEventListener('keydown', e => {
+  primeAudio();
+  if (e.key === 'Escape') { e.preventDefault(); if (dialogOpen()) closeDialog(-1); else if (qmOpen()) closeQuick(); else if (friendsOpen()) closeFriends(); else goBack(); return; }
+  if (dialogOpen()) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); moveSeq(-1); }
+    else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); moveSeq(1); }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (focusEl) clickAction(focusEl, e); }
+    return;
+  }
+  if (qmOpen() || friendsOpen()) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); move('left'); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); move('right'); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); move('up'); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); move('down'); }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (focusEl) clickAction(focusEl, e); }
+    return;
+  }
+  if (curView === 'boot') { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); skipBoot(); } return; }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); move('left'); }
+  else if (e.key === 'ArrowRight') { e.preventDefault(); move('right'); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); move('up'); }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); move('down'); }
+  else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (focusEl) clickAction(focusEl, e); }
+  else if (e.key === 'Backspace') { e.preventDefault(); goBack(); }
+  else if (e.key.toLowerCase() === 'y') { e.preventDefault(); if (qmOpen()) closeQuick(); else openQuick(); }
+  else if (e.key.toLowerCase() === 'q' || e.key === 'PageUp') { e.preventDefault(); moveSeq(-1); }
+  else if (e.key.toLowerCase() === 'e' || e.key === 'PageDown') { e.preventDefault(); moveSeq(1); }
 });
 
-/* ================= central button handler ================= */
-function handleBtn(b) {
-  if (curView === 'boot') { skipBoot(); return; }
-  if (b === 'b') {
-    if (dialogOpen()) return closeDialog(-1);
-    if (qmOpen()) return closeQuick();
-    if (friendsOpen()) return closeFriends();
-    if (curView === 'setup') return ACT['setup-back']();
-    if (curView !== 'home') return goBack();
-    return;
-  }
-  if (b === 'start' || b === 'y') {
-    if (dialogOpen()) return;
-    if (qmOpen()) return closeQuick();
-    if (friendsOpen()) return closeFriends();
-    openQuick();
-    return;
-  }
-  if (b === 'lb' || b === 'rb') {
-    if (curView === 'home' && !overlayOpen()) {
-      const order = ['games', 'media'];
-      S.tab = order[(order.indexOf(S.tab) + 1) % order.length]; save();
-      rerender(renderHome);
-    }
-    return;
-  }
-  if (b === 'x') {
-    if (curView === 'home' && !overlayOpen()) ACT['open-search']();
-    return;
-  }
-  if (b === 'a') { if (focusEl) activate(focusEl); return; }
-  if (b === 'down' && curView === 'home' && !overlayOpen() && focusEl && focusEl.dataset.action === 'open-game') {
-    go('game', { id: focusEl.dataset.id });
-    return;
-  }
-  if (b === 'up' && curView === 'game' && focusEl && focusEl.hasAttribute('data-top')) { goBack(); return; }
-  if (b === 'up' || b === 'down' || b === 'left' || b === 'right') {
-    if (focusEl && focusEl.type === 'range' && (b === 'left' || b === 'right')) { rangeAdjust(focusEl, b === 'right' ? 1 : -1); return; }
-    if (focusEl && focusEl.dataset.slider === 'vol' && (b === 'left' || b === 'right')) { volStep(b === 'right' ? 1 : -1); return; }
-    move(b);
-  }
-}
-
-/* ================= init ================= */
-function init() {
-  applyPrefs();
-  applyAccent(activeProfile().accent);
-  resizeBG();
-  window.addEventListener('resize', resizeBG);
-  tickClock(); setInterval(tickClock, 1000);
-  if (navigator.getBattery) {
-    navigator.getBattery().then(b => {
-      const up = () => { $('#batPct').textContent = Math.round(b.level * 100) + '%'; };
-      up(); b.addEventListener('levelchange', up);
-    }).catch(() => {});
-  }
-  const loop = now => { drawBG(now); pollPads(); requestAnimationFrame(loop); };
-  requestAnimationFrame(loop);
-  startBoot();
-}
-init();
+/* ================= boot loop / init ================= */
+function loop(now) { drawBG(now); requestAnimationFrame(loop); }
+window.addEventListener('resize', () => { resizeBG(); });
+window.addEventListener('orientationchange', () => setTimeout(resizeBG, 300));
+setInterval(tickClock, 1000);
+setInterval(() => {
+  let lvl = 100;
+  if (navigator.getBattery) navigator.getBattery().then(b => { $('#batPct').textContent = Math.round(b.level * 100) + '%'; }).catch(() => {});
+}, 30000);
+if (navigator.getBattery) navigator.getBattery().then(b => { const upd = () => $('#batPct').textContent = Math.round(b.level * 100) + '%'; upd(); b.addEventListener('levelchange', upd); }).catch(() => {});
+applyPrefs(); resizeBG(); tickClock();
+requestAnimationFrame(loop);
+startBoot();
 })();
 </script>
 </body>
